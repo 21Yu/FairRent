@@ -99,14 +99,14 @@ data['lease_term_months'] = data['lease_term'].map({
 data.drop(columns=['lease_term'], inplace=True)
 
 #handle home and province
-print(data['city'].unique())
-print(data['province'].unique())
-print(data['city'].value_counts())
-print(data['province'].value_counts())
-
 data['location'] = data['city'].str.strip().str.lower() + ', ' + data['province'].str.strip().str.lower()
 location_avg_rent = data.groupby('location')['price'].mean()
-
 data['location_avg_price'] = data['location'].map(location_avg_rent)
 
+data.drop(columns=['city', 'province'], inplace=True)
+
+# print("\nColumns with missing values:")
+# print(data.isna().sum()[data.isna().sum() > 0])
+
+data.dropna(inplace=True)
 data.to_csv("data/processed/rentfaster_clean.csv", index=False)

@@ -1,0 +1,23 @@
+
+===== Linear Regression Model Report =====
+RMSE: 511.77
+MAE: 318.15
+R²: 0.5838
+
+Top Features:
+           Feature  Coefficient
+location_avg_price   425.129113
+             baths   296.737126
+              beds   222.504681
+              dogs    67.751696
+    type_apartment    51.254733
+        furnishing    30.760827
+              cats    29.094018
+        type_house    14.679900
+           smoking     8.925515
+           sq_feet    -1.938077
+ availability_days   -21.328694
+       type_duplex   -21.956032
+    type_townhouse   -33.803176
+ lease_term_months   -48.578911
+     type_basement   -64.310026
