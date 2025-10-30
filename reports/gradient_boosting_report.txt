@@ -1,0 +1,13 @@
+
+Gradient Boosting Regression Report
+====================================
+RMSE: 433.38
+MAE: 268.62
+R²: 0.7015
+
+Model Parameters:
+-----------------
+n_estimators = 300
+learning_rate = 0.05
+max_depth = 4
+random_state = 42
