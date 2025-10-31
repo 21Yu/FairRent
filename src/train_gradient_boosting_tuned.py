@@ -75,9 +75,7 @@ joblib.dump(best_model, "models/gradient_boosting_tuned.pkl")
 
 # Create formatted report text
 report_text = f"""
-==========================
-Tuned Gradient Boosting Report
-==========================
+===== Tuned Gradient Boosting Report =====
 
 Best Parameters:
 {search.best_params_}

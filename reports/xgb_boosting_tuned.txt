@@ -1,0 +1,32 @@
+
+===== Tuned Gradient Boosting Report ===== 
+
+Best Parameters:
+{'colsample_bytree': np.float64(0.7332672462435493), 'learning_rate': np.float64(0.07590047527986551), 'max_depth': 5, 'n_estimators': 262, 'subsample': np.float64(0.9687290787020557)}
+
+Best Cross-Validation R²: 0.6629
+
+===== Test Set Performance =====
+RMSE: 419.58
+MAE: 256.37
+R²: 0.7202
+
+===== Feature Importances =====
+           Feature  Importance
+             baths    0.210374
+location_avg_price    0.159916
+     type_basement    0.115840
+              beds    0.090786
+           sq_feet    0.089294
+    type_apartment    0.079698
+        type_house    0.055597
+              dogs    0.046033
+        furnishing    0.041710
+ lease_term_months    0.038878
+    type_townhouse    0.021040
+              cats    0.018955
+ availability_days    0.018367
+           smoking    0.007177
+       type_duplex    0.006336
+
+Model and scaler saved to 'models/' directory.
