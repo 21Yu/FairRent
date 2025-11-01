@@ -6,6 +6,7 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from scipy.stats import randint, uniform
 import joblib
 import os
+import matplotlib.pyplot as plt
 
 # load data
 data = pd.read_csv("data/processed/rentfaster_clean.csv")
@@ -97,5 +98,25 @@ Model and scaler saved to 'models/' directory.
 report_path = "reports/xgb_boosting_tuned.txt"
 with open(report_path, "w", encoding="utf-8") as f:
     f.write(report_text)
+
+# save feature importance plot
+plt.figure(figsize=(10,6))
+plt.barh(importance_df['Feature'], importance_df['Importance'])
+plt.xlabel('Importance')
+plt.title('Feature Importances')
+plt.gca().invert_yaxis()  # largest on top
+os.makedirs("reports/plots", exist_ok=True)
+plt.savefig("reports/plots/feature_importance_xqb.png", bbox_inches='tight')
+plt.close()
+
+# save predict actual plot
+plt.figure(figsize=(6,6))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+plt.xlabel('Actual Rent')
+plt.ylabel('Predicted Rent')
+plt.title('Predicted vs Actual Rent')
+plt.savefig("reports/plots/predicted_vs_actual_xqb.png", bbox_inches='tight')
+plt.close()
 
 print(f"Report saved to: {report_path}")
