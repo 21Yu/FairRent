@@ -15,7 +15,7 @@ features = [
     'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
     'cats', 'dogs', 'availability_days', 'type_apartment',
     'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-    'lease_term_months', 'location_avg_price'
+    'lease_term_months', 'location_avg_price' 
 ]
 target = 'price'
 
@@ -75,7 +75,7 @@ joblib.dump(best_model, "models/xgb_boosting_tuned.pkl")
 
 #Create formatted report text
 report_text = f"""
-===== Tuned Gradient Boosting Report ===== 
+===== RXGBoost Regression report ===== 
 
 Best Parameters:
 {search.best_params_}

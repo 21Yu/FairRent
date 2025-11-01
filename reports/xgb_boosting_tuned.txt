@@ -1,5 +1,5 @@
 
-===== Tuned Gradient Boosting Report ===== 
+===== RXGBoost Regression report ===== 
 
 Best Parameters:
 {'colsample_bytree': np.float64(0.7332672462435493), 'learning_rate': np.float64(0.07590047527986551), 'max_depth': 5, 'n_estimators': 262, 'subsample': np.float64(0.9687290787020557)}
