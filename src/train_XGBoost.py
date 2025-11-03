@@ -14,9 +14,9 @@ data = pd.read_csv("data/processed/rentfaster_clean.csv")
 # define features & target
 features = [
     'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
-    'cats', 'dogs', 'availability_days', 'type_apartment',
-    'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-    'lease_term_months', 'location_avg_price' 
+    'cats', 'dogs', 'location_avg_price', 'lease_term_months',
+    'type_apartment', 'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
+    'availability_days'
 ]
 target = 'price'
 
@@ -91,7 +91,6 @@ R²: {r2:.4f}
 ===== Feature Importances =====
 {importance_df.to_string(index=False)}
 
-Model and scaler saved to 'models/' directory.
 """
 
 #save report to file 
