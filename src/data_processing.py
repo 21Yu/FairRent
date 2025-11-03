@@ -6,7 +6,7 @@ data = pd.read_csv("data/raw/rentfaster.csv")
 # Drop irrelavant columns
 data.drop(columns=['rentfaster_id', 'address', 'link', 'latitude', 'longitude'], inplace=True)
 
-#handle duplicates
+# handle duplicates
 data.drop_duplicates(inplace=True)
 
 # handle missing / nan
@@ -18,10 +18,83 @@ data = data.dropna(subset=relevant_cols)
 for col in relevant_cols:
     data = data[data[col].astype(str).str.strip() != '']
 
-# convert True /False
-data['cats'] = (data['cats'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
-data['dogs'] = (data['dogs'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
-data['smoking'] = (data['smoking'].astype(str).str.strip().str.upper().map({'NON-SMOKING': 0, 'SMOKE FREE BUILDING': 1}))
+
+# print(data["city"].value_counts())
+# print(data["province"].value_counts())
+# print(data["lease_term"].value_counts())
+# print(data["type"].value_counts())
+# print(data["price"].value_counts())
+# print(data["beds"].value_counts())
+# print(data["baths"].value_counts())
+# print(data["sq_feet"].value_counts())
+# print(data["furnishing"].value_counts())
+# print(data["availability_date"].value_counts())
+# print(data["smoking"].value_counts())
+# print(data["cats"].value_counts())
+# print(data["dogs"].value_counts())
+
+# handle city and province
+data['location'] = data['city'].str.strip().str.lower() + ', ' + data['province'].str.strip().str.lower()
+location_avg_rent = data.groupby('location')['price'].mean()
+data['location_avg_price'] = data['location'].map(location_avg_rent)
+data.drop(columns=['location'], inplace=True)
+
+#handle lease term
+data['lease_term'] = data['lease_term'].astype(str).str.strip().str.lower()
+data['lease_term_months'] = data['lease_term'].map({
+    'long term': 12,
+    'short term': 3,
+    'negotiable': 6,
+    '12 months': 12,
+    '6 months': 6,
+    'months': 12
+})
+data.drop(columns=['lease_term'], inplace=True)
+
+#handle type
+data['type'] = data['type'].astype(str).str.strip().str.lower()
+data['type'] = data['type'].replace({
+    'condo unit': 'apartment',
+    'main floor': 'house',
+    'room for rent': 'apartment',
+    'loft': 'apartment',
+    'mobile': 'house',
+    'vacation home': 'house',
+    'acreage': 'house',
+})
+data = pd.get_dummies(data, columns=['type'], prefix='type', dtype=int)
+
+#handle price
+data['price'] = data['price'].astype(float)
+
+#handle beds
+data['beds'] = data['beds'].astype(str).str.strip().str.lower()
+data['beds'] = data['beds'].replace({'studio': '0'})
+data['beds'] = data['beds'].str.extract('(\d+)')
+data['beds'] = data['beds'].astype(float)
+
+#handle baths
+data['baths'] = data['baths'].astype(str).str.strip().str.lower()
+data['baths'] = data['baths'].replace({'none': np.nan})
+data['baths'] = data['baths'].astype(float)
+
+#handle sq feet
+def clean_sq_feet(value):
+    
+    text = str(value).lower().replace(',', '').replace('+', '')
+
+    match = re.search(r'(\d+(\.\d+)?)', text)
+    if match:
+        v = float(match.group(1))
+        if v == 0:            # treat explicit 0 as missing
+            return np.nan
+        return v
+    else:
+        return np.nan
+
+data['sq_feet'] = data['sq_feet'].apply(clean_sq_feet)
+
+# handle furnishing
 data['furnishing'] = (data['furnishing'].astype(str).str.strip().str.upper().map({'UNFURNISHED': 0, 'FURNISHED': 1, 'NEGOTIABLE': 2}))
 
 #handle available date
@@ -44,69 +117,15 @@ def convert_availability(date_str):
 data['availability_days'] = data['availability_date'].apply(convert_availability) 
 data.drop(columns=['availability_date'], inplace=True)
 
-#handle baths
-data['baths'] = data['baths'].astype(str).str.strip().str.lower()
-data['baths'] = data['baths'].replace({'none': np.nan})
-data['baths'] = data['baths'].astype(float)
+# handle smoking
+data['smoking'] = (data['smoking'].astype(str).str.strip().str.upper().map({
+    'NON-SMOKING': 0, 'SMOKE FREE BUILDING': 0, 'SMOKING ALLOWED': 1, 'NEGOTIABLE': 2}))
 
-#handle price
-data['price'] = data['price'].astype(float)
-#handle sq feet
-def clean_sq_feet(value):
-    
-    text = str(value).lower().replace(',', '').replace('+', '')
+# handle cats
+data['cats'] = (data['cats'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
 
-    match = re.search(r'(\d+(\.\d+)?)', text)
-    if match:
-        return float(match.group(1))
-    else:
-        return None
-
-data['sq_feet'] = data['sq_feet'].apply(clean_sq_feet)
-
-#handle beds
-data['beds'] = data['beds'].astype(str).str.strip().str.lower()
-data['beds'] = data['beds'].replace({'studio': '0'})
-data['beds'] = data['beds'].str.extract('(\d+)')
-data['beds'] = data['beds'].astype(float)
-
-#handle type
-data['type'] = data['type'].astype(str).str.strip().str.lower()
-data['type'] = data['type'].replace({
-    'condo unit': 'apartment',
-    'main floor': 'house',
-    'room for rent': 'apartment',
-    'loft': 'apartment',
-    'mobile': 'house',
-    'vacation home': 'house',
-    'acreage': 'house',
-    'office space': 'other',
-    'storage': 'other',
-    'parking spot': 'other'
-})
-
-data = pd.get_dummies(data, columns=['type'], prefix='type', dtype=int)
-#handle lease term
-data['lease_term'] = data['lease_term'].astype(str).str.strip().str.lower()
-data['lease_term_months'] = data['lease_term'].map({
-    'long term': 12,
-    'short term': 3,
-    'negotiable': 6,
-    '12 months': 12,
-    '6 months': 6,
-    'months': 12
-})
-data.drop(columns=['lease_term'], inplace=True)
-
-#handle home and province
-data['location'] = data['city'].str.strip().str.lower() + ', ' + data['province'].str.strip().str.lower()
-location_avg_rent = data.groupby('location')['price'].mean()
-data['location_avg_price'] = data['location'].map(location_avg_rent)
-
-data.drop(columns=['city', 'province'], inplace=True)
-
-# print("\nColumns with missing values:")
-# print(data.isna().sum()[data.isna().sum() > 0])
+# handle dogs
+data['dogs'] = (data['dogs'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
 
 data.dropna(inplace=True)
 data.to_csv("data/processed/rentfaster_clean.csv", index=False)
