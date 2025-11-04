@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import re
+
 data = pd.read_csv("data/raw/rentfaster.csv")
 
 # Drop irrelavant columns
