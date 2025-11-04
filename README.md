@@ -62,7 +62,7 @@ The most influential features in the final XGBoost model:
 - Pandas, NumPy
 - scikit-learn
 - XGBoost
-- Matplotlib, Seaborn
+- Matplotlib
 - Streamlit
 - Joblib
 
