@@ -41,13 +41,13 @@ The most influential features in the final XGBoost model:
 2. **type_basement**
 3. **location_avg_price**
 
-See: `reports/plots/feature_importance.png`
+![Feature Importance](reports/plots/feature_importance_xqb.png)
 
 ### **Predicted vs Actual**
 - Predicted and actual rents are **very close** for prices **below $4,000**.
 - Above $4,000, the model tends to **underestimate high-value rentals**.
 
-See: `reports/plots/predicted_vs_actual.png`
+![Predicted vs Actual](reports/plots/predicted_vs_actual_xqb.png)
 
 ---
 
@@ -64,10 +64,10 @@ See: `reports/plots/predicted_vs_actual.png`
 
 ## 🚀 How to Run
 ```bash
-git clone https://github.com/yourusername/ml-rent-predictor.git
-cd ml-rent-predictor
+git clone 
+cd FairRent
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run app/app.py
 ```
 
 ---
