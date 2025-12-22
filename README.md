@@ -1,21 +1,21 @@
-# 🏡 ML Rent Predictor
+# ML Rent Predictor
 
-## 📘 Overview
+## Overview
 The **ML Rent Predictor** project uses **machine learning** to estimate rental prices based on property features. The model was trained on real estate data containing details such as property type, number of bedrooms and bathrooms, location, lease term, and other rental conditions.
 
 The project demonstrates skills in **data preprocessing**, **feature engineering**, **model evaluation**, and **visualization** — culminating in a tuned **XGBoost regression model** with strong predictive performance.
 
 ---
 
-🌐 **Try it Out**
+**Try it Out**
 
 The app is deployed online! You can try predicting rent prices interactively here:
 
 [Try ML Rent Predictor](https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app/)
 
-## ⚙️ Project Workflow
+## Project Workflow
 
-### 1️⃣ Data Cleaning & Preprocessing
+### Data Cleaning & Preprocessing
 This was the most challenging and critical part of the project.
 - **Dropped uninformative columns**: `rentfaster_id`, `address`, and `link` were removed.
 - **Handled missing and NaN values** throughout the dataset.
@@ -28,7 +28,7 @@ This was the most challenging and critical part of the project.
 
 ---
 
-## 🧠 Model Development
+## Model Development
 
 | Model | RMSE | MAE | R² | Notes |
 |:------|:------|:------|:------|:------|
@@ -39,7 +39,7 @@ This was the most challenging and critical part of the project.
 
 ---
 
-## 📊 Results & Insights
+## Results & Insights
 
 ### **Feature Importance**
 The most influential features in the final XGBoost model:
@@ -57,7 +57,7 @@ The most influential features in the final XGBoost model:
 
 ---
 
-## 🧩 Tools & Libraries
+## Tools & Libraries
 - Python 3.11
 - Pandas, NumPy
 - scikit-learn
@@ -68,7 +68,7 @@ The most influential features in the final XGBoost model:
 
 ---
 
-## 🚀 How to Run
+## How to Run
 ```bash
 git clone 
 cd FairRent
@@ -78,7 +78,7 @@ streamlit run app/app.py
 
 ---
 
-## 📈 Key Learnings
+## Key Learnings
 - Gained hands-on experience in **real-world data cleaning** and **feature engineering**.
 - Learned how to tune and interpret **machine learning regressors**.
 - Improved model accuracy through experimentation and hyperparameter tuning.
@@ -86,5 +86,5 @@ streamlit run app/app.py
 
 ---
 
-## 📄 Report
+## Report
 See the full summary in `reports/final_report.md`.
