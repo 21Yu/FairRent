@@ -1,7 +1,7 @@
-# ML Rent Predictor
+# FairRent
 
 ## Overview
-The **ML Rent Predictor** project uses **machine learning** to estimate rental prices based on property features. The model was trained on real estate data containing details such as property type, number of bedrooms and bathrooms, location, lease term, and other rental conditions.
+The **FairRent** project uses **machine learning** to estimate rental prices based on property features. The model was trained on real estate data containing details such as property type, number of bedrooms and bathrooms, location, lease term, and other rental conditions.
 
 The project demonstrates skills in **data preprocessing**, **feature engineering**, **model evaluation**, and **visualization** — culminating in a tuned **XGBoost regression model** with strong predictive performance.
 
@@ -11,7 +11,10 @@ The project demonstrates skills in **data preprocessing**, **feature engineering
 
 The app is deployed online! You can try predicting rent prices interactively here:
 
-[Try ML Rent Predictor](https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app/)
+[Try ML Rent Predictor](https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app/)  
+
+![](screenshots/Screenshot1.png)
+![](screenshots/Screenshot2.png)
 
 ## Project Workflow
 
