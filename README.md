@@ -71,7 +71,5 @@ streamlit run app/app.py
 - Improved model accuracy through experimentation and hyperparameter tuning.
 - Created professional visualizations for **model explainability**.
 
----
-
 ## Report
 See the full summary in `reports/final_report.md`.
