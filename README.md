@@ -7,14 +7,16 @@ The project demonstrates skills in **data preprocessing**, **feature engineering
 
 ---
 
-**Try it Out**
+## Live Demo
+https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app
 
-The app is deployed online! You can try predicting rent prices interactively here:
+---
 
-[Try ML Rent Predictor](https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app/)  
-
+## Screenshots
 ![](screenshots/Screenshot1.png)
 ![](screenshots/Screenshot2.png)
+
+---
 
 ## Project Workflow
 
