@@ -5,18 +5,12 @@ The **FairRent** project uses **machine learning** to estimate rental prices bas
 
 The project demonstrates skills in **data preprocessing**, **feature engineering**, **model evaluation**, and **visualization** — culminating in a tuned **XGBoost regression model** with strong predictive performance.
 
----
-
 ## Live Demo
 https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app
-
----
 
 ## Screenshots
 ![](screenshots/Screenshot1.png)
 ![](screenshots/Screenshot2.png)
-
----
 
 ## Project Workflow
 
@@ -31,8 +25,6 @@ This was the most challenging and critical part of the project.
   - **Encoded smoking policy**: `smoke free` → 1, `non smoking` → 0.
 - Final cleaned dataset size reduced from **25,772 rows to 13,581 rows** after filtering invalid or incomplete entries.
 
----
-
 ## Model Development
 
 | Model | RMSE | MAE | R² | Notes |
@@ -41,8 +33,6 @@ This was the most challenging and critical part of the project.
 | **Gradient Boosting Regressor** | 433.38 | 268.62 | 0.7015 | Significant improvement |
 | **Tuned Gradient Boosting** | 413.44 | 254.33 | 0.7284 | Better performance via RandomizedSearchCV |
 | **XGBoost Regressor (Final)** | **393.03** | **248.13** | **0.7441** | Best performance |
-
----
 
 ## Results & Insights
 
@@ -60,8 +50,6 @@ The most influential features in the final XGBoost model:
 
 ![Predicted vs Actual](reports/plots/predicted_vs_actual_xqb.png)
 
----
-
 ## Tools & Libraries
 - Python 3.11
 - Pandas, NumPy
@@ -71,8 +59,6 @@ The most influential features in the final XGBoost model:
 - Streamlit
 - Joblib
 
----
-
 ## How to Run
 ```bash
 git clone 
@@ -80,8 +66,6 @@ cd FairRent
 pip install -r requirements.txt
 streamlit run app/app.py
 ```
-
----
 
 ## Key Learnings
 - Gained hands-on experience in **real-world data cleaning** and **feature engineering**.
