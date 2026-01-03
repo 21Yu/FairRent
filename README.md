@@ -3,8 +3,6 @@
 ## Overview
 The **FairRent** project uses **machine learning** to estimate rental prices based on property features. The model was trained on real estate data containing details such as property type, number of bedrooms and bathrooms, location, lease term, and other rental conditions.
 
-The project demonstrates skills in **data preprocessing**, **feature engineering**, **model evaluation**, and **visualization** — culminating in a tuned **XGBoost regression model** with strong predictive performance.
-
 ## Live Demo
 https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app
 
