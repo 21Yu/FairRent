@@ -6,7 +6,7 @@ import type { RentalType } from './models/RentalType';
 
 function App() {
 
-  const [filter, setFilter] = useState({
+  const [filters, setFilters] = useState({
     price: 0,
     type: "",
     beds: 0,
@@ -31,7 +31,7 @@ function App() {
       price: 2500,
       beds: 2,
       baths: 2,
-      sq_feet: 850,
+      squareFeet: 850,
       link: "https://example.com/listing/1",
       furnishing: true,
       availability_date: "2026-06-01",
@@ -51,7 +51,7 @@ function App() {
       price: 2200,
       beds: 1,
       baths: 1,
-      sq_feet: 600,
+      squareFeet: 600,
       link: "https://example.com/listing/2",
       furnishing: false,
       availability_date: "2026-05-15",
@@ -71,7 +71,7 @@ function App() {
       price: 3200,
       beds: 3,
       baths: 2,
-      sq_feet: 1200,
+      squareFeet: 1200,
       link: "https://example.com/listing/3",
       furnishing: true,
       availability_date: "2026-07-01",
@@ -91,7 +91,7 @@ function App() {
       price: 2000,
       beds: 2,
       baths: 1,
-      sq_feet: 780,
+      squareFeet: 780,
       link: "https://example.com/listing/4",
       furnishing: false,
       availability_date: "2026-06-15",
@@ -111,7 +111,7 @@ function App() {
       price: 1800,
       beds: 0,
       baths: 1,
-      sq_feet: 450,
+      squareFeet: 450,
       link: "https://example.com/listing/5",
       furnishing: true,
       availability_date: "2026-05-20",
@@ -121,11 +121,25 @@ function App() {
     }
   ]
 
+  const filteredRentals = rentals.filter((rental) => {
+    return (
+      (isNaN(filters.baths) || rental.baths === filters.baths) &&
+      (isNaN(filters.beds) || rental.beds === filters.baths) &&
+      (rental.cats === filters.cats) &&
+      (rental.dogs === filters.dogs) &&
+      (rental.furnishing === filters.furnishing) &&
+      (rental.price <= filters.price) &&
+      (rental.smoking === filters.smoking) &&
+      (rental.squareFeet <= filters.squareFeet) &&
+      (filters.type === "" || rental.type === filters.type)
+    )
+  })
+
   return (
     <>
-      <FilterForm onFormSubmit={setFilter}/>
-      <Map rentals={rentals} />
-      <SideBar rentals={rentals} />
+      <FilterForm onFormSubmit={setFilters}/>
+      <Map rentals={filteredRentals} />
+      <SideBar rentals={filteredRentals} />
     </>
   )
 }

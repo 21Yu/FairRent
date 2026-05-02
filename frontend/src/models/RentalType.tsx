@@ -10,7 +10,7 @@ export interface RentalType {
     price: number;
     beds: number;
     baths: number; 
-    sq_feet: number; 
+    squareFeet: number; 
     link: string;
     furnishing: boolean;
     availability_date: string;
