@@ -7,18 +7,27 @@ from scipy.stats import randint, uniform
 import joblib
 import os
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 
 # load data
 data = pd.read_csv("data/processed/rentfaster_clean.csv")
+
+kmeans = KMeans(n_clusters=50, random_state=42)
+data["geo_cluster"] = kmeans.fit_predict(data[["latitude", "longitude"]])
+
+data["sq_feet"] = np.log1p(data["sq_feet"])
+data["room_density"] = data["beds"] / (data["sq_feet"] + 1)
 
 # define features & target
 features = [
     'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
     'cats', 'dogs', 'location_freq', 'lease_term_months',
     'type_apartment', 'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-    'availability_days', 'latitude', 'longitude'
+    'availability_days', 'latitude', 'longitude', 'room_density', 'geo_cluster'
 ]
 target = 'price'
+
+# print(data[features + ['price']].corr()['price'].sort_values(ascending=False))
 
 X = data[features].copy();
 y = data[target].copy();

@@ -2,32 +2,34 @@
 ===== RXGBoost Regression report ===== 
 
 Best Parameters:
-{'colsample_bytree': np.float64(0.954674147279825), 'learning_rate': np.float64(0.11825942817473098), 'max_depth': 5, 'n_estimators': 592, 'subsample': np.float64(0.9131988669057362)}
+{'colsample_bytree': np.float64(0.8349262400109296), 'learning_rate': np.float64(0.06927253540027216), 'max_depth': 6, 'n_estimators': 469, 'subsample': np.float64(0.9181815987569262)}
 
-Best Cross-Validation R²: 0.7481
+Best Cross-Validation R²: 0.7421
 
 ===== Test Set Performance =====
-RMSE: 353.93
-MAE: 206.04
-R²: 0.8226
+RMSE: 356.84
+MAE: 206.21
+R²: 0.8196
 
 ===== Feature Importances =====
           Feature  Importance
-            baths    0.289908
-    type_basement    0.103868
-         latitude    0.066780
-   type_apartment    0.062299
-lease_term_months    0.058464
-        longitude    0.057030
-    location_freq    0.055398
-       type_house    0.055281
-          sq_feet    0.054188
-             dogs    0.046545
-       furnishing    0.046223
-             beds    0.041040
-          smoking    0.015295
-availability_days    0.014555
-   type_townhouse    0.013742
-             cats    0.012539
-      type_duplex    0.006847
+            baths    0.245216
+      geo_cluster    0.094893
+    type_basement    0.080901
+       type_house    0.063013
+          sq_feet    0.062909
+         latitude    0.056484
+        longitude    0.056282
+lease_term_months    0.051834
+   type_apartment    0.049571
+    location_freq    0.045222
+             beds    0.036335
+       furnishing    0.035193
+             dogs    0.029432
+     room_density    0.025185
+availability_days    0.017664
+          smoking    0.016614
+             cats    0.013088
+   type_townhouse    0.012386
+      type_duplex    0.007775
 
