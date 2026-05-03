@@ -4,41 +4,30 @@ import re
 
 data = pd.read_csv("data/raw/rentfaster.csv")
 
-# Drop irrelavant columns
-data.drop(columns=['rentfaster_id', 'address', 'link', 'latitude', 'longitude'], inplace=True)
+data.drop(columns='link', inplace=True)
 
-# handle duplicates
-data.drop_duplicates(inplace=True)
+data.dropna(inplace=True)
+data.drop_duplicates(inplace=True)  
 
-# handle missing / nan
-relevant_cols = ['city', 'province', 'lease_term', 'type', 'price', 'beds', 'baths', 
-                 'sq_feet', 'furnishing', 'availability_date', 'smoking', 'cats', 'dogs']
-
-data = data.dropna(subset=relevant_cols)
-
-for col in relevant_cols:
-    data = data[data[col].astype(str).str.strip() != '']
-
-
-# print(data["city"].value_counts())
-# print(data["province"].value_counts())
-# print(data["lease_term"].value_counts())
+# for debug
+# print(data.isna().sum())
+# print(data.dtypes)
+# print(data.shape)      
 # print(data["type"].value_counts())
-# print(data["price"].value_counts())
-# print(data["beds"].value_counts())
-# print(data["baths"].value_counts())
-# print(data["sq_feet"].value_counts())
-# print(data["furnishing"].value_counts())
-# print(data["availability_date"].value_counts())
-# print(data["smoking"].value_counts())
-# print(data["cats"].value_counts())
-# print(data["dogs"].value_counts())
+# print(data["smoking"].unique())
+# print(data.describe())
+# print(data["lease_term_months"].value_counts(dropna=False))
+# print(data[data["beds"].isna()])
+# print(data[data.duplicated()])
+# # handle duplicates
+# print(data[data["province"] == ''])
+# data.to_csv("data/processed/rentfaster_clean2.csv", index=False)
+
 
 # handle city and province
 data['location'] = data['city'].str.strip().str.lower() + ', ' + data['province'].str.strip().str.lower()
-location_avg_rent = data.groupby('location')['price'].mean()
-data['location_avg_price'] = data['location'].map(location_avg_rent)
-data.drop(columns=['location'], inplace=True)
+location_freq = data["location"].value_counts()
+data["location_freq"] = data["location"].map(location_freq)
 
 #handle lease term
 data['lease_term'] = data['lease_term'].astype(str).str.strip().str.lower()
@@ -48,7 +37,7 @@ data['lease_term_months'] = data['lease_term'].map({
     'negotiable': 6,
     '12 months': 12,
     '6 months': 6,
-    'months': 12
+    'months': 6
 })
 data.drop(columns=['lease_term'], inplace=True)
 
@@ -67,6 +56,9 @@ data = pd.get_dummies(data, columns=['type'], prefix='type', dtype=int)
 
 #handle price
 data['price'] = data['price'].astype(float)
+
+#handle id
+data['rentfaster_id'] = data['rentfaster_id'].astype(str)
 
 #handle beds
 data['beds'] = data['beds'].astype(str).str.strip().str.lower()
@@ -96,6 +88,7 @@ def clean_sq_feet(value):
 data['sq_feet'] = data['sq_feet'].apply(clean_sq_feet)
 
 # handle furnishing
+data['furnishing'] = data['furnishing'].replace({'Unfurnished, Negotiable': 'Unfurnished'})
 data['furnishing'] = (data['furnishing'].astype(str).str.strip().str.upper().map({'UNFURNISHED': 0, 'FURNISHED': 1, 'NEGOTIABLE': 2}))
 
 #handle available date
@@ -129,4 +122,6 @@ data['cats'] = (data['cats'].astype(str).str.strip().str.upper().map({'TRUE': 1,
 data['dogs'] = (data['dogs'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
 
 data.dropna(inplace=True)
+data.drop_duplicates(inplace=True)  
+
 data.to_csv("data/processed/rentfaster_clean.csv", index=False)

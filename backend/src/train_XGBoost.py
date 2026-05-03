@@ -14,9 +14,9 @@ data = pd.read_csv("data/processed/rentfaster_clean.csv")
 # define features & target
 features = [
     'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
-    'cats', 'dogs', 'location_avg_price', 'lease_term_months',
+    'cats', 'dogs', 'location_freq', 'lease_term_months',
     'type_apartment', 'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-    'availability_days'
+    'availability_days', 'latitude', 'longitude'
 ]
 target = 'price'
 

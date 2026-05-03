@@ -34,5 +34,5 @@ export default function Map({ rentals } : MapProps) {
         return () => map.remove();
     }, [rentals]);
 
-    return <div ref={mapRef} style={{ height: "100vh", width: "100%" }} />;
+    return <div ref={mapRef} style={{ height: "50vh", width: "50%" }} />;
 }
