@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
 # load data
-data = pd.read_csv("data/processed/rentfaster_clean.csv")
+data = pd.read_csv("data/processed/rentfaster_training.csv")
 
 kmeans = KMeans(n_clusters=50, random_state=42)
 data["geo_cluster"] = kmeans.fit_predict(data[["latitude", "longitude"]])

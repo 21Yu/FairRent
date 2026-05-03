@@ -19,7 +19,6 @@ data.drop_duplicates(inplace=True)
 # print(data["lease_term_months"].value_counts(dropna=False))
 # print(data[data["beds"].isna()])
 # print(data[data.duplicated()])
-# # handle duplicates
 # print(data[data["province"] == ''])
 # data.to_csv("data/processed/rentfaster_clean2.csv", index=False)
 
