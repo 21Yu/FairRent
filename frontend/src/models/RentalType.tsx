@@ -5,16 +5,15 @@ export interface RentalType {
     address: string;
     latitude: number;
     longitude: number; 
-    lease_term: number;
     type: string;
     price: number;
     beds: number;
     baths: number; 
     squareFeet: number; 
-    link: string;
-    furnishing: boolean;
-    availability_date: string;
+    furnishing: string;
     smoking: boolean;
     cats: boolean;
     dogs: boolean;
+    lease_term_months: number;
+    availability_days: number;
 }

@@ -10,17 +10,23 @@ data.dropna(inplace=True)
 
 data.drop_duplicates(subset=["rentfaster_id"], inplace=True)
 
-#handle lease term
-data['lease_term'] = data['lease_term'].astype(str).str.strip().str.lower()
-data['lease_term_months'] = data['lease_term'].map({
-    'long term': 12,
-    'short term': 3,
-    'negotiable': 6,
-    '12 months': 12,
-    '6 months': 6,
-    'months': 6
-})
-data.drop(columns=['lease_term'], inplace=True)
+#handle id
+data['rentfaster_id'] = data['rentfaster_id'].astype(str)
+
+# handle city
+data['city'] = data['city'].astype(str)
+
+# handle province
+data['province'] = data['province'].astype(str)
+
+# handle address
+data['address'] = data['address'].astype(str)
+
+# handle latitude
+data['latitude'] = data['latitude'].astype(float)
+
+# handle longitude
+data['longitude'] = data['longitude'].astype(float)
 
 #handle type
 data['type'] = data['type'].astype(str).str.strip().str.lower()
@@ -36,9 +42,6 @@ data['type'] = data['type'].replace({
 
 #handle price
 data['price'] = data['price'].astype(float)
-
-#handle id
-data['rentfaster_id'] = data['rentfaster_id'].astype(str)
 
 #handle beds
 data['beds'] = data['beds'].astype(str).str.strip().str.lower()
@@ -71,6 +74,29 @@ data['sq_feet'] = data['sq_feet'].apply(clean_sq_feet)
 data['furnishing'] = data['furnishing'].replace({'Unfurnished, Negotiable': 'Unfurnished'})
 data['furnishing'] = (data['furnishing'].astype(str).str.strip().str.upper().map({'UNFURNISHED': 0, 'FURNISHED': 1, 'NEGOTIABLE': 2}))
 
+print(data["smoking"].value_counts())
+# handle smoking
+data['smoking'] = data['smoking'].replace({'Unfurnished, Negotiable': 'Unfurnished'})
+data['smoking'] = (data['smoking'].astype(str).str.strip().str.upper().map({
+    'NON-SMOKING': 0, 'SMOKE FREE BUILDING': 0, 'SMOKING ALLOWED': 1, 'NEGOTIABLE': 2}))
+
+#handle lease term
+data['lease_term'] = data['lease_term'].astype(str).str.strip().str.lower()
+data['lease_term_months'] = data['lease_term'].map({
+    'long term': 12,
+    'short term': 3,
+    'negotiable': 6,
+    '12 months': 12,
+    '6 months': 6,
+    'months': 6
+})
+data.drop(columns=['lease_term'], inplace=True)
+
+
+
+
+
+
 #handle available date
 ref_date = pd.Timestamp("2024-06-01")
 def convert_availability(date_str):
@@ -91,9 +117,7 @@ def convert_availability(date_str):
 data['availability_days'] = data['availability_date'].apply(convert_availability) 
 data.drop(columns=['availability_date'], inplace=True)
 
-# handle smoking
-data['smoking'] = (data['smoking'].astype(str).str.strip().str.upper().map({
-    'NON-SMOKING': 0, 'SMOKE FREE BUILDING': 0, 'SMOKING ALLOWED': 1, 'NEGOTIABLE': 2}))
+
 
 # handle cats
 data['cats'] = (data['cats'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))

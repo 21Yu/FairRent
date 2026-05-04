@@ -4,9 +4,8 @@ import re
 
 data = pd.read_csv("data/raw/rentfaster.csv")
 
-data.drop(columns='link', inplace=True)
+data.drop(columns=['link', 'rentfaster_id', 'address'], inplace=True)
 
-data.dropna(inplace=True)
 data.drop_duplicates(inplace=True)  
 
 # for debug
@@ -24,12 +23,13 @@ data.drop_duplicates(inplace=True)
 
 
 # handle city and province
-data['location'] = data['city'].str.strip().str.lower() + ', ' + data['province'].str.strip().str.lower()
+data['location'] = data['city'].astype('string').str.strip().str.lower() + ', ' + data['province'].astype('string').str.strip().str.lower()
 location_freq = data["location"].value_counts()
 data["location_freq"] = data["location"].map(location_freq)
+data.drop(columns=['city', 'province', 'location'], inplace=True)
 
 #handle lease term
-data['lease_term'] = data['lease_term'].astype(str).str.strip().str.lower()
+data['lease_term'] = data['lease_term'].astype('string').str.strip().str.lower()
 data['lease_term_months'] = data['lease_term'].map({
     'long term': 12,
     'short term': 3,
@@ -37,11 +37,11 @@ data['lease_term_months'] = data['lease_term'].map({
     '12 months': 12,
     '6 months': 6,
     'months': 6
-})
+}).fillna(6)
 data.drop(columns=['lease_term'], inplace=True)
 
 #handle type
-data['type'] = data['type'].astype(str).str.strip().str.lower()
+data['type'] = data['type'].astype('string').str.strip().str.lower()
 data['type'] = data['type'].replace({
     'condo unit': 'apartment',
     'main floor': 'house',
@@ -50,77 +50,95 @@ data['type'] = data['type'].replace({
     'mobile': 'house',
     'vacation home': 'house',
     'acreage': 'house',
+    'office space': 'other',
+    'storage': 'other',
+    'parking spot': 'other'
 })
 data = pd.get_dummies(data, columns=['type'], prefix='type', dtype=int)
 
-#handle price
+# #handle price
 data['price'] = data['price'].astype(float)
 
-#handle id
-data['rentfaster_id'] = data['rentfaster_id'].astype(str)
-
-#handle beds
-data['beds'] = data['beds'].astype(str).str.strip().str.lower()
-data['beds'] = data['beds'].replace({'studio': '0'})
+# #handle beds
+data['beds'] = data['beds'].astype('string').str.strip().str.lower()
+data['beds'] = data['beds'].replace({'studio': '0', 'none beds': np.nan})
 data['beds'] = data['beds'].str.extract('(\d+)')
-data['beds'] = data['beds'].astype(float)
+data['beds'] = pd.to_numeric(data['beds'])
+data['beds'] = data['beds'].fillna(data['beds'].median())
 
-#handle baths
-data['baths'] = data['baths'].astype(str).str.strip().str.lower()
+# #handle baths
+data['baths'] = data['baths'].astype('string').str.strip().str.lower()
 data['baths'] = data['baths'].replace({'none': np.nan})
-data['baths'] = data['baths'].astype(float)
+data['baths'] = pd.to_numeric(data['baths'])
+data['baths'] = data['baths'].fillna(data['baths'].median())
 
 #handle sq feet
-def clean_sq_feet(value):
-    
-    text = str(value).lower().replace(',', '').replace('+', '')
+data['sq_feet'] = (
+    data['sq_feet']
+    .astype('string')
+    .str.lower()
+    .str.replace(',', '', regex=False)
+    .str.replace('+', '', regex=False)
+    .str.extract(r'(\d+\.?\d*)')[0]
+)
 
-    match = re.search(r'(\d+(\.\d+)?)', text)
-    if match:
-        v = float(match.group(1))
-        if v == 0:            # treat explicit 0 as missing
-            return np.nan
-        return v
-    else:
-        return np.nan
+data['sq_feet'] = pd.to_numeric(data['sq_feet'])
 
-data['sq_feet'] = data['sq_feet'].apply(clean_sq_feet)
+data.loc[data['sq_feet'] == 0, 'sq_feet'] = np.nan
+
+data['sq_feet'] = data['sq_feet'].fillna(data['sq_feet'].median())
 
 # handle furnishing
-data['furnishing'] = data['furnishing'].replace({'Unfurnished, Negotiable': 'Unfurnished'})
-data['furnishing'] = (data['furnishing'].astype(str).str.strip().str.upper().map({'UNFURNISHED': 0, 'FURNISHED': 1, 'NEGOTIABLE': 2}))
+data['furnishing'] = data['furnishing'].astype('string').str.strip().str.lower()
+data['furnishing'] = data['furnishing'].replace({'unfurnished, negotiable': 'unfurnished'})
+data = pd.get_dummies(data, columns=['furnishing'], prefix='furnishing', dtype=int)
 
-#handle available date
+# #handle available date
 ref_date = pd.Timestamp("2024-06-01")
+
 def convert_availability(date_str):
+    if pd.isna(date_str):
+        return 365
+
     date_str = str(date_str).strip().lower()
 
     if date_str == 'immediate':
         return 0
-    elif date_str in ['no vacancy', 'negotiable', 'call for availability']:
-        return 365
-    else:
-        try:
-            dt = pd.to_datetime(f"{date_str} 2024", format="%B %d %Y")
-            days_until = (dt - ref_date).days
-            return max(days_until, 0)
-        except:
-            return 365
 
-data['availability_days'] = data['availability_date'].apply(convert_availability) 
+    if date_str in ['no vacancy', 'negotiable', 'call for availability']:
+        return 90
+
+    try:
+        dt = pd.to_datetime(f"{date_str} 2024", format="%B %d %Y")
+        return max((dt - ref_date).days, 0)
+    except:
+        return 365
+
+data['availability_days'] = data['availability_date'].apply(convert_availability)
 data.drop(columns=['availability_date'], inplace=True)
 
 # handle smoking
-data['smoking'] = (data['smoking'].astype(str).str.strip().str.upper().map({
-    'NON-SMOKING': 0, 'SMOKE FREE BUILDING': 0, 'SMOKING ALLOWED': 1, 'NEGOTIABLE': 2}))
+data['smoking'] = (
+    data['smoking']
+    .astype('string')
+    .str.strip()
+    .str.lower()
+    .map({
+        'non-smoking': 0,
+        'smoking allowed': 1,
+        'negotiable': 0,
+        'smoke free building': 0
+    })
+)
+data['smoking'] = data['smoking'].fillna(0).astype(int)
 
 # handle cats
-data['cats'] = (data['cats'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
+data['cats'] = data['cats'].map({True: 1, False: 0}).fillna(0).astype(int)
 
 # handle dogs
-data['dogs'] = (data['dogs'].astype(str).str.strip().str.upper().map({'TRUE': 1, 'FALSE': 0}))
+data['dogs'] = data['dogs'].map({True: 1, False: 0}).fillna(0).astype(int)
 
 data.dropna(inplace=True)
 data.drop_duplicates(inplace=True)  
 
-data.to_csv("data/processed/rentfaster_clean.csv", index=False)
+data.to_csv("data/processed/rentfaster_training.csv", index=False)

@@ -2,34 +2,37 @@
 ===== RXGBoost Regression report ===== 
 
 Best Parameters:
-{'colsample_bytree': np.float64(0.8349262400109296), 'learning_rate': np.float64(0.06927253540027216), 'max_depth': 6, 'n_estimators': 469, 'subsample': np.float64(0.9181815987569262)}
+{'colsample_bytree': np.float64(0.8166031869068445), 'learning_rate': np.float64(0.05070235476608439), 'max_depth': 7, 'n_estimators': 479, 'subsample': np.float64(0.8070259980080767)}
 
-Best Cross-Validation R²: 0.7421
+Best Cross-Validation R²: 0.7029
 
 ===== Test Set Performance =====
-RMSE: 356.84
-MAE: 206.21
-R²: 0.8196
+RMSE: 511.99
+MAE: 230.43
+R²: 0.7014
 
 ===== Feature Importances =====
-          Feature  Importance
-            baths    0.245216
-      geo_cluster    0.094893
-    type_basement    0.080901
-       type_house    0.063013
-          sq_feet    0.062909
-         latitude    0.056484
-        longitude    0.056282
-lease_term_months    0.051834
-   type_apartment    0.049571
-    location_freq    0.045222
-             beds    0.036335
-       furnishing    0.035193
-             dogs    0.029432
-     room_density    0.025185
-availability_days    0.017664
-          smoking    0.016614
-             cats    0.013088
-   type_townhouse    0.012386
-      type_duplex    0.007775
+               Feature  Importance
+                 baths    0.188847
+     lease_term_months    0.093418
+            type_house    0.091164
+                  beds    0.072461
+           geo_cluster    0.058540
+            type_other    0.051851
+              latitude    0.046335
+        type_apartment    0.044094
+furnishing_unfurnished    0.040890
+               sq_feet    0.038435
+  furnishing_furnished    0.035839
+             longitude    0.034333
+         type_basement    0.033633
+          room_density    0.031595
+         location_freq    0.031322
+                  dogs    0.028712
+     availability_days    0.025322
+        type_townhouse    0.015363
+                  cats    0.015292
+ furnishing_negotiable    0.008692
+               smoking    0.007614
+           type_duplex    0.006247
 
