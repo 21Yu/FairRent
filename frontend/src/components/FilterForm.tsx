@@ -16,50 +16,33 @@ export default function FilterForm({ onFormSubmit }) {
         <form onSubmit={handleSubmit(onSubmit)}>
             <label>
                 Price
-                <input type="range" min="0" max="3000" {...register("price", { valueAsNumber: true })} />
+                <input type="range" min="0" max="5000" {...register("price")} />
             </label>
 
             <select {...register("type")}>
                 <option value="">Select Type</option>
-                <option value="Apartment">Apartment</option>
-                <option value="House">House</option>
-                <option value="Townhouse">Townhouse</option>
+                <option value="apartment">Apartment</option>
+                <option value="basement">Basement</option>
+                <option value="duplex">Duplex</option>
+                <option value="house">House</option>
+                <option value="townhouse">Townhouse</option>
+                <option value="other">Other</option>
             </select>
 
             <label>
                 Beds
-                <input type="number" min="0" max="5" {...register("beds", { valueAsNumber: true })} />
+                <input type="number" min="0" max="5" {...register("beds")} />
             </label>
 
             <label>
                 Baths
-                <input type="number" min="0" max="5" {...register("baths", { valueAsNumber: true })} />
+                <input type="number" min="0" max="5" step="0.5" {...register("baths")} />
             </label>
 
             <label>
                 Square Feet
-                <input type="range" min="0" max="3000" {...register("squareFeet", { valueAsNumber: true })} />
-            </label>
-
-            <label>
-                furnishing
-                <input type="checkbox" {...register("furnishing")} />
-            </label>
-
-            <label>
-                smoking
-                <input type="checkbox" {...register("smoking")} />
-            </label>
-
-            <label>
-                cats
-                <input type="checkbox" {...register("cats")} />
-            </label>   
-
-            <label>
-                dogs
-                <input type="checkbox" {...register("dogs")} />
-            </label>    
+                <input type="range" min="0" max="3000" {...register("squareFeet")} />
+            </label>  
 
             <button type="submit">Search</button>
         </form>

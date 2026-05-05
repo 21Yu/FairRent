@@ -7,27 +7,27 @@ import type { RentalType } from './models/RentalType';
 function App() {
 
   const [filters, setFilters] = useState({
-    price: 0,
+    price: "5000",
     type: "",
-    beds: 0,
-    baths: 0,
-    squareFeet: 0,
-    furnishing: false,
-    smoking: false,
-    cats: false,
-    dogs: false
+    beds: "",
+    baths: "",
+    squareFeet: "3000",
   })
 
   const [rentals, setRentals] = useState<RentalType[]>([]);
-  const [numRentals, setNumRentals] = useState<number>(0);
 
   useEffect(() => {
     async function fetchRentals() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/rentals");
+        const cleanFilters = Object.fromEntries(
+          Object.entries(filters).filter(([_, v]) => v !== "")
+        );
+
+        const query = new URLSearchParams(cleanFilters).toString();
+        const res = await fetch(`http://127.0.0.1:8000/rentals?${query}`);
         const data = await res.json();
 
-        const mapped: RentalType[] = data.data.map((item) => ({
+        const mapped: RentalType[] = data.map((item) => ({
           id: item.rentfaster_id,
           city: item.city,
           province: item.province,
@@ -56,7 +56,6 @@ function App() {
         }))
 
         setRentals(mapped);
-        setNumRentals(data.count);
         console.log(mapped);
       } catch (err) {
         console.error("Fetch failed:", err);
@@ -64,25 +63,11 @@ function App() {
     }
     
     fetchRentals();
-  }, [])
-
-  // const filteredRentals = rentals.filter((rental) => {
-  //   return (
-  //     (isNaN(filters.baths) || rental.baths === filters.baths) &&
-  //     (isNaN(filters.beds) || rental.beds === filters.baths) &&
-  //     (rental.cats === filters.cats) &&
-  //     (rental.dogs === filters.dogs) &&
-  //     (rental.furnishing === filters.furnishing) &&
-  //     (rental.price <= filters.price) &&
-  //     (rental.smoking === filters.smoking) &&
-  //     (rental.squareFeet <= filters.squareFeet) &&
-  //     (filters.type === "" || rental.type === filters.type)
-  //   )
-  // })
+  }, [filters])
 
   return (
     <>
-      {/* <FilterForm onFormSubmit={setFilters}/> */}
+      <FilterForm onFormSubmit={setFilters}/>
       <Map rentals={rentals} />
       <SideBar rentals={rentals} />
     </>

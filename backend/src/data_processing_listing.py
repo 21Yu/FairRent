@@ -141,4 +141,5 @@ data['dogs'] = data['dogs'].map({True: 1, False: 0}).fillna(0).astype(int)
 data.dropna(inplace=True)
 data.drop_duplicates(inplace=True)  
 
+print(data.dtypes)
 data.to_csv("data/processed/rentfaster_listing.csv", index=False)

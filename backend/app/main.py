@@ -29,12 +29,45 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def filter_listing(df, price=None, type=None, beds=None, baths=None, squareFeet=None):
+    
+    if price is not None:
+        df = df[df["price"] <= price]
+    
+    if type:
+        if type == "apartment":
+            df = df[df["type_apartment"] == 1]
+
+        if type == "basement":
+            df = df[df["type_basement"] == 1]
+
+        if type == "duplex":
+            df = df[df["type_duplex"] == 1]   
+
+        if type == "house":
+            df = df[df["type_house"] == 1]   
+
+        if type == "townhouse":
+            df = df[df["type_townhouse"] == 1]   
+
+        if type == "other":
+            df = df[df["type_other"] == 1]   
+
+    if beds is not None:
+        df = df[df["beds"] == beds]
+
+    if baths is not None:
+        df = df[df["baths"] == baths]
+
+    if squareFeet is not None:
+        df = df[df["sq_feet"] <= squareFeet]
+
+    return df
+
 @app.get("/rentals")
-def get_rentals():
-    return {
-    "data": listing.head(10).to_dict(orient="records"),
-    "count": 10
-    }
-# send lsiting to frontend
+def get_rentals(price: float = None, type: str = None, beds: int = None, baths: float = None, squareFeet: float = None):
+    result = filter_listing(listing.copy(), price, type, beds, baths, squareFeet)
+    return result.to_dict(orient="records")
+
 # filtering logic
 # predictions
