@@ -38,26 +38,26 @@ def filter_listing(df, price=None, type=None, beds=None, baths=None, squareFeet=
         if type == "apartment":
             df = df[df["type_apartment"] == 1]
 
-        if type == "basement":
+        elif type == "basement":
             df = df[df["type_basement"] == 1]
 
-        if type == "duplex":
+        elif type == "duplex":
             df = df[df["type_duplex"] == 1]   
 
-        if type == "house":
+        elif type == "house":
             df = df[df["type_house"] == 1]   
 
-        if type == "townhouse":
+        elif type == "townhouse":
             df = df[df["type_townhouse"] == 1]   
 
-        if type == "other":
+        elif type == "other":
             df = df[df["type_other"] == 1]   
 
     if beds is not None:
-        df = df[df["beds"] == beds]
+        df = df[df["beds"] <= beds]
 
     if baths is not None:
-        df = df[df["baths"] == baths]
+        df = df[df["baths"] <= baths]
 
     if squareFeet is not None:
         df = df[df["sq_feet"] <= squareFeet]
@@ -65,9 +65,25 @@ def filter_listing(df, price=None, type=None, beds=None, baths=None, squareFeet=
     return df
 
 @app.get("/rentals")
-def get_rentals(price: float = None, type: str = None, beds: int = None, baths: float = None, squareFeet: float = None):
+def get_rentals(
+    price: float | None = None,
+    type: str | None = None,
+    beds: int | None = None, 
+    baths: float | None = None,
+    squareFeet: float | None = None,
+    north: float | None = None,
+    south: float | None = None,
+    east: float | None = None,
+    west: float | None = None):
     result = filter_listing(listing.copy(), price, type, beds, baths, squareFeet)
-    return result.to_dict(orient="records")
+
+    if None not in (north, south, east, west):
+        result = result[(result["latitude"] <= north) &
+                        (result["latitude"] >= south) &
+                        (result["longitude"] <= east) &
+                        (result["longitude"] >= west)]
+        
+    return result.head(100).to_dict(orient="records")
 
 # filtering logic
 # predictions

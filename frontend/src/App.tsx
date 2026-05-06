@@ -7,23 +7,42 @@ import type { RentalType } from './models/RentalType';
 function App() {
 
   const [filters, setFilters] = useState({
-    price: "5000",
+    price: "",
     type: "",
     beds: "",
     baths: "",
-    squareFeet: "3000",
+    squareFeet: "",
   })
+
+  const [bounds, setBounds] = useState<{
+    north: number;
+    south: number;
+    east: number;
+    west: number;
+  } | null>(null);
 
   const [rentals, setRentals] = useState<RentalType[]>([]);
 
   useEffect(() => {
+    if (!bounds) return;
+
+    const timeout = setTimeout(() => {
+      fetchRentals();
+    }, 300);
+
+    return () => clearTimeout(timeout);
+
     async function fetchRentals() {
       try {
         const cleanFilters = Object.fromEntries(
           Object.entries(filters).filter(([_, v]) => v !== "")
         );
 
-        const query = new URLSearchParams(cleanFilters).toString();
+        const query = new URLSearchParams({
+          ...cleanFilters,
+          ...bounds,
+        }).toString();
+
         const res = await fetch(`http://127.0.0.1:8000/rentals?${query}`);
         const data = await res.json();
 
@@ -62,13 +81,12 @@ function App() {
       }
     }
     
-    fetchRentals();
-  }, [filters])
+  }, [filters, bounds])
 
   return (
     <>
       <FilterForm onFormSubmit={setFilters}/>
-      <Map rentals={rentals} />
+      <Map rentals={rentals} onBoundsChange={setBounds}/>
       <SideBar rentals={rentals} />
     </>
   )
