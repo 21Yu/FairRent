@@ -2,12 +2,15 @@ import pandas as pd
 import joblib
 from pathlib import Path
 from fastapi import FastAPI
+import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 listing_path = BASE_DIR / "data" / "processed" / "rentfaster_listing.csv"
 model_path = BASE_DIR / "models" / "xgb_boosting_tuned.pkl"
+kmeans = joblib.load(BASE_DIR / "models" / "kmeans.pkl")
+feature_columns = joblib.load(BASE_DIR / "models" / "features.pkl")
 
 listing = pd.read_csv(listing_path)
 model = joblib.load(model_path)
@@ -85,5 +88,36 @@ def get_rentals(
         
     return result.head(100).to_dict(orient="records")
 
-# filtering logic
-# predictions
+@app.get("/rental")
+def get_rental(id: int):
+    data = listing.copy();
+    result = data[data["rentfaster_id"] == id];
+
+    if result.empty:
+        return {"error": "Rental not found"}
+
+    return result.iloc[0].to_dict()
+
+@app.get("/predict")
+def get_predict(id: int):   
+    data = listing.copy();
+    result = listing[listing["rentfaster_id"] == id];
+
+    if result.empty:
+        return {"error": "Rental not found"}
+    
+    result["geo_cluster"] = kmeans.predict(
+        result[["latitude", "longitude"]]
+    )
+
+    result["sq_feet"] = np.log1p(result["sq_feet"])
+
+    result["room_density"] = (
+        result["beds"] / (result["sq_feet"] + 1)
+    )
+
+    X = result[feature_columns]
+
+    prediction = model.predict(X)[0]
+
+    return round(float(prediction), 2)

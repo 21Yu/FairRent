@@ -14,6 +14,7 @@ data = pd.read_csv("data/processed/rentfaster_training.csv")
 
 kmeans = KMeans(n_clusters=50, random_state=42)
 data["geo_cluster"] = kmeans.fit_predict(data[["latitude", "longitude"]])
+joblib.dump(kmeans, "models/kmeans.pkl")
 
 data["sq_feet"] = np.log1p(data["sq_feet"])
 data["room_density"] = data["beds"] / (data["sq_feet"] + 1)
@@ -30,6 +31,7 @@ features = [
     'geo_cluster', 'room_density'
 ]
 target = 'price'
+joblib.dump(features, "models/features.pkl")
 
 # print(data[features + ['price']].corr()['price'].sort_values(ascending=False))
 
