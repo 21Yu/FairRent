@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { RentalType } from "../models/RentalType";
+import Layout from "../components/layout/Layout";
 
 export default function DetailPage() {
   const { id } = useParams();
@@ -67,7 +68,7 @@ export default function DetailPage() {
   }
 
   return (
-    <>
+    <Layout>
       <div>
         <h1>{rental.address}</h1>
 
@@ -114,6 +115,6 @@ export default function DetailPage() {
           Predicted Price: <strong>${predictedPrice}</strong>
         </p>
       )}
-    </>
+    </Layout>
   );
 }
