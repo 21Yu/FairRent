@@ -2,19 +2,15 @@ export const filterFormStyles = {
   form: `
     bg-[#fbffa7]
     p-10
-    border-t-2
-    border-black
-    max-w-2xl
     mx-auto
-    font-sans
-    text-black
   `,
 
   grid: `
     grid
     grid-cols-1
-    md:grid-cols-2
-    gap-12
+    sm:grid-cols-2
+    lg:grid-cols-4
+    gap-8
   `,
 
   label: `
@@ -43,10 +39,7 @@ export const filterFormStyles = {
   range: `
     w-full
     h-1
-    bg-black
     appearance-none
-    cursor-pointer
-    accent-[#ff764d]
   `,
 
   valueText: `

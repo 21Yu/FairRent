@@ -41,7 +41,6 @@ export default function FilterForm({
     >
       <div className={styles.grid}>
         
-        {/* PRICE SLIDER */}
         <div className="space-y-4">
           <label className={styles.label}>
             Maximum Price
@@ -60,7 +59,6 @@ export default function FilterForm({
           </p>
         </div>
 
-        {/* PROPERTY TYPE */}
         <div>
           <label className={styles.label}>
             Property Type
@@ -80,7 +78,6 @@ export default function FilterForm({
           </select>
         </div>
 
-        {/* BEDS & BATHS */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className={styles.label}>Beds</label>
@@ -108,10 +105,9 @@ export default function FilterForm({
           </div>
         </div>
 
-        {/* SQ FT SLIDER */}
         <div className="space-y-4">
           <label className={styles.label}>
-            Min. Square Feet
+            Max. Square Feet
           </label>
 
           <input

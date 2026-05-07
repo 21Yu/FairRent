@@ -8,28 +8,16 @@ export default function Header() {
   return (
     <header className={styles.header}>
       
-      {/* LOGO */}
       <div className={styles.logoSection}>
         <Link
           to="/"
-          className={styles.logoWrapper}
         >
-          <div className={styles.logoBars}>
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className={styles.bar}
-              />
-            ))}
-          </div>
-
           <h1 className={styles.title}>
             FairRent
           </h1>
         </Link>
       </div>
 
-      {/* NAV */}
       <nav className={styles.nav}>
         <Link
           to="/"
@@ -58,17 +46,6 @@ export default function Header() {
           Contact
         </Link>
       </nav>
-
-      {/* RIGHT UTILITY */}
-      <div className={styles.rightSection}>
-        <div className={styles.statusWrapper}>
-          <div className={styles.statusDot} />
-
-          <p className={styles.statusText}>
-            Live_v1.0
-          </p>
-        </div>
-      </div>
     </header>
   );
 }
