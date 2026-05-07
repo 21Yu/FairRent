@@ -1,5 +1,12 @@
+// RentalCard.tsx
+
 import { Link } from "react-router-dom";
 import type { RentalType } from "../models/RentalType";
+
+import {
+  rentalCardStyles as styles,
+  statusBadge,
+} from "../styles/rentalCard.styles";
 
 type RentalCardProps = {
   rental: RentalType;
@@ -9,42 +16,102 @@ export default function RentalCard({
   rental,
 }: RentalCardProps) {
   return (
-    <li>
-      <h3>{rental.address}</h3>
+    <li className={styles.listItem}>
+      <div className={styles.card}>
+        
+        {/* HEADER BAR */}
+        <div className={styles.header}>
+          <h3 className={styles.title}>
+            {rental.address}
+          </h3>
 
-      <p>
-        {rental.city}, {rental.province}
-      </p>
+          <span className={styles.unitId}>
+            UNIT_
+            {rental.id
+              .toString()
+              .padStart(3, "0")}
+          </span>
+        </div>
 
-      <p>
-        <strong>
-          ${rental.price.toLocaleString()}
-        </strong>
-      </p>
+        <div className={styles.content}>
+          
+          {/* MAIN INFO SECTION */}
+          <div className={styles.infoSection}>
+            
+            <div>
+              <p className={styles.label}>
+                Location
+              </p>
 
-      <p>
-        {rental.beds} beds •{" "}
-        {rental.baths} baths •{" "}
-        {rental.squareFeet} sq ft
-      </p>
+              <p className={styles.location}>
+                {rental.city}, {rental.province}
+              </p>
+            </div>
 
-      <p>
-        {rental.cats ? "Cats Allowed" : "No Cats"}
-        {" | "}
-        {rental.dogs ? "Dogs Allowed" : "No Dogs"}
-        {" | "}
-        {rental.smoking
-          ? "Smoking Allowed"
-          : "No Smoking"}
-      </p>
+            <div className={styles.specsWrapper}>
+              
+              <div>
+                <p className={styles.label}>
+                  Pricing
+                </p>
 
-      <p>
-        Available in {rental.availability_days} days
-      </p>
+                <p className={styles.price}>
+                  $
+                  {rental.price.toLocaleString()}
+                </p>
+              </div>
 
-      <Link to={`/details/${rental.id}`}>
-        View Details
-      </Link>
+              <div>
+                <p className={styles.label}>
+                  Specs
+                </p>
+
+                <p className={styles.specs}>
+                  {rental.beds} BD //{" "}
+                  {rental.baths} BA //{" "}
+                  {rental.squareFeet} SQFT
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* STATUS PANEL */}
+          <div className={styles.statusPanel}>
+            
+            <div className={statusBadge(rental.cats)}>
+              Cats {rental.cats ? "✓" : "×"}
+            </div>
+
+            <div className={statusBadge(rental.dogs)}>
+              Dogs {rental.dogs ? "✓" : "×"}
+            </div>
+
+            <div className={statusBadge(rental.smoking)}>
+              Smoke{" "}
+              {rental.smoking ? "✓" : "×"}
+            </div>
+
+            <div className={styles.availabilityWrapper}>
+              <p className={styles.availabilityText}>
+                Availability
+              </p>
+
+              <p className={styles.availabilityDays}>
+                T-MINUS{" "}
+                {rental.availability_days} DAYS
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <Link
+          to={`/details/${rental.id}`}
+          className={styles.footerLink}
+        >
+          Open Listing Details
+        </Link>
+      </div>
     </li>
   );
 }

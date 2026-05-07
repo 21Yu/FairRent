@@ -7,6 +7,8 @@ import Layout from "../components/layout/Layout";
 
 import type { RentalType } from "../models/RentalType";
 
+import { mainPageStyles as styles } from "../styles/mainPage.styles";
+
 function MainPage() {
   const [filters, setFilters] = useState({
     price: "",
@@ -23,7 +25,8 @@ function MainPage() {
     west: number;
   } | null>(null);
 
-  const [rentals, setRentals] = useState<RentalType[]>([]);
+  const [rentals, setRentals] =
+    useState<RentalType[]>([]);
 
   useEffect(() => {
     if (!bounds) return;
@@ -82,12 +85,9 @@ function MainPage() {
               item.type_apartment,
             type_basement:
               item.type_basement,
-            type_duplex:
-              item.type_duplex,
-            type_house:
-              item.type_house,
-            type_other:
-              item.type_other,
+            type_duplex: item.type_duplex,
+            type_house: item.type_house,
+            type_other: item.type_other,
             type_townhouse:
               item.type_townhouse,
             furnishing_furnished:
@@ -113,16 +113,37 @@ function MainPage() {
 
   return (
     <Layout>
-      <FilterForm
-        onFormSubmit={setFilters}
-      />
+      <div className={styles.wrapper}>
+        
+        {/* FILTER */}
+        <section className={styles.filterBar}>
+          <FilterForm
+            onFormSubmit={setFilters}
+          />
+        </section>
 
-      <Map
-        rentals={rentals}
-        onBoundsChange={setBounds}
-      />
+        {/* MAIN */}
+        <main className={styles.main}>
+          
+          {/* SIDEBAR */}
+          <section className={styles.sidebar}>
+            <SideBar rentals={rentals} />
+          </section>
 
-      <SideBar rentals={rentals} />
+          {/* MAP */}
+          <section className={styles.mapSection}>
+            <Map
+              rentals={rentals}
+              onBoundsChange={setBounds}
+            />
+
+            <div className={styles.overlay}>
+              Engine_Active //{" "}
+              {rentals.length} Nodes Found
+            </div>
+          </section>
+        </main>
+      </div>
     </Layout>
   );
 }

@@ -1,51 +1,36 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import type { RentalType } from "../models/RentalType";
 import Layout from "../components/layout/Layout";
+
+import { detailStyles as styles } from "../styles/detailPage.styles";
 
 export default function DetailPage() {
   const { id } = useParams();
 
-  const [rental, setRental] = useState<RentalType | null>(null);
-  const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
+  const [rental, setRental] =
+    useState<RentalType | null>(null);
+
+  const [predictedPrice, setPredictedPrice] =
+    useState<number | null>(null);
+
+  const [isPredicting, setIsPredicting] =
+    useState(false);
 
   useEffect(() => {
     async function fetchRental() {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/rental?id=${id}`);
+        const res = await fetch(
+          `http://127.0.0.1:8000/rental?id=${id}`
+        );
         const data = await res.json();
-
-        const rentalData: RentalType = {
-          id: data.rentfaster_id,
-          city: data.city,
-          province: data.province,
-          address: data.address,
-          latitude: data.latitude,
-          longitude: data.longitude,
-          price: data.price,
-          beds: data.beds,
-          baths: data.baths,
-          squareFeet: data.sq_feet,
-          smoking: data.smoking,
-          cats: data.cats,
-          dogs: data.dogs,
-          location_freq: data.location_freq,
-          lease_term_months: data.lease_term_months,
-          type_apartment: data.type_apartment,
-          type_basement: data.type_basement,
-          type_duplex: data.type_duplex,
-          type_house: data.type_house,
-          type_other: data.type_other,
-          type_townhouse: data.type_townhouse,
-          furnishing_furnished: data.furnishing_furnished,
-          furnishing_negotiable: data.furnishing_negotiable,
-          furnishing_unfurnished: data.furnishing_unfurnished,
-          availability_days: data.availability_days,
-        };
-
-        setRental(rentalData);
+        setRental(data);
       } catch (err) {
-        console.error("Failed to fetch rental:", err);
+        console.error(
+          "Failed to fetch rental:",
+          err
+        );
       }
     }
 
@@ -53,68 +38,251 @@ export default function DetailPage() {
   }, [id]);
 
   async function fetchPredictedPrice() {
+    setIsPredicting(true);
+
     try {
-      const res = await fetch(`http://127.0.0.1:8000/predict?id=${id}`);
+      const res = await fetch(
+        `http://127.0.0.1:8000/predict?id=${id}`
+      );
+
       const data = await res.json();
 
       setPredictedPrice(data);
     } catch (err) {
-      console.error("Failed to fetch predicted price:", err);
+      console.error(
+        "Failed to fetch predicted price:",
+        err
+      );
+    } finally {
+      setIsPredicting(false);
     }
   }
 
   if (!rental) {
-    return <div>Loading rental details...</div>;
+    return (
+      <Layout>
+        <div className="p-20 text-center font-bold animate-pulse uppercase tracking-[0.5em]">
+          Loading_System_Data...
+        </div>
+      </Layout>
+    );
   }
 
   return (
     <Layout>
-      <div>
-        <h1>{rental.address}</h1>
+      <div className={styles.container}>
+        
+        {/* HEADER */}
+        <div className={styles.header}>
+          <div>
+            <h1 className={styles.title}>
+              {rental.address}
+            </h1>
 
-        <p>
-          {rental.city}, {rental.province}
-        </p>
+            <p className={styles.subtitle}>
+              {rental.city} //{" "}
+              {rental.province}
+            </p>
+          </div>
 
-        <p>
-          Monthly Rent: <strong>${rental.price}</strong>
-        </p>
+          <div className={styles.idBox}>
+            ID_{id}
+          </div>
+        </div>
 
-        <p>
-          {rental.beds} Beds • {rental.baths} Baths •{" "}
-          {rental.squareFeet} sq ft
-        </p>
+        <div className={styles.grid}>
+          
+          {/* MAIN */}
+          <div className={styles.main}>
+            
+            <div className={styles.specsGrid}>
+              {[
+                {
+                  label: "Beds",
+                  value: rental.beds,
+                },
+                {
+                  label: "Baths",
+                  value: rental.baths,
+                },
+                {
+                  label: "Sq Ft",
+                  value:
+                    rental.squareFeet,
+                },
+              ].map((spec) => (
+                <div
+                  key={spec.label}
+                  className={
+                    styles.specCard
+                  }
+                >
+                  <p
+                    className={
+                      styles.specLabel
+                    }
+                  >
+                    {spec.label}
+                  </p>
 
-        <p>
-          Lease Term: {rental.lease_term_months} months
-        </p>
+                  <p
+                    className={
+                      styles.specValue
+                    }
+                  >
+                    {spec.value}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-        <p>
-          Available In: {rental.availability_days} days
-        </p>
+            <div>
+              <h3
+                className={
+                  styles.sectionTitle
+                }
+              >
+                Technical Parameters
+              </h3>
 
-        <p>
-          Pets:
-          {" "}
-          {rental.cats ? "Cats Allowed" : "No Cats"}
-          {" | "}
-          {rental.dogs ? "Dogs Allowed" : "No Dogs"}
-        </p>
+              <div
+                className={
+                  styles.technicalGrid
+                }
+              >
+                <div className={styles.row}>
+                  <span>
+                    Lease Term
+                  </span>
+                  <span>
+                    {
+                      rental.lease_term_months
+                    }{" "}
+                    Months
+                  </span>
+                </div>
 
-        <p>
-          Smoking: {rental.smoking ? "Allowed" : "Not Allowed"}
-        </p>
+                <div className={styles.row}>
+                  <span>
+                    Availability
+                  </span>
+                  <span>
+                    {
+                      rental.availability_days
+                    }{" "}
+                    Days
+                  </span>
+                </div>
+
+                <div className={styles.row}>
+                  <span>Cats</span>
+                  <span
+                    className={
+                      rental.cats
+                        ? styles.allowed
+                        : ""
+                    }
+                  >
+                    {rental.cats
+                      ? "ALLOWED"
+                      : "NONE"}
+                  </span>
+                </div>
+
+                <div className={styles.row}>
+                  <span>Dogs</span>
+                  <span
+                    className={
+                      rental.dogs
+                        ? styles.allowed
+                        : ""
+                    }
+                  >
+                    {rental.dogs
+                      ? "ALLOWED"
+                      : "NONE"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SIDE */}
+          <div className={styles.side}>
+            
+            <div>
+              <label className={styles.label}>
+                Current Rent
+              </label>
+
+              <p className={styles.price}>
+                ${rental.price}
+              </p>
+
+              <p className={styles.smallText}>
+                Per Month / Fixed
+              </p>
+            </div>
+
+            <div>
+              <button
+                onClick={
+                  fetchPredictedPrice
+                }
+                disabled={isPredicting}
+                className={styles.button(
+                  isPredicting
+                )}
+              >
+                {isPredicting
+                  ? "Calculating..."
+                  : "Predict Market Price"}
+              </button>
+
+              {predictedPrice !==
+                null && (
+                <div
+                  className={
+                    styles.predictionBox
+                  }
+                >
+                  <label
+                    className={
+                      styles.predictionLabel
+                    }
+                  >
+                    ML_Prediction_Output
+                  </label>
+
+                  <p className="text-[36px] font-bold tabular-nums">
+                    ${predictedPrice}
+                  </p>
+
+                  <div
+                    className={
+                      styles.barBg
+                    }
+                  >
+                    <div
+                      className={
+                        styles.barFill
+                      }
+                      style={{
+                        width: `${Math.min(
+                          (predictedPrice /
+                            rental.price) *
+                            50,
+                          100
+                        )}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <button onClick={fetchPredictedPrice}>
-        Predict Rental Price
-      </button>
-
-      {predictedPrice !== null && (
-        <p>
-          Predicted Price: <strong>${predictedPrice}</strong>
-        </p>
-      )}
     </Layout>
   );
 }

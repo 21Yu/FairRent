@@ -3,8 +3,11 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { RentalType } from "../models/RentalType";
 
+import { mapStyles as styles } from "../styles/map.styles";
+
 type MapProps = {
   rentals: RentalType[];
+
   onBoundsChange: (bounds: {
     north: number;
     south: number;
@@ -18,8 +21,11 @@ export default function Map({
   onBoundsChange,
 }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
+
   const leafletMapRef = useRef<L.Map | null>(null);
-  const markersLayerRef = useRef<L.LayerGroup | null>(null);
+
+  const markersLayerRef =
+    useRef<L.LayerGroup | null>(null);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -30,9 +36,9 @@ export default function Map({
     }).setView([49.2827, -123.1207], 11);
 
     L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",
       {
-        attribution: "© OpenStreetMap © CARTO",
+        attribution: "© CARTO",
       }
     ).addTo(map);
 
@@ -69,48 +75,75 @@ export default function Map({
 
     markersLayer.clearLayers();
 
+    const customIcon = L.divIcon({
+      className: "ableton-marker",
+
+      html: `<div class="${styles.marker}"></div>`,
+
+      iconSize: [16, 16],
+    });
+
     rentals.forEach((rental) => {
       const popupContent = `
-        <div>
-          <h3>${rental.address}</h3>
+        <div class="${styles.popup.container}">
+          
+          <h3 class="${styles.popup.title}">
+            ${rental.address}
+          </h3>
 
-          <p>
+          <p class="${styles.popup.location}">
             ${rental.city}, ${rental.province}
           </p>
 
-          <p>
-            <strong>$${rental.price.toLocaleString()}</strong> / month
-          </p>
+          <div class="${styles.popup.footer}">
+            
+            <div>
+              <p class="${styles.popup.price}">
+                $${rental.price}
+              </p>
 
-          <p>
-            ${rental.beds} beds •
-            ${rental.baths} baths •
-            ${rental.squareFeet} sq ft
-          </p>
+              <p class="${styles.popup.perMonth}">
+                Per Month
+              </p>
+            </div>
 
-          <a
-            href="/details/${rental.id}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View Details
-          </a>
+            <a
+              href="/details/${rental.id}"
+              target="_blank"
+              class="${styles.popup.button}"
+            >
+              Details
+            </a>
+          </div>
         </div>
       `;
 
-      L.marker([rental.latitude, rental.longitude])
-        .bindPopup(popupContent)
+      L.marker(
+        [rental.latitude, rental.longitude],
+        {
+          icon: customIcon,
+        }
+      )
+        .bindPopup(popupContent, {
+          className: "ableton-popup",
+          maxWidth: 250,
+        })
         .addTo(markersLayer);
     });
   }, [rentals]);
 
   return (
-    <div
-      ref={mapRef}
-      style={{
-        height: "50vh",
-        width: "50%",
-      }}
-    />
+    <div className={styles.container}>
+      <div className={styles.overlay}>
+        <p className={styles.overlayText}>
+          Map View // {rentals.length} Results
+        </p>
+      </div>
+
+      <div
+        ref={mapRef}
+        className={styles.map}
+      />
+    </div>
   );
 }
