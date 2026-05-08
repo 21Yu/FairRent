@@ -115,32 +115,24 @@ function MainPage() {
     <Layout>
       <div className={styles.wrapper}>
         
-        {/* FILTER */}
-        <section className={styles.filterBar}>
+        <section>
           <FilterForm
             onFormSubmit={setFilters}
           />
         </section>
 
-        {/* MAIN */}
         <main className={styles.main}>
           
-          {/* SIDEBAR */}
           <section className={styles.sidebar}>
             <SideBar rentals={rentals} />
           </section>
 
-          {/* MAP */}
           <section className={styles.mapSection}>
             <Map
               rentals={rentals}
               onBoundsChange={setBounds}
             />
 
-            <div className={styles.overlay}>
-              Engine_Active //{" "}
-              {rentals.length} Nodes Found
-            </div>
           </section>
         </main>
       </div>

@@ -1,5 +1,3 @@
-// SideBar.tsx
-
 import { useState } from "react";
 
 import type { RentalType } from "../models/RentalType";
@@ -28,7 +26,6 @@ export default function SideBar({
   return (
     <aside className={styles.container}>
       
-      {/* HEADER */}
       <div className={styles.header}>
         
         <h2 className={styles.title}>
@@ -43,7 +40,7 @@ export default function SideBar({
             ascending
           )}
         >
-          <span className={styles.sortLabel}>
+          <span >
             Price:
           </span>
 
@@ -55,7 +52,6 @@ export default function SideBar({
         </button>
       </div>
 
-      {/* CONTENT */}
       <div className={styles.content}>
         {rentals.length === 0 ? (
           
@@ -67,7 +63,7 @@ export default function SideBar({
 
         ) : (
           
-          <ul className={styles.list}>
+          <ul>
             {sortedRentals.map((rental) => (
               <RentalCard
                 key={rental.id}
@@ -78,14 +74,6 @@ export default function SideBar({
         )}
       </div>
 
-      {/* FOOTER */}
-      <div className={styles.footer}>
-        <span>Ready.</span>
-
-        <span className={styles.cpu}>
-          CPU 2%
-        </span>
-      </div>
     </aside>
   );
 }

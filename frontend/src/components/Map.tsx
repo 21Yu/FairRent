@@ -91,7 +91,7 @@ export default function Map({
             ${rental.address}
           </h3>
 
-          <p class="${styles.popup.location}">
+          <p>
             ${rental.city}, ${rental.province}
           </p>
 
@@ -134,12 +134,6 @@ export default function Map({
 
   return (
     <div className={styles.container}>
-      <div className={styles.overlay}>
-        <p className={styles.overlayText}>
-          Map View // {rentals.length} Results
-        </p>
-      </div>
-
       <div
         ref={mapRef}
         className={styles.map}

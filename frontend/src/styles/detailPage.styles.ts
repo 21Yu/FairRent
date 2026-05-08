@@ -1,11 +1,6 @@
 export const detailStyles = {
   container: `
-    max-w-5xl
-    mx-auto
-    p-6
     md:p-12
-    font-sans
-    text-black
   `,
 
   header: `
@@ -14,19 +9,14 @@ export const detailStyles = {
     pb-6
     mb-12
     flex
-    flex-col
-    md:flex-row
     justify-between
     items-baseline
-    gap-4
   `,
 
   title: `
     text-[42px]
     font-bold
     uppercase
-    leading-tight
-    tracking-tighter
   `,
 
   subtitle: `
@@ -34,7 +24,6 @@ export const detailStyles = {
     font-medium
     text-gray-500
     uppercase
-    tracking-widest
   `,
 
   idBox: `
@@ -63,7 +52,6 @@ export const detailStyles = {
     grid-cols-3
     gap-1
     border-2
-    border-black
     bg-black
   `,
 
@@ -79,13 +67,11 @@ export const detailStyles = {
     uppercase
     tracking-widest
     text-gray-400
-    mb-1
   `,
 
   specValue: `
     text-[32px]
     font-bold
-    tabular-nums
   `,
 
   sectionTitle: `
@@ -128,9 +114,6 @@ export const detailStyles = {
     border-black
     p-8
     space-y-8
-    flex
-    flex-col
-    h-fit
   `,
 
   label: `
@@ -145,8 +128,6 @@ export const detailStyles = {
   price: `
     text-[48px]
     font-bold
-    tabular-nums
-    leading-none
   `,
 
   smallText: `
@@ -166,8 +147,6 @@ export const detailStyles = {
     border-2
     border-black
     transition-all
-    shadow-[4px_4px_0px_rgba(0,0,0,1)]
-    active:shadow-none
     active:translate-x-[2px]
     active:translate-y-[2px]
 
@@ -197,15 +176,4 @@ export const detailStyles = {
     text-[#fbffa7]
   `,
 
-  barBg: `
-    mt-4
-    h-1
-    w-full
-    bg-gray-800
-  `,
-
-  barFill: `
-    h-full
-    bg-[#00ff00]
-  `,
 };

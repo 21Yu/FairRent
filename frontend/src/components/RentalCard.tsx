@@ -19,7 +19,6 @@ export default function RentalCard({
     <li className={styles.listItem}>
       <div className={styles.card}>
         
-        {/* HEADER BAR */}
         <div className={styles.header}>
           <h3 className={styles.title}>
             {rental.address}
@@ -67,8 +66,8 @@ export default function RentalCard({
                 </p>
 
                 <p className={styles.specs}>
-                  {rental.beds} BD //{" "}
-                  {rental.baths} BA //{" "}
+                  {rental.beds} BD {" "}
+                  {rental.baths} BA {" "}
                   {rental.squareFeet} SQFT
                 </p>
               </div>
@@ -97,7 +96,7 @@ export default function RentalCard({
               </p>
 
               <p className={styles.availabilityDays}>
-                T-MINUS{" "}
+                IN{" "}
                 {rental.availability_days} DAYS
               </p>
             </div>

@@ -14,27 +14,6 @@
   }
 }
 
-/* 2. CUSTOM SCROLLBAR (Technical/Minimalist) */
-@layer utilities {
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: #d1d1d1;
-    border-left: 1px solid #000;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #000;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #0000ff; /* Accent blue on hover */
-  }
-}
-
 /* 3. LEAFLET BRUTALIST OVERRIDES */
 /* These force the map popups and controls to match the rest of the UI */
 .leaflet-container {
@@ -46,7 +25,6 @@
   background: #ffffff !important;
   color: #000000 !important;
   border: 2px solid #000000 !important;
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 1) !important;
   padding: 0px !important;
 }
 

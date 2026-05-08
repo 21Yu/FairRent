@@ -1,18 +1,12 @@
 export const rentalCardStyles = {
   listItem: `
-    list-none
     mb-6
-    group
   `,
 
   card: `
     border-2
     border-black
     bg-white
-    transition-transform
-    duration-75
-    hover:-translate-y-1
-    hover:shadow-[8px_8px_0px_rgba(0,0,0,1)]
   `,
 
   header: `
@@ -28,8 +22,6 @@ export const rentalCardStyles = {
     text-[16px]
     font-bold
     uppercase
-    tracking-tight
-    truncate
   `,
 
   unitId: `
@@ -43,9 +35,6 @@ export const rentalCardStyles = {
   content: `
     p-4
     flex
-    flex-col
-    md:flex-row
-    gap-6
   `,
 
   infoSection: `
@@ -64,7 +53,6 @@ export const rentalCardStyles = {
   location: `
     text-[18px]
     font-medium
-    leading-none
   `,
 
   specsWrapper: `
@@ -75,23 +63,18 @@ export const rentalCardStyles = {
   price: `
     text-[24px]
     font-bold
-    tabular-nums
-    leading-none
   `,
 
   specs: `
     text-[14px]
     font-bold
     uppercase
-    leading-none
-    mt-2
   `,
 
   statusPanel: `
     flex
     flex-col
     gap-2
-    min-w-[140px]
     border-l-0
     md:border-l-2
     border-black
@@ -113,7 +96,6 @@ export const rentalCardStyles = {
   availabilityDays: `
     text-[12px]
     font-bold
-    tabular-nums
   `,
 
   footerLink: `
@@ -125,7 +107,6 @@ export const rentalCardStyles = {
     text-center
     font-bold
     uppercase
-    tracking-[0.2em]
     bg-[#fbffa7]
     hover:bg-[#0000ff]
     hover:text-white
@@ -133,7 +114,7 @@ export const rentalCardStyles = {
   `,
 };
 
-export const statusBadge = (allowed: boolean) => `
+export const statusBadge = (allowed: number) => `
   text-[10px]
   font-bold
   uppercase
