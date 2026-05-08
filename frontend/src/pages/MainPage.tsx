@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import FilterForm from "../components/FilterForm";
 import SideBar from "../components/SideBar";
 import Layout from "../components/layout/Layout";
+import type { RentalApiResponse } from "../models/RentalApiResponse";
 
 import type { RentalType } from "../models/RentalType";
 
@@ -41,7 +42,7 @@ function MainPage() {
       try {
         const cleanFilters = Object.fromEntries(
           Object.entries(filters).filter(
-            ([_, value]) => value !== ""
+            (entry) => entry[1] !== ""
           )
         );
 
@@ -64,7 +65,7 @@ function MainPage() {
         const data = await res.json();
 
         const mapped: RentalType[] = data.map(
-          (item: any) => ({
+          (item: RentalApiResponse) => ({
             id: item.rentfaster_id,
             city: item.city,
             province: item.province,

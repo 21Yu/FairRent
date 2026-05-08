@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { filterFormStyles as styles } from "../styles/filterForm.styles";
+import { useWatch } from "react-hook-form";
 
 type FilterFormValues = {
-  price: number;
+  price: string;
   type: string;
-  beds: number;
-  baths: number;
-  squareFeet: number;
+  beds: string;
+  baths: string;
+  squareFeet: string;
 };
 
 type FilterFormProps = {
@@ -19,16 +20,23 @@ export default function FilterForm({
   const {
     register,
     handleSubmit,
-    watch,
+    control,
   } = useForm<FilterFormValues>({
     defaultValues: {
-      price: 2500,
-      squareFeet: 1000,
+      price: "2500",
+      squareFeet: "1000",
     },
   });
 
-  const selectedPrice = watch("price");
-  const selectedSquareFeet = watch("squareFeet");
+  const selectedPrice = useWatch({
+    control,
+    name: "price",
+  });
+
+  const selectedSquareFeet = useWatch({
+    control,
+    name: "squareFeet",
+  });
 
   function onSubmit(data: FilterFormValues) {
     onFormSubmit(data);
