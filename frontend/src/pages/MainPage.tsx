@@ -59,7 +59,7 @@ function MainPage() {
         ).toString();
 
         const res = await fetch(
-          `http://127.0.0.1:8000/rentals?${query}`
+          `https://fairrent-api.onrender.com/rentals?${query}`
         );
 
         const data = await res.json();

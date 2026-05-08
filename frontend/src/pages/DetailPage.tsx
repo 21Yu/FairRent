@@ -22,7 +22,7 @@ export default function DetailPage() {
     async function fetchRental() {
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/rental?id=${id}`
+          `https://fairrent-api.onrender.com/rental?id=${id}`
         );
         const data = await res.json();
 
