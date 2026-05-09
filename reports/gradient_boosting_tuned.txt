@@ -1,34 +1,37 @@
 
-==========================
-Tuned Gradient Boosting Report
-==========================
+===== Tuned Gradient Boosting Report =====
 
 Best Parameters:
-{'learning_rate': np.float64(0.04161672243363989), 'max_depth': 5, 'n_estimators': 472, 'subsample': np.float64(0.9202230023486418)}
+{'learning_rate': np.float64(0.07617876512442981), 'max_depth': 5, 'n_estimators': 466, 'subsample': np.float64(0.9366527037650917)}
 
-Best Cross-Validation R²: 0.6597
+Best Cross-Validation R²: 0.6870
 
 ===== Test Set Performance =====
-RMSE: 413.44
-MAE: 254.33
-R²: 0.7284
+RMSE: 506.04
+MAE: 235.51
+R²: 0.7083
 
 ===== Feature Importances =====
-           Feature  Importance
-             baths    0.312127
-location_avg_price    0.290748
-           sq_feet    0.208926
-              beds    0.073669
-    type_apartment    0.020566
- lease_term_months    0.019710
-        furnishing    0.019528
- availability_days    0.014680
-              dogs    0.013662
-     type_basement    0.010983
-        type_house    0.007603
-              cats    0.005050
-    type_townhouse    0.001645
-           smoking    0.000866
-       type_duplex    0.000237
+               Feature  Importance
+                 baths    0.241612
+              latitude    0.215933
+               sq_feet    0.137137
+             longitude    0.122517
+                  beds    0.083973
+     lease_term_months    0.052051
+         location_freq    0.048363
+     availability_days    0.025668
+  furnishing_furnished    0.014384
+        type_apartment    0.013686
+            type_house    0.013018
+                  dogs    0.010367
+furnishing_unfurnished    0.007858
+            type_other    0.005080
+                  cats    0.004017
+         type_basement    0.001973
+        type_townhouse    0.001348
+ furnishing_negotiable    0.000540
+           type_duplex    0.000272
+               smoking    0.000202
 
 Model and scaler saved to 'models/' directory.

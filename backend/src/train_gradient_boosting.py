@@ -7,14 +7,15 @@ import joblib
 import os
 
 # Load processed data
-data = pd.read_csv("data/processed/rentfaster_clean.csv")
+data = pd.read_csv("data/processed/rentfaster_training.csv")
 
 # Define features & target
 features = [
-    'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
-    'cats', 'dogs', 'availability_days', 'type_apartment',
-    'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-    'lease_term_months', 'location_avg_price'
+    'latitude', 'longitude', 'beds', 'baths', 'sq_feet',
+    'smoking', 'cats', 'dogs', 'location_freq', 'lease_term_months',
+    'type_apartment', 'type_basement', 'type_duplex', 'type_house',
+    'type_other', 'type_townhouse', 'furnishing_furnished', 'furnishing_negotiable',
+    'furnishing_unfurnished', 'availability_days'
 ]
 target = 'price'
 
@@ -67,8 +68,7 @@ max_depth = 4
 random_state = 42
 """
 
-os.makedirs("reports", exist_ok=True)
-with open("reports/gradient_boosting_report.txt", "w", encoding="utf-8") as f:
+with open("../reports/gradient_boosting_report.txt", "w", encoding="utf-8") as f:
     f.write(report_text)
 
 print("\nModel and report saved successfully!")

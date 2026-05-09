@@ -1,9 +1,9 @@
 
 Gradient Boosting Regression Report
 ====================================
-RMSE: 433.38
-MAE: 268.62
-R²: 0.7015
+RMSE: 548.57
+MAE: 276.87
+R²: 0.6572
 
 Model Parameters:
 -----------------

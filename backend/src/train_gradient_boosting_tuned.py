@@ -8,14 +8,15 @@ import joblib
 import os
 
 # Load data
-data = pd.read_csv("data/processed/rentfaster_clean.csv")
+data = pd.read_csv("data/processed/rentfaster_training.csv")
 
 # Define features and target
 features = [
-    'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
-    'cats', 'dogs', 'availability_days', 'type_apartment',
-    'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-    'lease_term_months', 'location_avg_price'
+    'latitude', 'longitude', 'beds', 'baths', 'sq_feet',
+    'smoking', 'cats', 'dogs', 'location_freq', 'lease_term_months',
+    'type_apartment', 'type_basement', 'type_duplex', 'type_house',
+    'type_other', 'type_townhouse', 'furnishing_furnished', 'furnishing_negotiable',
+    'furnishing_unfurnished', 'availability_days'
 ]
 target = 'price'
 
@@ -68,7 +69,6 @@ importance_df = pd.DataFrame({
 
 # Create output directories
 os.makedirs("models", exist_ok=True)
-os.makedirs("reports", exist_ok=True)
 
 # Save model 
 joblib.dump(best_model, "models/gradient_boosting_tuned.pkl")
@@ -94,7 +94,7 @@ Model and scaler saved to 'models/' directory.
 """
 
 # Save report to file
-report_path = "reports/gradient_boosting_tuned.txt"
+report_path = "../reports/gradient_boosting_tuned.txt"
 with open(report_path, "w", encoding="utf-8") as f:
     f.write(report_text)
 

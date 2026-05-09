@@ -1,75 +1,126 @@
-# FairRent
+# FairRent 2.0
 
 ## Overview
-The **FairRent** project uses **machine learning** to estimate rental prices based on property features. The model was trained on real estate data containing details such as property type, number of bedrooms and bathrooms, location, lease term, and other rental conditions.
+**FairRent** is a full-stack web application that helps users navigate the rental market using **Machine Learning**. By comparing real-time listings with predicted market values, the app identifies whether a rental price is **"Fair," "Overpriced," or a "Deal."**
 
 ## Live Demo
-https://fair-rent-five.vercel.app
+[FairRent Live Demo](https://fair-rent-five.vercel.app)
 
-## Screenshots
-![](screenshots/Screenshot1.png)
-![](screenshots/Screenshot2.png)
+## Tech Stack
 
-## Project Workflow
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React, TypeScript, Tailwind CSS |
+| **Mapping** | Leaflet, React-Leaflet |
+| **Backend** | Python, FastAPI, Uvicorn |
+| **ML/Data** | XGBoost, Scikit-learn, Pandas, Joblib, NumPy |
+| **Deployment** | Vercel (Frontend), Render (Backend) |
 
-### Data Cleaning & Preprocessing
-This was the most challenging and critical part of the project.
-- **Dropped uninformative columns**: `rentfaster_id`, `address`, and `link` were removed.
-- **Handled missing and NaN values** throughout the dataset.
-- **Feature transformation & encoding**:
-  - Created **average price per city/province** to capture local price context.
-  - Applied **one-hot encoding** for `type` and other categorical features.
-  - **Mapped lease terms** to numeric months.
-  - **Encoded smoking policy**: `smoke free` → 1, `non smoking` → 0.
-- Final cleaned dataset size reduced from **25,772 rows to 13,581 rows** after filtering invalid or incomplete entries.
+## System Architecture
 
-## Model Development
+The project follows a modern **client-server architecture**.
 
-| Model | RMSE | MAE | R² | Notes |
-|:------|:------|:------|:------|:------|
-| **Linear Regression** | 511.77 | 318.15 | 0.5838 | Baseline model |
-| **Gradient Boosting Regressor** | 433.38 | 268.62 | 0.7015 | Significant improvement |
-| **Tuned Gradient Boosting** | 413.44 | 254.33 | 0.7284 | Better performance via RandomizedSearchCV |
-| **XGBoost Regressor (Final)** | **393.03** | **248.13** | **0.7441** | Best performance |
+### FastAPI Backend
+- Serves rental data from a processed CSV
+- Handles complex filtering logic
+- Hosts the inference endpoint for the XGBoost model
 
-## Results & Insights
+### React Frontend
+- Responsive, map-heavy dashboard
+- Synchronizes map bounds with the rental listings sidebar
 
-### **Feature Importance**
-The most influential features in the final XGBoost model:
-1. **baths**
-2. **type_basement**
-3. **location_avg_price**
+### ML Pipeline & Feature Engineering
+Automated scripts handle:
+- Cleaning raw rental data
+- Performing feature engineering
+- Exporting the trained model for API inference
 
-![Feature Importance](reports/plots/feature_importance_xqb.png)
+## Key Features
 
-### **Predicted vs Actual**
-- Predicted and actual rents are **very close** for prices **below $4,000**.
-- Above $4,000, the model tends to **underestimate high-value rentals**.
+### Interactive Map Discovery
+- **Leaflet Integration** for geographic rental visualization
+- **Dynamic Bounds Filtering** updates listings based on visible map area
 
-![Predicted vs Actual](reports/plots/predicted_vs_actual_xqb.png)
+### Rental Cards Display
+- Bedrooms
+- Bathrooms
+- Square footage
+- Pricing
 
-## Tools & Libraries
-- Python 3.11
-- Pandas, NumPy
-- scikit-learn
-- XGBoost
-- Matplotlib
-- Streamlit
-- Joblib
+### Advanced Filtering
+Users can filter listings in real time by:
+- Maximum price
+- Property type
+  - House
+  - Apartment
+  - Basement
+  - etc.
+- Bedrooms
+- Bathrooms
+- Maximum square footage
 
-## How to Run
+### AI Price Prediction
+On the details page, users can click **Predict Price** to:
+
+1. Call the FastAPI `/predict` endpoint
+2. Compare:
+   - Actual listing price
+   - Predicted market value
+3. Receive a visual indicator showing whether the listing is:
+   - Fairly priced
+   - Overpriced
+   - A good deal
+
+## Data & Machine Learning
+
+### ML Pipeline Stages
+
+#### 1. Data Ingestion
+- Load raw rental datasets
+
+#### 2. Preprocessing
+- Handle missing (`NaN`) values
+- Mixed-type handling
+- Remove empty strings and duplicates
+- Encode smoking policies
+- Normalize lease terms
+
+#### 3. Feature Engineering
+- Calculate city-wide average rental prices
+- Add regional pricing context
+- Create new features from existing data
+- K-Means clustering
+- One-hot encoding
+
+#### 4. Model Selection
+Evaluated multiple regression models:
+- Linear Regression
+- Gradient Boosting
+- XGBoost Regressor
+
+## Model Performance
+
+| Model | RMSE | MAE | R² |
+| :--- | :---: | :---: | :---: |
+| Linear Regression | 725.26 | 401.00 | 0.4008 |
+| Gradient Boosting | 548.57 | 276.87 | 0.6572 |
+| Tuned Gradient Boosting | 506.04 | 235.51 | 0.7083 |
+| XGBoost (Final) | 511.99 | 230.43 | 0.7014 |
+
+## Getting Started
+
+### Backend (Python)
+
 ```bash
-git clone 
-cd FairRent
+cd backend
 pip install -r requirements.txt
-streamlit run app/app.py
+uvicorn app.main:app --reload
 ```
 
-## Key Learnings
-- Gained hands-on experience in **real-world data cleaning** and **feature engineering**.
-- Learned how to tune and interpret **machine learning regressors**.
-- Improved model accuracy through experimentation and hyperparameter tuning.
-- Created professional visualizations for **model explainability**.
+### Frontend (React)
 
-## Report
-See the full summary in `reports/final_report.md`.
+```bash
+cd frontend
+npm install
+npm run dev
+```

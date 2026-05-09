@@ -84,7 +84,6 @@ importance_df = pd.DataFrame({
 
 # create output directories
 os.makedirs("models", exist_ok=True)
-os.makedirs("reports", exist_ok=True)
 
 #save model
 joblib.dump(best_model, "models/xgb_boosting_tuned.pkl")
@@ -109,7 +108,7 @@ R²: {r2:.4f}
 """
 
 #save report to file 
-report_path = "reports/xgb_boosting_tuned.txt"
+report_path = "../reports/xgb_boosting_tuned.txt"
 with open(report_path, "w", encoding="utf-8") as f:
     f.write(report_text)
 
@@ -120,7 +119,7 @@ plt.xlabel('Importance')
 plt.title('Feature Importances')
 plt.gca().invert_yaxis()  # largest on top
 os.makedirs("reports/plots", exist_ok=True)
-plt.savefig("reports/plots/feature_importance_xqb.png", bbox_inches='tight')
+plt.savefig("../reports/plots/feature_importance_xqb.png", bbox_inches='tight')
 plt.close()
 
 # save predict actual plot
@@ -130,7 +129,7 @@ plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
 plt.xlabel('Actual Rent')
 plt.ylabel('Predicted Rent')
 plt.title('Predicted vs Actual Rent')
-plt.savefig("reports/plots/predicted_vs_actual_xqb.png", bbox_inches='tight')
+plt.savefig("../reports/plots/predicted_vs_actual_xqb.png", bbox_inches='tight')
 plt.close()
 
 print(f"Report saved to: {report_path}")

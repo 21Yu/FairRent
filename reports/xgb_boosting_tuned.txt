@@ -2,31 +2,37 @@
 ===== RXGBoost Regression report ===== 
 
 Best Parameters:
-{'colsample_bytree': np.float64(0.7566121325024138), 'learning_rate': np.float64(0.05183070288882728), 'max_depth': 5, 'n_estimators': 503, 'subsample': np.float64(0.9539983426714918)}
+{'colsample_bytree': np.float64(0.8166031869068445), 'learning_rate': np.float64(0.05070235476608439), 'max_depth': 7, 'n_estimators': 479, 'subsample': np.float64(0.8070259980080767)}
 
-Best Cross-Validation R²: 0.6599
+Best Cross-Validation R²: 0.7029
 
 ===== Test Set Performance =====
-RMSE: 393.03
-MAE: 248.13
-R²: 0.7441
+RMSE: 511.99
+MAE: 230.43
+R²: 0.7014
 
 ===== Feature Importances =====
-           Feature  Importance
-             baths    0.198555
-     type_basement    0.142681
-location_avg_price    0.142385
-              beds    0.090235
-           sq_feet    0.079962
-    type_apartment    0.069034
-        type_house    0.056000
-              dogs    0.050426
- lease_term_months    0.045349
-        furnishing    0.038758
-              cats    0.026296
- availability_days    0.019051
-    type_townhouse    0.018651
-           smoking    0.017418
-       type_duplex    0.005200
+               Feature  Importance
+                 baths    0.188847
+     lease_term_months    0.093418
+            type_house    0.091164
+                  beds    0.072461
+           geo_cluster    0.058540
+            type_other    0.051851
+              latitude    0.046335
+        type_apartment    0.044094
+furnishing_unfurnished    0.040890
+               sq_feet    0.038435
+  furnishing_furnished    0.035839
+             longitude    0.034333
+         type_basement    0.033633
+          room_density    0.031595
+         location_freq    0.031322
+                  dogs    0.028712
+     availability_days    0.025322
+        type_townhouse    0.015363
+                  cats    0.015292
+ furnishing_negotiable    0.008692
+               smoking    0.007614
+           type_duplex    0.006247
 
-Model and scaler saved to 'models/' directory.

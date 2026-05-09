@@ -8,14 +8,16 @@ import joblib
 import os
 
 # Load cleaned data
-data = pd.read_csv("data/processed/rentfaster_clean.csv")
+data = pd.read_csv("data/processed/rentfaster_training.csv")
 
 # Define features and target
 features = [
-        'beds', 'baths', 'sq_feet', 'furnishing', 'smoking',
-        'cats', 'dogs', 'availability_days', 'type_apartment',
-        'type_basement', 'type_duplex', 'type_house', 'type_townhouse',
-        'lease_term_months', 'location_avg_price']
+    'latitude', 'longitude', 'beds', 'baths', 'sq_feet',
+    'smoking', 'cats', 'dogs', 'location_freq', 'lease_term_months',
+    'type_apartment', 'type_basement', 'type_duplex', 'type_house',
+    'type_other', 'type_townhouse', 'furnishing_furnished', 'furnishing_negotiable',
+    'furnishing_unfurnished', 'availability_days'
+]
 
 target = 'price'
 
@@ -61,8 +63,7 @@ Top Features:
 {coef_df.to_string(index=False)}
 """
 
-os.makedirs("reports", exist_ok=True)
-with open("reports/linear_regression_report.txt", "w", encoding="utf-8") as f:
+with open("../reports/linear_regression_report.txt", "w", encoding="utf-8") as f:
     f.write(report_text)
 
 print("\nDetailed report saved to 'reports/linear_regression_report.txt'")
