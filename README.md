@@ -4,7 +4,7 @@
 The **FairRent** project uses **machine learning** to estimate rental prices based on property features. The model was trained on real estate data containing details such as property type, number of bedrooms and bathrooms, location, lease term, and other rental conditions.
 
 ## Live Demo
-https://fairrent-ctbsasemdjtbztbyvxdzdn.streamlit.app
+https://fair-rent-five.vercel.app
 
 ## Screenshots
 ![](screenshots/Screenshot1.png)
