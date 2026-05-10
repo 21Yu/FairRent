@@ -6,6 +6,8 @@ import Layout from "../components/layout/Layout";
 
 import { detailStyles as styles } from "../styles/detailPage.styles";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 export default function DetailPage() {
   const { id } = useParams();
 
@@ -22,7 +24,7 @@ export default function DetailPage() {
     async function fetchRental() {
       try {
         const res = await fetch(
-          `https://fairrent-api.onrender.com/rental?id=${id}`
+          `${baseURL}/rental?id=${id}`
         );
         const data = await res.json();
 
@@ -71,7 +73,7 @@ export default function DetailPage() {
 
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/predict?id=${id}`
+        `${baseURL}/predict?id=${id}`
       );
 
       const data = await res.json();

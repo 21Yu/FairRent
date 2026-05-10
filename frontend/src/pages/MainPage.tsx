@@ -10,6 +10,8 @@ import type { RentalType } from "../models/RentalType";
 
 import { mainPageStyles as styles } from "../styles/mainPage.styles";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 function MainPage() {
   const [filters, setFilters] = useState({
     price: "",
@@ -59,7 +61,7 @@ function MainPage() {
         ).toString();
 
         const res = await fetch(
-          `https://fairrent-api.onrender.com/rentals?${query}`
+          `${baseURL}/rentals?${query}`
         );
 
         const data = await res.json();
