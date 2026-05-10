@@ -47,16 +47,5 @@ export const mapStyles = {
       font-bold
       text-gray-500
     `,
-
-    button: `
-      bg-black
-      text-white
-      text-[10px]
-      px-3
-      py-1
-      font-bold
-      uppercase
-      hover:bg-[#0000ff]
-    `,
   },
 };

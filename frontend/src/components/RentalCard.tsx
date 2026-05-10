@@ -1,5 +1,3 @@
-// RentalCard.tsx
-
 import { Link } from "react-router-dom";
 import type { RentalType } from "../models/RentalType";
 
@@ -34,7 +32,6 @@ export default function RentalCard({
 
         <div className={styles.content}>
           
-          {/* MAIN INFO SECTION */}
           <div className={styles.infoSection}>
             
             <div>
@@ -74,7 +71,6 @@ export default function RentalCard({
             </div>
           </div>
 
-          {/* STATUS PANEL */}
           <div className={styles.statusPanel}>
             
             <div className={statusBadge(rental.cats)}>
@@ -103,7 +99,6 @@ export default function RentalCard({
           </div>
         </div>
 
-        {/* FOOTER */}
         <Link
           to={`/details/${rental.id}`}
           className={styles.footerLink}

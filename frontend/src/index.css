@@ -1,49 +1,16 @@
 @import "tailwindcss";
 
-/* 1. ABLETON GLOBAL THEME */
 @layer base {
   body {
     @apply bg-[#eeeeee] text-black antialiased;
-    /* Ableton uses a very clean sans-serif. Inter or Helvetica are great defaults */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-  /* Remove all default rounding for that "Hardware" look */
   * {
     border-radius: 0 !important;
   }
 }
 
-/* 3. LEAFLET BRUTALIST OVERRIDES */
-/* These force the map popups and controls to match the rest of the UI */
-.leaflet-container {
-  font-family: inherit !important;
-  background: #d1d1d1 !important;
-}
-
-.ableton-popup .leaflet-popup-content-wrapper {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border: 2px solid #000000 !important;
-  padding: 0px !important;
-}
-
-.ableton-popup .leaflet-popup-content {
-  margin: 0 !important;
-  width: auto !important;
-}
-
-.ableton-popup .leaflet-popup-tip-container {
-  display: none; /* Removes the little triangle for a cleaner box look */
-}
-
-.leaflet-popup-close-button {
-  color: #000 !important;
-  font-weight: bold !important;
-  padding: 8px !important;
-}
-
-/* 4. FORM ACCENTS */
 input[type="range"] {
   @apply appearance-none bg-black cursor-crosshair;
 }
@@ -54,5 +21,5 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  @apply opacity-100; /* Keep the technical arrows visible */
+  @apply opacity-100; 
 }

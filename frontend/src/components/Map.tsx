@@ -106,14 +106,6 @@ export default function Map({
                 Per Month
               </p>
             </div>
-
-            <a
-              href="/details/${rental.id}"
-              target="_blank"
-              class="${styles.popup.button}"
-            >
-              Details
-            </a>
           </div>
         </div>
       `;

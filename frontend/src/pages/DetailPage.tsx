@@ -103,7 +103,6 @@ export default function DetailPage() {
     <Layout>
       <div className={styles.container}>
         
-        {/* HEADER */}
         <div className={styles.header}>
           <div>
             <h1 className={styles.title}>
@@ -123,7 +122,6 @@ export default function DetailPage() {
 
         <div className={styles.grid}>
           
-          {/* MAIN */}
           <div className={styles.main}>
             
             <div className={styles.specsGrid}>
@@ -238,7 +236,6 @@ export default function DetailPage() {
             </div>
           </div>
 
-          {/* SIDE */}
           <div className={styles.side}>
             
             <div>
