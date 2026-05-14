@@ -31,6 +31,8 @@ function MainPage() {
   const [rentals, setRentals] =
     useState<RentalType[]>([]);
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     if (!bounds) return;
 
@@ -59,6 +61,8 @@ function MainPage() {
             ])
           )
         ).toString();
+
+        setLoading(true);
 
         const res = await fetch(
           `${baseURL}/rentals?${query}`
@@ -105,6 +109,8 @@ function MainPage() {
         );
 
         setRentals(mapped);
+
+        setLoading(false);
       } catch (err) {
         console.error(
           "Failed to fetch rentals:",
@@ -127,7 +133,7 @@ function MainPage() {
         <main className={styles.main}>
           
           <section className={styles.sidebar}>
-            <SideBar rentals={rentals} />
+            <SideBar rentals={rentals} loading={loading} />
           </section>
 
           <section className={styles.mapSection}>

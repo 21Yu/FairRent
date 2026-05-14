@@ -8,10 +8,11 @@ import { sideBarStyles as styles } from "../styles/sideBar.styles";
 
 type SideBarProps = {
   rentals: RentalType[];
+  loading: boolean;
 };
 
 export default function SideBar({
-  rentals,
+  rentals, loading
 }: SideBarProps) {
   const [ascending, setAscending] =
     useState(true);
@@ -53,16 +54,20 @@ export default function SideBar({
       </div>
 
       <div className={styles.content}>
-        {rentals.length === 0 ? (
-          
-          <div className={styles.emptyState}>
-            <p className={styles.emptyText}>
-              No data matching criteria
-            </p>
-          </div>
+        {loading ? (
+
+          <p className={styles.emptyText}>
+            loading...
+          </p>
+
+        ) : rentals.length === 0 ? (
+
+          <p className={styles.emptyText}>
+            No data matching criteria
+          </p>
 
         ) : (
-          
+
           <ul>
             {sortedRentals.map((rental) => (
               <RentalCard
@@ -71,6 +76,7 @@ export default function SideBar({
               />
             ))}
           </ul>
+          
         )}
       </div>
 

@@ -55,13 +55,10 @@ export const sideBarStyles = {
     overflow-y-auto
   `,
 
-  emptyState: `
-    text-center
-    p-8
-  `,
-
   emptyText: `
+    p-8
     font-bold
+    text-center
     uppercase
     text-gray-500
     tracking-widest
