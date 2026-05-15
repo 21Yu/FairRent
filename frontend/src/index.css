@@ -185,6 +185,152 @@
   }
   .DetailPage_prediction-label { @apply text-[10px] font-bold uppercase tracking-[0.2em] text-[#fbffa7]; }
 
+
+  .FilterForm_form {
+    @apply bg-[#fbffa7] p-10 mx-auto
+  }
+
+  .FilterForm_grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8
+  }
+
+  .FilterForm_label {
+    @apply block text-[14px] font-bold uppercase tracking-wider mb-3
+  }
+
+  .FilterForm_input {
+    @apply w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white outline-none transition-colors duration-100 font-medium
+  }
+
+  .FilterForm_range {
+    @apply w-full h-1 appearance-none
+  }
+
+  .FilterForm_valueText {
+    @apply text-[24px] font-bold tabular-nums
+  }
+
+  .FilterForm_buttonWrapper {
+    @apply mt-12 flex justify-start
+  }
+
+  .FilterForm_button {
+    @apply bg-[#0000ff] text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-black transition-colors
+  } 
+
+
+  .SideBar_container {
+    @apply w-full h-screen bg-[#eeeeee] flex flex-col overflow-hidden
+  }
+
+  .SideBar_header {
+    @apply p-4 bg-[#d1d1d1] flex items-center justify-between
+  }
+
+  .SideBar_title {
+    @apply font-bold uppercase tracking-[0.15em]
+  }
+  
+  .SideBar_content {
+    @apply flex-1 p-4 overflow-y-auto
+  }
+
+  .SideBar_emptyText {
+    @apply p-8 font-bold text-center uppercase text-gray-500 tracking-widest
+  }
+
+  .SideBar_sortButton {
+    @apply flex gap-2 px-3 py-1 border border-black text-[10px] font-bold uppercase transition-all
+  }
+
+  .SideBar_sortButton_ascending {
+    @apply bg-[#ff764d] text-black
+  }
+
+  .SideBar_sortButton_descending {
+    @apply bg-white text-black active:translate-x-[1px] active:translate-y-[1px]
+  }
+
+
+  .RentalCard_listItem {
+    @apply mb-6
+  } 
+
+  .RentalCard_card {
+    @apply border-2 border-black bg-white
+  } 
+
+  .RentalCard_header {
+    @apply bg-black text-white p-3 flex justify-between items-center
+  }
+
+  .RentalCard_title {
+    @apply text-[16px] font-bold uppercase
+  }   
+
+  .RentalCard_unitId {
+    @apply text-[12px] font-mono bg-[#0000ff] px-2 py-1
+  }  
+
+  .RentalCard_content {
+    @apply p-4 flex
+  }  
+
+  .RentalCard_infoSection {
+    @apply flex-1 space-y-4
+  }
+
+  .RentalCard_label {
+    @apply text-[12px] font-bold text-gray-500 uppercase tracking-widest
+  }  
+
+  .RentalCard_location {
+    @apply text-[18px] font-medium
+  }
+  
+  .RentalCard_specsWrapper {
+    @apply flex gap-8
+  }  
+
+  .RentalCard_price {
+    @apply text-[24px] font-bold
+  }  
+
+  .RentalCard_specs {
+    @apply text-[14px] font-bold uppercase
+  }  
+
+  .RentalCard_statusPanel {
+    @apply flex flex-col gap-2 border-l-0 md:border-l-2 border-black md:pl-6
+  }  
+
+  .RentalCard_availabilityWrapper {
+    @apply mt-auto pt-4
+  } 
+
+  .RentalCard_availabilityText {
+    @apply text-[10px] font-bold uppercase text-gray-400
+  } 
+
+  .RentalCard_availabilityDays {
+    @apply text-[12px] font-bold
+  } 
+
+  .RentalCard_footerLink {
+    @apply block w-full border-t-2 border-black p-3 text-center font-bold uppercase bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white transition-colors
+  }
+  
+  .RentalCard_statusBadge {
+    @apply text-[10px] font-bold uppercase px-2 py-0.5 border border-black
+  }
+
+  .RentalCard_allowed {
+    @apply bg-[#b3ffad]
+  }
+
+  .RentalCard_notAllowed {
+    @apply bg-[#ffadad] opacity-50
+  }
 }
 
   input[type="range"] {

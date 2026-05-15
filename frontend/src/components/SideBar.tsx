@@ -4,8 +4,6 @@ import type { RentalType } from "../models/RentalType";
 
 import RentalCard from "./RentalCard";
 
-import { sideBarStyles as styles } from "../styles/sideBar.styles";
-
 type SideBarProps = {
   rentals: RentalType[];
   loading: boolean;
@@ -25,11 +23,11 @@ export default function SideBar({
   );
 
   return (
-    <aside className={styles.container}>
+    <aside className="SideBar_container">
       
-      <div className={styles.header}>
+      <div className="SideBar_header">
         
-        <h2 className={styles.title}>
+        <h2 className="SideBar_title">
           Results ({rentals.length})
         </h2>
 
@@ -37,9 +35,7 @@ export default function SideBar({
           onClick={() =>
             setAscending(!ascending)
           }
-          className={styles.sortButton(
-            ascending
-          )}
+          className={`SideBar_sortButton ${ascending ? 'SideBar_sortButton_ascending' : 'SideBar_sortButton_descending'}`}
         >
           <span >
             Price:
@@ -53,16 +49,16 @@ export default function SideBar({
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className="SideBar_content">
         {loading ? (
 
-          <p className={styles.emptyText}>
+          <p className="SideBar_emptyText">
             loading...
           </p>
 
         ) : rentals.length === 0 ? (
 
-          <p className={styles.emptyText}>
+          <p className="SideBar_emptyText">
             No data matching criteria
           </p>
 

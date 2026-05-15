@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import type { RentalType } from "../models/RentalType";
 import Layout from "../components/layout/Layout";
 
-import { detailStyles as styles } from "../styles/detailPage.styles";
-
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export default function DetailPage() {
@@ -101,30 +99,30 @@ export default function DetailPage() {
 
   return (
     <Layout>
-      <div className={styles.container}>
+      <div className="DetailPage_container">
         
-        <div className={styles.header}>
+        <div className="DetailPage_header">
           <div>
-            <h1 className={styles.title}>
+            <h1 className="DetailPage_title">
               {rental.address}
             </h1>
 
-            <p className={styles.subtitle}>
+            <p className="DetailPage_subtitle">
               {rental.city} {" "}
               {rental.province}
             </p>
           </div>
 
-          <div className={styles.idBox}>
+          <div className="DetailPage_idBox">
             ID_{id}
           </div>
         </div>
 
-        <div className={styles.grid}>
+        <div className="DetailPage_grid">
           
-          <div className={styles.main}>
+          <div className="DetailPage_main">
             
-            <div className={styles.specsGrid}>
+            <div className="DetailPage_specsGrid">
               {[
                 {
                   label: "Beds",
@@ -142,22 +140,16 @@ export default function DetailPage() {
               ].map((spec) => (
                 <div
                   key={spec.label}
-                  className={
-                    styles.specCard
-                  }
+                  className="DetailPage_specsCard"
                 >
                   <p
-                    className={
-                      styles.specLabel
-                    }
+                    className="DetailPage_specLabel"
                   >
                     {spec.label}
                   </p>
 
                   <p
-                    className={
-                      styles.specValue
-                    }
+                    className="DetailPage_specValue"
                   >
                     {spec.value}
                   </p>
@@ -167,19 +159,15 @@ export default function DetailPage() {
 
             <div>
               <h3
-                className={
-                  styles.sectionTitle
-                }
+                className="DetailPage_sectionTitle"
               >
                 Technical Parameters
               </h3>
 
               <div
-                className={
-                  styles.technicalGrid
-                }
+                className="DetailPage_technicalGrid"
               >
-                <div className={styles.row}>
+                <div className="DetailPage_row">
                   <span>
                     Lease Term
                   </span>
@@ -191,7 +179,7 @@ export default function DetailPage() {
                   </span>
                 </div>
 
-                <div className={styles.row}>
+                <div className="DetailPage_row">
                   <span>
                     Availability
                   </span>
@@ -203,12 +191,12 @@ export default function DetailPage() {
                   </span>
                 </div>
 
-                <div className={styles.row}>
+                <div className="DetailPage_row">
                   <span>Cats</span>
                   <span
                     className={
                       rental.cats
-                        ? styles.allowed
+                        ? "DetailPage_allowed"
                         : ""
                     }
                   >
@@ -218,12 +206,12 @@ export default function DetailPage() {
                   </span>
                 </div>
 
-                <div className={styles.row}>
+                <div className="DetailPage_row">
                   <span>Dogs</span>
                   <span
                     className={
                       rental.dogs
-                        ? styles.allowed
+                        ? "DetailPage_allowed"
                         : ""
                     }
                   >
@@ -236,18 +224,18 @@ export default function DetailPage() {
             </div>
           </div>
 
-          <div className={styles.side}>
+          <div className="DetailPage_side">
             
             <div>
-              <label className={styles.label}>
+              <label className="DetailPage_label">
                 Current Rent
               </label>
 
-              <p className={styles.price}>
+              <p className="DetailPage_price">
                 ${rental.price}
               </p>
 
-              <p className={styles.smallText}>
+              <p className="DetailPage_smallText">
                 Per Month / Fixed
               </p>
             </div>
@@ -258,9 +246,7 @@ export default function DetailPage() {
                   fetchPredictedPrice
                 }
                 disabled={isPredicting}
-                className={styles.button(
-                  isPredicting
-                )}
+                className={`DetailPage_button ${isPredicting ? 'DetailPage_button-loading' : 'DetailPage_button-ready'}`}
               >
                 {isPredicting
                   ? "Calculating..."
@@ -270,14 +256,10 @@ export default function DetailPage() {
               {predictedPrice !==
                 null && (
                 <div
-                  className={
-                    styles.predictionBox
-                  }
+                  className="DetailPage_prediction-box"
                 >
                   <label
-                    className={
-                      styles.predictionLabel
-                    }
+                    className="DetailPage_prediction-label"
                   >
                     ML_Prediction_Output
                   </label>

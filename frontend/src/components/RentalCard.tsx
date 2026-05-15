@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
 import type { RentalType } from "../models/RentalType";
 
-import {
-  rentalCardStyles as styles,
-  statusBadge,
-} from "../styles/rentalCard.styles";
-
 type RentalCardProps = {
   rental: RentalType;
 };
@@ -14,15 +9,15 @@ export default function RentalCard({
   rental,
 }: RentalCardProps) {
   return (
-    <li className={styles.listItem}>
-      <div className={styles.card}>
+    <li className="RentalCard_listItem">
+      <div className="RentalCard_card">
         
-        <div className={styles.header}>
-          <h3 className={styles.title}>
+        <div className="RentalCard_header">
+          <h3 className="RentalCard_title">
             {rental.address}
           </h3>
 
-          <span className={styles.unitId}>
+          <span className="RentalCard_unitId">
             UNIT_
             {rental.id
               .toString()
@@ -30,39 +25,39 @@ export default function RentalCard({
           </span>
         </div>
 
-        <div className={styles.content}>
+        <div className="RentalCard_content">
           
-          <div className={styles.infoSection}>
+          <div className="RentalCard_infoSection">
             
             <div>
-              <p className={styles.label}>
+              <p className="RentalCard_label">
                 Location
               </p>
 
-              <p className={styles.location}>
+              <p className="RentalCard_location">
                 {rental.city}, {rental.province}
               </p>
             </div>
 
-            <div className={styles.specsWrapper}>
+            <div className="RentalCard_specsWrapper">
               
               <div>
-                <p className={styles.label}>
+                <p className="RentalCard_label">
                   Pricing
                 </p>
 
-                <p className={styles.price}>
+                <p className="RentalCard_price">
                   $
                   {rental.price.toLocaleString()}
                 </p>
               </div>
 
               <div>
-                <p className={styles.label}>
+                <p className="RentalCard_label">
                   Specs
                 </p>
 
-                <p className={styles.specs}>
+                <p className="RentalCard_specs">
                   {rental.beds} BD {" "}
                   {rental.baths} BA {" "}
                   {rental.squareFeet} SQFT
@@ -71,27 +66,27 @@ export default function RentalCard({
             </div>
           </div>
 
-          <div className={styles.statusPanel}>
+          <div className="RentalCard_statusPanel">
             
-            <div className={statusBadge(rental.cats)}>
+            <div className={`RentalCard_statusBadge ${rental.cats ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
               Cats {rental.cats ? "✓" : "×"}
             </div>
 
-            <div className={statusBadge(rental.dogs)}>
+            <div className={`RentalCard_statusBadge ${rental.dogs ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
               Dogs {rental.dogs ? "✓" : "×"}
             </div>
 
-            <div className={statusBadge(rental.smoking)}>
+            <div className={`RentalCard_statusBadge ${rental.smoking ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
               Smoke{" "}
               {rental.smoking ? "✓" : "×"}
             </div>
 
-            <div className={styles.availabilityWrapper}>
-              <p className={styles.availabilityText}>
+            <div className="RentalCard_availabilityWrapper">
+              <p className="RentalCard_availabilityText">
                 Availability
               </p>
 
-              <p className={styles.availabilityDays}>
+              <p className="RentalCard_availabilityDays">
                 IN{" "}
                 {rental.availability_days} DAYS
               </p>
@@ -101,7 +96,7 @@ export default function RentalCard({
 
         <Link
           to={`/details/${rental.id}`}
-          className={styles.footerLink}
+          className="RentalCard_footerLink"
         >
           Open Listing Details
         </Link>

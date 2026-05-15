@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { filterFormStyles as styles } from "../styles/filterForm.styles";
 import { useWatch } from "react-hook-form";
 
 type FilterFormValues = {
@@ -45,12 +44,12 @@ export default function FilterForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={styles.form}
+      className="FilterForm_form"
     >
-      <div className={styles.grid}>
+      <div className="FilterForm_grid">
         
         <div className="space-y-4">
-          <label className={styles.label}>
+          <label className="FilterForm_label">
             Maximum Price
           </label>
 
@@ -58,22 +57,22 @@ export default function FilterForm({
             type="range"
             min="0"
             max="5000"
-            className={styles.range}
+            className="FilterForm_range"
             {...register("price")}
           />
 
-          <p className={styles.valueText}>
+          <p className="FilterForm_valueText">
             ${selectedPrice}
           </p>
         </div>
 
         <div>
-          <label className={styles.label}>
+          <label className="FilterForm_label">
             Property Type
           </label>
 
           <select
-            className={styles.input}
+            className="FilterForm_input"
             {...register("type")}
           >
             <option value="">Select...</option>
@@ -88,33 +87,33 @@ export default function FilterForm({
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className={styles.label}>Beds</label>
+            <label className="FilterForm_label">Beds</label>
 
             <input
               type="number"
               min="0"
               max="5"
-              className={styles.input}
+              className="FilterForm_input"
               {...register("beds")}
             />
           </div>
 
           <div>
-            <label className={styles.label}>Baths</label>
+            <label className="FilterForm_label">Baths</label>
 
             <input
               type="number"
               min="0"
               max="5"
               step="0.5"
-              className={styles.input}
+              className="FilterForm_input"
               {...register("baths")}
             />
           </div>
         </div>
 
         <div className="space-y-4">
-          <label className={styles.label}>
+          <label className="FilterForm_label">
             Max. Square Feet
           </label>
 
@@ -122,20 +121,20 @@ export default function FilterForm({
             type="range"
             min="0"
             max="3000"
-            className={styles.range}
+            className="FilterForm_range"
             {...register("squareFeet")}
           />
 
-          <p className={styles.valueText}>
+          <p className="FilterForm_valueText">
             {selectedSquareFeet} SQ FT
           </p>
         </div>
       </div>
 
-      <div className={styles.buttonWrapper}>
+      <div className="FilterForm_buttonWrapper">
         <button
           type="submit"
-          className={styles.button}
+          className="FilterForm_button"
         >
           Search Rentals
         </button>
