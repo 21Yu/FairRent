@@ -8,8 +8,6 @@ import type { RentalApiResponse } from "../models/RentalApiResponse";
 
 import type { RentalType } from "../models/RentalType";
 
-import { mainPageStyles as styles } from "../styles/mainPage.styles";
-
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 function MainPage() {
@@ -122,7 +120,7 @@ function MainPage() {
 
   return (
     <Layout>
-      <div className={styles.wrapper}>
+      <div className="MainPage_wrapper">
         
         <section>
           <FilterForm
@@ -130,13 +128,13 @@ function MainPage() {
           />
         </section>
 
-        <main className={styles.main}>
+        <main className="MainPage_main">
           
-          <section className={styles.sidebar}>
+          <section className="MainPage_sidebar">
             <SideBar rentals={rentals} loading={loading} />
           </section>
 
-          <section className={styles.mapSection}>
+          <section className="MainPage_mapSection">
             <Map
               rentals={rentals}
               onBoundsChange={setBounds}

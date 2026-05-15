@@ -1,50 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
-
-import { headerStyles as styles } from "../../styles/header.styles";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
-  const location = useLocation();
-
   return (
-    <header className={styles.header}>
-      
-      <div className={styles.logoSection}>
-        <Link
-          to="/"
-        >
-          <h1 className={styles.title}>
-            FairRent
-          </h1>
+    <header className="Header_header">
+      <div className="Header_header-logo-section">
+        <Link to="/">
+          <h1 className="Header_header-title">FairRent</h1>
         </Link>
       </div>
 
-      <nav className={styles.nav}>
-        <Link
-          to="/"
-          className={styles.navLink(
-            location.pathname === "/"
-          )}
-        >
+      <nav className="Header_header-nav">
+        <NavLink to="/" className="Header_nav-link">
           Home
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/about"
-          className={styles.navLink(
-            location.pathname === "/about"
-          )}
-        >
+        <NavLink to="/about" className="Header_nav-link">
           About
-        </Link>
+        </NavLink>
 
-        <Link
-          to="/contact"
-          className={styles.navLink(
-            location.pathname === "/contact"
-          )}
-        >
+        <NavLink to="/contact" className="Header_nav-link">
           Contact
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );

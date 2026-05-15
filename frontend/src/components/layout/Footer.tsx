@@ -1,9 +1,7 @@
-import { footerStyles as styles } from "../../styles/footer.styles";
-
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
-      <p className={styles.copyright}>
+    <footer className="Footer_footer">
+      <p className="Footer_copyright">
         © 2026{" "}
         <span>
           FairRent

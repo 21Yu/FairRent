@@ -3,8 +3,6 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { RentalType } from "../models/RentalType";
 
-import { mapStyles as styles } from "../styles/map.styles";
-
 type MapProps = {
   rentals: RentalType[];
 
@@ -78,16 +76,16 @@ export default function Map({
     const customIcon = L.divIcon({
       className: "ableton-marker",
 
-      html: `<div class="${styles.marker}"></div>`,
+      html: `<div class="Map_map-marker"></div>`,
 
       iconSize: [16, 16],
     });
 
     rentals.forEach((rental) => {
       const popupContent = `
-        <div class="${styles.popup.container}">
+        <div class="Map_popup-container">
           
-          <h3 class="${styles.popup.title}">
+          <h3 class="Map_popup-title">
             ${rental.address}
           </h3>
 
@@ -95,14 +93,14 @@ export default function Map({
             ${rental.city}, ${rental.province}
           </p>
 
-          <div class="${styles.popup.footer}">
+          <div class="Map_popup-footer">
             
             <div>
-              <p class="${styles.popup.price}">
+              <p class="Map_popup-price">
                 $${rental.price}
               </p>
 
-              <p class="${styles.popup.perMonth}">
+              <p class="Map_popup-per-month">
                 Per Month
               </p>
             </div>
@@ -125,10 +123,10 @@ export default function Map({
   }, [rentals]);
 
   return (
-    <div className={styles.container}>
+    <div className="Map_map-container">
       <div
         ref={mapRef}
-        className={styles.map}
+        className="Map_map-view"
       />
     </div>
   );

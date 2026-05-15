@@ -7,19 +7,195 @@
   }
 
   * {
-    border-radius: 0 !important;
+    border-radius: 0;
   }
 }
 
-input[type="range"] {
-  @apply appearance-none bg-black cursor-crosshair;
+
+@layer utilities {
+  .MainPage_wrapper {
+    @apply flex flex-col bg-[#eeeeee];
+  }
+
+  .MainPage_main {
+    @apply flex;
+  }
+
+  .MainPage_sidebar {
+    @apply w-[400px];
+  }
+
+  .MainPage_mapSection {
+    @apply flex-1;
+  }
+
+
+  .Map_map-container {
+    @apply border-2 border-black;
+  }
+
+  .Map_map-view {
+    @apply h-[100vh];
+  }
+
+  .Map_map-marker {
+    @apply w-4 h-4 bg-[#0000ff] border-2 border-black;
+  }
+
+  .Map_popup-container {
+    @apply p-2;
+  }
+
+  .Map_popup-title {
+    @apply text-[12px] font-bold uppercase mb-1 border-b border-black pb-1;
+  }
+
+  .Map_popup-footer {
+    @apply flex items-end;
+  }
+
+  .Map_popup-price {
+    @apply text-[18px] font-bold;
+  }
+
+  .Map_popup-per-month {
+    @apply text-[10px] uppercase font-bold text-gray-500;
+  }
+
+
+  .Footer_footer {
+    @apply bg-black text-white p-4;
+  }
+
+  .Footer_copyright {
+    @apply text-[12px] font-bold uppercase tracking-[0.3em]
+  }
+
+
+  .Header_header {
+    @apply w-full h-[60px] bg-white flex;
+  }
+
+  .Header_header-logo-section {
+    @apply h-full px-8 flex items-center transition-colors hover:bg-black hover:text-white;
+  }
+
+  .Header_header-title {
+    @apply text-[20px] font-bold uppercase;
+  }
+
+  .Header_header-nav {
+    @apply h-full flex;
+  }
+
+  .Header_nav-link {
+    @apply px-12 h-full flex items-center text-[14px] font-bold uppercase tracking-widest transition-colors;
+  }
+
+  .Header_nav-link.active {
+    @apply bg-[#0000ff] text-white;
+  }
+
+
+  .DetailPage_container {
+    @apply md:p-12
+  }
+
+  .DetailPage_header {
+    @apply border-b-4 border-black pb-6 mb-12 flex justify-between items-baseline
+  }
+
+  .DetailPage_title {
+    @apply text-[42px] font-bold uppercase
+  }
+
+  .DetailPage_subtitle {
+    @apply text-[18px] font-medium text-gray-500 uppercase
+  }
+
+  .DetailPage_idBox {
+    @apply bg-black text-white px-6 py-2 font-mono text-[24px]
+  }
+
+  .DetailPage_grid {
+    @apply grid grid-cols-1 lg:grid-cols-3 gap-12
+  }
+
+  .DetailPage_main {
+    @apply lg:col-span-2 space-y-12
+  }
+
+  .DetailPage_specsGrid {
+    @apply grid grid-cols-3 gap-1 border-2 bg-black
+  }
+
+  .DetailPage_specsCard {
+    @apply bg-white p-6 text-center
+  }
+
+  .DetailPage_specLabel {
+    @apply text-[12px] font-bold uppercase tracking-widest text-gray-400
+  }
+
+  .DetailPage_specValue {
+    @apply text-[32px] font-bold
+  }
+
+  .DetailPage_sectionTitle {
+    @apply text-[14px] font-bold uppercase tracking-widest border-b border-black pb-2
+  }
+
+  .DetailPage_technicalGrid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 font-mono text-[13px] uppercase
+  }
+
+  .DetailPage_row {
+    @apply flex justify-between border-b border-gray-200 py-1
+  }
+
+  .DetailPage_allowed {
+    @apply text-[#00ff00] font-bold
+  }
+
+  .DetailPage_side {
+    @apply bg-[#eeeeee] border-2 border-black p-8 space-y-8
+  }
+
+  .DetailPage_label {
+    @apply text-[12px] font-bold uppercase tracking-widest block mb-2
+  }
+
+  .DetailPage_price {
+    @apply text-[48px] font-bold
+  }
+
+  .DetailPage_smallText {
+    @apply text-[10px] font-bold text-gray-500 uppercase mt-2
+  }
+
+  .DetailPage_button {
+    @apply w-full py-4 font-bold uppercase tracking-tighter border-2 border-black transition-all active:translate-x-[2px] active:translate-y-[2px];
+  }
+
+  .DetailPage_button-loading { @apply bg-gray-200 animate-pulse cursor-not-allowed; }
+  .DetailPage_button-ready { @apply bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white; }
+
+  .DetailPage_prediction-box {
+    @apply mt-6 bg-black text-white p-6 animate-pulse;
+  }
+  .DetailPage_prediction-label { @apply text-[10px] font-bold uppercase tracking-[0.2em] text-[#fbffa7]; }
+
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  @apply appearance-none w-3 h-6 bg-[#fbffa7] border border-black;
-}
+  input[type="range"] {
+    @apply appearance-none bg-black cursor-crosshair;
+  }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  @apply opacity-100; 
-}
+  input[type="range"]::-webkit-slider-thumb {
+    @apply appearance-none w-3 h-6 bg-[#fbffa7] border border-black;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    @apply opacity-100; 
+  }
