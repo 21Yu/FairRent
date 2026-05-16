@@ -9,21 +9,12 @@
 
 
 @layer utilities {
-  .MainPage_wrapper {
-    @apply flex flex-col bg-[#eeeeee] min-h-screen;
-  }
 
-  .MainPage_main {
-    @apply flex flex-col lg:flex-row;
-  }
+  .Layout_wrapper { @apply flex flex-col min-h-screen;}
 
-  .MainPage_sidebar {
-    @apply w-full lg:w-[400px] h-[50vh] lg:h-screen;
-  }
-
-  .MainPage_mapSection {
-    @apply flex-1 h-[50vh] lg:h-screen;
-  }
+  .MainPage_main { @apply flex flex-col lg:flex-row; }
+  .MainPage_sidebar { @apply w-full lg:w-[400px] h-[50vh] lg:h-screen;}
+  .MainPage_mapSection { @apply flex-1 h-[50vh] lg:h-screen;}
 
 
   .Map_map-container { @apply border-2 border-black;}

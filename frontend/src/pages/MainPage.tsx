@@ -120,7 +120,7 @@ function MainPage() {
 
   return (
     <Layout>
-      <div className="MainPage_wrapper">
+      <div>
         
         <section>
           <FilterForm
