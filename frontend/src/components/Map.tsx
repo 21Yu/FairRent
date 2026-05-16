@@ -74,7 +74,7 @@ export default function Map({
     markersLayer.clearLayers();
 
     const customIcon = L.divIcon({
-      className: "ableton-marker",
+      className: "a-marker",
 
       html: `<div class="Map_map-marker"></div>`,
 
@@ -83,7 +83,7 @@ export default function Map({
 
     rentals.forEach((rental) => {
       const popupContent = `
-        <div class="Map_popup-container">
+        <div>
           
           <h3 class="Map_popup-title">
             ${rental.address}
@@ -92,19 +92,11 @@ export default function Map({
           <p>
             ${rental.city}, ${rental.province}
           </p>
+          
+          <p class="Map_popup-price">
+            $${rental.price} Per Month
+          </p>
 
-          <div class="Map_popup-footer">
-            
-            <div>
-              <p class="Map_popup-price">
-                $${rental.price}
-              </p>
-
-              <p class="Map_popup-per-month">
-                Per Month
-              </p>
-            </div>
-          </div>
         </div>
       `;
 
@@ -114,10 +106,7 @@ export default function Map({
           icon: customIcon,
         }
       )
-        .bindPopup(popupContent, {
-          className: "ableton-popup",
-          maxWidth: 250,
-        })
+        .bindPopup(popupContent)
         .addTo(markersLayer);
     });
   }, [rentals]);

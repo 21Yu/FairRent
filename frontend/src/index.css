@@ -10,287 +10,96 @@
 
 @layer utilities {
   .MainPage_wrapper {
-    @apply flex flex-col bg-[#eeeeee];
+    @apply flex flex-col bg-[#eeeeee] min-h-screen;
   }
 
   .MainPage_main {
-    @apply flex;
+    @apply flex flex-col lg:flex-row;
   }
 
   .MainPage_sidebar {
-    @apply w-[400px];
+    @apply w-full lg:w-[400px] h-[50vh] lg:h-screen;
   }
 
   .MainPage_mapSection {
-    @apply flex-1;
+    @apply flex-1 h-[50vh] lg:h-screen;
   }
 
 
-  .Map_map-container {
-    @apply border-2 border-black;
-  }
+  .Map_map-container { @apply border-2 border-black;}
+  .Map_map-view { @apply w-full h-screen; }
+  .Map_map-marker { @apply w-4 h-4 bg-[#0000ff] border-2 border-black; }
+  .Map_popup-title { @apply text-[12px] font-bold border-b border-black pb-1; }
+  .Map_popup-price { @apply text-[18px] font-bold; }
 
-  .Map_map-view {
-    @apply h-[100vh];
-  }
-
-  .Map_map-marker {
-    @apply w-4 h-4 bg-[#0000ff] border-2 border-black;
-  }
-
-  .Map_popup-container {
-    @apply p-2;
-  }
-
-  .Map_popup-title {
-    @apply text-[12px] font-bold uppercase mb-1 border-b border-black pb-1;
-  }
-
-  .Map_popup-footer {
-    @apply flex items-end;
-  }
-
-  .Map_popup-price {
-    @apply text-[18px] font-bold;
-  }
-
-  .Map_popup-per-month {
-    @apply text-[10px] uppercase font-bold text-gray-500;
-  }
-
-
-  .Footer_footer {
-    @apply bg-black text-white p-4;
-  }
-
-  .Footer_copyright {
-    @apply text-[12px] font-bold uppercase tracking-[0.3em]
-  }
-
+  .Footer_footer { @apply bg-black text-white p-4 text-[10px] font-bold; }
 
   .Header_nav { @apply h-[60px] bg-white flex; }
-
-  .Header_header-nav { @apply px-8 items-center hover:bg-black hover:text-white flex text-[20px] font-bold; }
-
-  .Header_nav-link { @apply px-12 flex items-center text-[14px] font-bold; }
-
+  .Header_header-nav { @apply px-4 lg:px-8 items-center hover:bg-black hover:text-white flex text-[16px] lg:text-[20px] font-bold; }
+  .Header_nav-link { @apply px-3 lg:px-12 flex items-center text-[12px] lg:text-[14px] font-bold; }
   .Header_nav-link.active { @apply bg-[#0000ff] text-white; }
 
-
-  .DetailPage_container {
-    @apply md:p-12
-  }
-
-  .DetailPage_header {
-    @apply border-b-4 border-black pb-6 mb-12 flex justify-between items-baseline
-  }
-
-  .DetailPage_title {
-    @apply text-[42px] font-bold uppercase
-  }
-
-  .DetailPage_subtitle {
-    @apply text-[18px] font-medium text-gray-500 uppercase
-  }
-
-  .DetailPage_idBox {
-    @apply bg-black text-white px-6 py-2 font-mono text-[24px]
-  }
-
-  .DetailPage_grid {
-    @apply grid grid-cols-1 lg:grid-cols-3 gap-12
-  }
-
-  .DetailPage_main {
-    @apply lg:col-span-2 space-y-12
-  }
-
-  .DetailPage_specsGrid {
-    @apply grid grid-cols-3 gap-1 border-2 bg-black
-  }
-
-  .DetailPage_specsCard {
-    @apply bg-white p-6 text-center
-  }
-
-  .DetailPage_specLabel {
-    @apply text-[12px] font-bold uppercase tracking-widest text-gray-400
-  }
-
-  .DetailPage_specValue {
-    @apply text-[32px] font-bold
-  }
-
-  .DetailPage_sectionTitle {
-    @apply text-[14px] font-bold uppercase tracking-widest border-b border-black pb-2
-  }
-
-  .DetailPage_technicalGrid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 font-mono text-[13px] uppercase
-  }
-
-  .DetailPage_row {
-    @apply flex justify-between border-b border-gray-200 py-1
-  }
-
-  .DetailPage_allowed {
-    @apply text-[#00ff00] font-bold
-  }
-
-  .DetailPage_side {
-    @apply bg-[#eeeeee] border-2 border-black p-8 space-y-8
-  }
-
-  .DetailPage_label {
-    @apply text-[12px] font-bold uppercase tracking-widest block mb-2
-  }
-
-  .DetailPage_price {
-    @apply text-[48px] font-bold
-  }
-
-  .DetailPage_smallText {
-    @apply text-[10px] font-bold text-gray-500 uppercase mt-2
-  }
-
-  .DetailPage_button {
-    @apply w-full py-4 font-bold uppercase tracking-tighter border-2 border-black transition-all active:translate-x-[2px] active:translate-y-[2px];
-  }
-
-  .DetailPage_button-loading { @apply bg-gray-200 animate-pulse cursor-not-allowed; }
+  .DetailPage_container { @apply p-12 }
+  .DetailPage_header { @apply border-b-4 border-black pb-6 mb-12 flex justify-between items-baseline }
+  .DetailPage_title { @apply text-[42px] font-bold }
+  .DetailPage_subtitle { @apply text-[18px] text-gray-500 }
+  .DetailPage_idBox { @apply bg-black text-white px-6 py-2 font-mono text-[24px] }
+  .DetailPage_main { @apply space-y-12 }
+  .DetailPage_specsGrid { @apply grid grid-cols-3 gap-1 }
+  .DetailPage_specsCard { @apply bg-white p-6 text-center}
+  .DetailPage_specLabel { @apply text-[12px] font-bold text-gray-400 }
+  .DetailPage_specValue { @apply text-[32px] font-bold }
+  .DetailPage_sectionTitle { @apply text-[14px] font-bold pb-2 }
+  .DetailPage_technicalGrid { @apply grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 font-mono text-[13px] }
+  .DetailPage_row { @apply flex justify-between border-b border-gray-300 py-1 }
+  .DetailPage_allowed { @apply text-[#00ff00] font-bold }
+  .DetailPage_side { @apply bg-[#eeeeee] border-2 border-black p-8 space-y-8 }
+  .DetailPage_label { @apply text-[12px] font-bold }
+  .DetailPage_price { @apply text-[48px] font-bold }
+  .DetailPage_smallText { @apply text-[10px] font-bold text-gray-500 }
+  .DetailPage_button { @apply w-full py-4 font-bold border-2 border-black; }
+  .DetailPage_button-loading { @apply bg-gray-200 cursor-not-allowed; }
   .DetailPage_button-ready { @apply bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white; }
-
-  .DetailPage_prediction-box {
-    @apply mt-6 bg-black text-white p-6 animate-pulse;
-  }
-  .DetailPage_prediction-label { @apply text-[10px] font-bold uppercase tracking-[0.2em] text-[#fbffa7]; }
-
+  .DetailPage_prediction-box { @apply mt-6 bg-black text-white p-6; }
+  .DetailPage_prediction-label { @apply text-[10px] font-bold text-[#fbffa7]; }
+  .DetailPage_prediction-price { @apply text-[36px] font-bold; }
 
   .FilterForm_grid { @apply grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8 p-10 bg-[#fbffa7] }
-
   .FilterForm_label { @apply text-[14px] font-bold uppercase }
-
   .FilterForm_input { @apply appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white font-medium }
-
   .FilterForm_range { @apply w-full h-1 appearance-none bg-black }
-
   .FilterForm_valueText { @apply text-[24px] font-bold mt-3 }
-
   .FilterForm_button { @apply bg-[#0000ff] text-white w-full px-3 py-4 mt-4 font-bold uppercase hover:bg-black } 
 
+  .SideBar_container { @apply w-full h-screen flex flex-col } 
+  .SideBar_header { @apply p-4 bg-[#d1d1d1] flex items-center justify-between}
+  .SideBar_title { @apply font-bold }
+  .SideBar_content { @apply p-4 overflow-y-auto }
+  .SideBar_emptyText { @apply p-8 font-bold text-center text-gray-500 }
+  .SideBar_sortButton { @apply flex gap-2 px-3 py-1 border border-black text-[10px] font-bold }
+  .SideBar_sortButton_ascending { @apply bg-[#ff764d] text-black }
+  .SideBar_sortButton_descending { @apply bg-white text-black }
 
-  .SideBar_container {
-    @apply w-full h-screen bg-[#eeeeee] flex flex-col overflow-hidden
-  }
-
-  .SideBar_header {
-    @apply p-4 bg-[#d1d1d1] flex items-center justify-between
-  }
-
-  .SideBar_title {
-    @apply font-bold uppercase tracking-[0.15em]
-  }
-  
-  .SideBar_content {
-    @apply flex-1 p-4 overflow-y-auto
-  }
-
-  .SideBar_emptyText {
-    @apply p-8 font-bold text-center uppercase text-gray-500 tracking-widest
-  }
-
-  .SideBar_sortButton {
-    @apply flex gap-2 px-3 py-1 border border-black text-[10px] font-bold uppercase transition-all
-  }
-
-  .SideBar_sortButton_ascending {
-    @apply bg-[#ff764d] text-black
-  }
-
-  .SideBar_sortButton_descending {
-    @apply bg-white text-black 
-  }
-
-
-  .RentalCard_listItem {
-    @apply mb-6
-  } 
-
-  .RentalCard_card {
-    @apply border-2 border-black bg-white
-  } 
-
-  .RentalCard_header {
-    @apply bg-black text-white p-3 flex justify-between items-center
-  }
-
-  .RentalCard_title {
-    @apply text-[16px] font-bold uppercase
-  }   
-
-  .RentalCard_unitId {
-    @apply text-[12px] font-mono bg-[#0000ff] px-2 py-1
-  }  
-
-  .RentalCard_content {
-    @apply p-4 flex
-  }  
-
-  .RentalCard_infoSection {
-    @apply flex-1 space-y-4
-  }
-
-  .RentalCard_label {
-    @apply text-[12px] font-bold text-gray-500 uppercase tracking-widest
-  }  
-
-  .RentalCard_location {
-    @apply text-[18px] font-medium
-  }
-  
-  .RentalCard_specsWrapper {
-    @apply flex gap-8
-  }  
-
-  .RentalCard_price {
-    @apply text-[24px] font-bold
-  }  
-
-  .RentalCard_specs {
-    @apply text-[14px] font-bold uppercase
-  }  
-
-  .RentalCard_statusPanel {
-    @apply flex flex-col gap-2 border-l-0 md:border-l-2 border-black md:pl-6
-  }  
-
-  .RentalCard_availabilityWrapper {
-    @apply mt-auto pt-4
-  } 
-
-  .RentalCard_availabilityText {
-    @apply text-[10px] font-bold uppercase text-gray-400
-  } 
-
-  .RentalCard_availabilityDays {
-    @apply text-[12px] font-bold
-  } 
-
-  .RentalCard_footerLink {
-    @apply block w-full border-t-2 border-black p-3 text-center font-bold uppercase bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white transition-colors
-  }
-  
-  .RentalCard_statusBadge {
-    @apply text-[10px] font-bold uppercase px-2 py-0.5 border border-black
-  }
-
-  .RentalCard_allowed {
-    @apply bg-[#b3ffad]
-  }
-
-  .RentalCard_notAllowed {
-    @apply bg-[#ffadad] opacity-50
-  }
+  .RentalCard_listItem { @apply mb-6 } 
+  .RentalCard_card { @apply border-2 border-black bg-white } 
+  .RentalCard_header { @apply bg-black text-white p-3 flex justify-between items-center }
+  .RentalCard_title { @apply text-[16px] font-bold }   
+  .RentalCard_unitId { @apply text-[12px] font-mono bg-[#0000ff] px-2 py-1 }  
+  .RentalCard_content { @apply p-4 flex }  
+  .RentalCard_infoSection { @apply space-y-4 }
+  .RentalCard_label { @apply text-[12px] font-bold text-gray-500 uppercase }  
+  .RentalCard_location { @apply text-[18px] }
+  .RentalCard_specsWrapper { @apply flex gap-8 }  
+  .RentalCard_price { @apply text-[24px] font-bold }  
+  .RentalCard_specs { @apply text-[14px] font-bold }  
+  .RentalCard_statusPanel { @apply flex flex-col gap-2 }  
+  .RentalCard_availabilityWrapper { @apply mt-auto pt-4 } 
+  .RentalCard_availabilityText { @apply text-[10px] font-bold text-gray-400 } 
+  .RentalCard_availabilityDays { @apply text-[12px] font-bold } 
+  .RentalCard_footerLink { @apply flex border-t-2 border-black p-3 items-center font-bold bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white}
+  .RentalCard_statusBadge { @apply text-[10px] font-bold px-2 py-0.5 border border-black }
+  .RentalCard_allowed { @apply bg-[#b3ffad] }
+  .RentalCard_notAllowed { @apply bg-[#ffadad] opacity-50 }
 }
 
 @layer components {

@@ -69,16 +69,15 @@ export default function RentalCard({
           <div className="RentalCard_statusPanel">
             
             <div className={`RentalCard_statusBadge ${rental.cats ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
-              Cats {rental.cats ? "✓" : "×"}
+              Cats 
             </div>
 
             <div className={`RentalCard_statusBadge ${rental.dogs ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
-              Dogs {rental.dogs ? "✓" : "×"}
+              Dogs 
             </div>
 
             <div className={`RentalCard_statusBadge ${rental.smoking ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
-              Smoke{" "}
-              {rental.smoking ? "✓" : "×"}
+              Smoke
             </div>
 
             <div className="RentalCard_availabilityWrapper">

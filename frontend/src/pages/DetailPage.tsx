@@ -118,8 +118,6 @@ export default function DetailPage() {
           </div>
         </div>
 
-        <div className="DetailPage_grid">
-          
           <div className="DetailPage_main">
             
             <div className="DetailPage_specsGrid">
@@ -222,58 +220,58 @@ export default function DetailPage() {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="DetailPage_side">
-            
-            <div>
-              <label className="DetailPage_label">
-                Current Rent
-              </label>
+            <div className="DetailPage_side">
+              
+              <div>
+                <label className="DetailPage_label">
+                  Current Rent
+                </label>
 
-              <p className="DetailPage_price">
-                ${rental.price}
-              </p>
+                <p className="DetailPage_price">
+                  ${rental.price}
+                </p>
 
-              <p className="DetailPage_smallText">
-                Per Month / Fixed
-              </p>
-            </div>
+                <p className="DetailPage_smallText">
+                  Per Month / Fixed
+                </p>
+              </div>
 
-            <div>
-              <button
-                onClick={
-                  fetchPredictedPrice
-                }
-                disabled={isPredicting}
-                className={`DetailPage_button ${isPredicting ? 'DetailPage_button-loading' : 'DetailPage_button-ready'}`}
-              >
-                {isPredicting
-                  ? "Calculating..."
-                  : "Predict Market Price"}
-              </button>
-
-              {predictedPrice !==
-                null && (
-                <div
-                  className="DetailPage_prediction-box"
+              <div>
+                <button
+                  onClick={
+                    fetchPredictedPrice
+                  }
+                  disabled={isPredicting}
+                  className={`DetailPage_button ${isPredicting ? 'DetailPage_button-loading' : 'DetailPage_button-ready'}`}
                 >
-                  <label
-                    className="DetailPage_prediction-label"
+                  {isPredicting
+                    ? "Calculating..."
+                    : "Predict Market Price"}
+                </button>
+
+                {predictedPrice !==
+                  null && (
+                  <div
+                    className="DetailPage_prediction-box"
                   >
-                    ML_Prediction_Output
-                  </label>
+                    <label
+                      className="DetailPage_prediction-label"
+                    >
+                      ML_Prediction_Output
+                    </label>
 
-                  <p className="text-[36px] font-bold tabular-nums">
-                    ${predictedPrice}
-                  </p>
+                    <p className="DetailPage_prediction-price">
+                      ${predictedPrice}
+                    </p>
 
-                </div>
-              )}
+                  </div>
+                )}
+              </div>
             </div>
+
           </div>
         </div>
-      </div>
     </Layout>
   );
 }

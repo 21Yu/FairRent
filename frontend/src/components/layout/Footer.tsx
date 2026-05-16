@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="Footer_footer">
-      <p className="Footer_copyright">
+      <p>
         © 2026{" "}
         <span>
           FairRent
