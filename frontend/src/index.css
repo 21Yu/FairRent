@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    @apply bg-[#eeeeee] text-black antialiased tracking-widest;
+    @apply bg-[#eeeeee] text-black antialiased tracking-widest uppercase;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
@@ -68,29 +68,13 @@
   }
 
 
-  .Header_header {
-    @apply w-full h-[60px] bg-white flex;
-  }
+  .Header_nav { @apply h-[60px] bg-white flex; }
 
-  .Header_header-logo-section {
-    @apply h-full px-8 flex items-center transition-colors hover:bg-black hover:text-white;
-  }
+  .Header_header-nav { @apply px-8 items-center hover:bg-black hover:text-white flex text-[20px] font-bold; }
 
-  .Header_header-title {
-    @apply text-[20px] font-bold uppercase;
-  }
+  .Header_nav-link { @apply px-12 flex items-center text-[14px] font-bold; }
 
-  .Header_header-nav {
-    @apply h-full flex;
-  }
-
-  .Header_nav-link {
-    @apply px-12 h-full flex items-center text-[14px] font-bold uppercase tracking-widest transition-colors;
-  }
-
-  .Header_nav-link.active {
-    @apply bg-[#0000ff] text-white;
-  }
+  .Header_nav-link.active { @apply bg-[#0000ff] text-white; }
 
 
   .DetailPage_container {

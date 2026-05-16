@@ -2,14 +2,14 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="Header_header">
-      <div className="Header_header-logo-section">
-        <Link to="/">
-          <h1 className="Header_header-title">FairRent</h1>
-        </Link>
-      </div>
+    <header>
 
-      <nav className="Header_header-nav">
+      <nav className="Header_nav">
+        
+        <Link to="/" className="Header_header-nav">
+          <h1>FairRent</h1>
+        </Link>
+
         <NavLink to="/" className="Header_nav-link">
           Home
         </NavLink>
