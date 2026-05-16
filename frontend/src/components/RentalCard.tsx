@@ -96,6 +96,8 @@ export default function RentalCard({
 
         <Link
           to={`/details/${rental.id}`}
+          target="_blank" 
+          rel="noopener noreferrer"
           className="RentalCard_footerLink"
         >
           Open Listing Details

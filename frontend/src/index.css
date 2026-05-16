@@ -2,12 +2,8 @@
 
 @layer base {
   body {
-    @apply bg-[#eeeeee] text-black antialiased;
+    @apply bg-[#eeeeee] text-black antialiased tracking-widest;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  * {
-    border-radius: 0;
   }
 }
 
@@ -186,37 +182,17 @@
   .DetailPage_prediction-label { @apply text-[10px] font-bold uppercase tracking-[0.2em] text-[#fbffa7]; }
 
 
-  .FilterForm_form {
-    @apply bg-[#fbffa7] p-10 mx-auto
-  }
+  .FilterForm_grid { @apply grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8 p-10 bg-[#fbffa7] }
 
-  .FilterForm_grid {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8
-  }
+  .FilterForm_label { @apply text-[14px] font-bold uppercase }
 
-  .FilterForm_label {
-    @apply block text-[14px] font-bold uppercase tracking-wider mb-3
-  }
+  .FilterForm_input { @apply appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white font-medium }
 
-  .FilterForm_input {
-    @apply w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white outline-none transition-colors duration-100 font-medium
-  }
+  .FilterForm_range { @apply w-full h-1 appearance-none bg-black }
 
-  .FilterForm_range {
-    @apply w-full h-1 appearance-none
-  }
+  .FilterForm_valueText { @apply text-[24px] font-bold mt-3 }
 
-  .FilterForm_valueText {
-    @apply text-[24px] font-bold tabular-nums
-  }
-
-  .FilterForm_buttonWrapper {
-    @apply mt-12 flex justify-start
-  }
-
-  .FilterForm_button {
-    @apply bg-[#0000ff] text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-black transition-colors
-  } 
+  .FilterForm_button { @apply bg-[#0000ff] text-white w-full px-3 py-4 mt-4 font-bold uppercase hover:bg-black } 
 
 
   .SideBar_container {
@@ -248,7 +224,7 @@
   }
 
   .SideBar_sortButton_descending {
-    @apply bg-white text-black active:translate-x-[1px] active:translate-y-[1px]
+    @apply bg-white text-black 
   }
 
 
@@ -333,15 +309,6 @@
   }
 }
 
-  input[type="range"] {
-    @apply appearance-none bg-black cursor-crosshair;
-  }
+@layer components {
 
-  input[type="range"]::-webkit-slider-thumb {
-    @apply appearance-none w-3 h-6 bg-[#fbffa7] border border-black;
-  }
-
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    @apply opacity-100; 
-  }
+}
