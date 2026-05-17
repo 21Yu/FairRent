@@ -265,8 +265,19 @@ export default function DetailPage() {
                       ${predictedPrice}
                     </p>
 
+                    {(rental.price >= predictedPrice - 100) && 
+                    (rental.price <= predictedPrice + 100) &&
+                    (<p className="greyText">Fair price</p>)}
+
+                    {(rental.price < predictedPrice - 100) &&
+                    (<p className="greyText">Good deal</p>)}
+
+                    {(rental.price > predictedPrice + 100) &&
+                    (<p className="greyText">Overpriced</p>)}                    
                   </div>
                 )}
+
+
               </div>
             </div>
 
