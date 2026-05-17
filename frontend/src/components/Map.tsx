@@ -93,7 +93,7 @@ export default function Map({
             ${rental.city}, ${rental.province}
           </p>
           
-          <p class="Map_popup-price">
+          <p>
             $${rental.price} Per Month
           </p>
 

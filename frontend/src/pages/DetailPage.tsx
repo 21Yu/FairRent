@@ -141,13 +141,13 @@ export default function DetailPage() {
                   className="DetailPage_specsCard"
                 >
                   <p
-                    className="DetailPage_specLabel"
+                    className="greyText"
                   >
                     {spec.label}
                   </p>
 
                   <p
-                    className="DetailPage_specValue"
+                    className="bigText"
                   >
                     {spec.value}
                   </p>
@@ -157,7 +157,7 @@ export default function DetailPage() {
 
             <div>
               <h3
-                className="DetailPage_sectionTitle"
+                className="bigText"
               >
                 Technical Parameters
               </h3>
@@ -224,7 +224,7 @@ export default function DetailPage() {
             <div className="DetailPage_side">
               
               <div>
-                <label className="DetailPage_label">
+                <label>
                   Current Rent
                 </label>
 
@@ -232,7 +232,7 @@ export default function DetailPage() {
                   ${rental.price}
                 </p>
 
-                <p className="DetailPage_smallText">
+                <p className="greyText">
                   Per Month / Fixed
                 </p>
               </div>

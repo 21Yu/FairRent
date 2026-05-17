@@ -13,7 +13,7 @@ export default function RentalCard({
       <div className="RentalCard_card">
         
         <div className="RentalCard_header">
-          <h3 className="RentalCard_title">
+          <h3 className="bigText">
             {rental.address}
           </h3>
 
@@ -30,11 +30,11 @@ export default function RentalCard({
           <div className="RentalCard_infoSection">
             
             <div>
-              <p className="RentalCard_label">
+              <p className="greyText">
                 Location
               </p>
 
-              <p className="RentalCard_location">
+              <p>
                 {rental.city}, {rental.province}
               </p>
             </div>
@@ -42,22 +42,22 @@ export default function RentalCard({
             <div className="RentalCard_specsWrapper">
               
               <div>
-                <p className="RentalCard_label">
+                <p className="greyText">
                   Pricing
                 </p>
 
-                <p className="RentalCard_price">
+                <p>
                   $
                   {rental.price.toLocaleString()}
                 </p>
               </div>
 
               <div>
-                <p className="RentalCard_label">
+                <p className="greyText">
                   Specs
                 </p>
 
-                <p className="RentalCard_specs">
+                <p>
                   {rental.beds} BD {" "}
                   {rental.baths} BA {" "}
                   {rental.squareFeet} SQFT
@@ -81,11 +81,11 @@ export default function RentalCard({
             </div>
 
             <div className="RentalCard_availabilityWrapper">
-              <p className="RentalCard_availabilityText">
+              <p className="greyText">
                 Availability
               </p>
 
-              <p className="RentalCard_availabilityDays">
+              <p>
                 IN{" "}
                 {rental.availability_days} DAYS
               </p>
@@ -99,7 +99,9 @@ export default function RentalCard({
           rel="noopener noreferrer"
           className="RentalCard_footerLink"
         >
-          Open Listing Details
+          <h3 className="bigText">
+            Open Listing Details
+          </h3>
         </Link>
       </div>
     </li>

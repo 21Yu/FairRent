@@ -48,7 +48,7 @@ export default function FilterForm({
     >
         
       <div>
-        <label className="FilterForm_label">
+        <label className="bigText">
           Maximum Price
         </label>
 
@@ -60,13 +60,13 @@ export default function FilterForm({
           {...register("price")}
         />
 
-        <p className="FilterForm_valueText">
+        <p>
           ${selectedPrice}
         </p>
       </div>
 
       <div>
-        <label className="FilterForm_label">
+        <label className="bigText">
           Max. Square Feet
         </label>
 
@@ -78,13 +78,13 @@ export default function FilterForm({
           {...register("squareFeet")}
         />
 
-        <p className="FilterForm_valueText">
+        <p>
           {selectedSquareFeet} SQ FT
         </p>
       </div>
       
       <div>
-        <label className="FilterForm_label">
+        <label className="bigText">
           Property Type
         </label>
 
@@ -103,7 +103,7 @@ export default function FilterForm({
       </div>
 
       <div>
-        <label className="FilterForm_label">Beds</label>
+        <label className="bigText">Beds</label>
 
         <input
           type="number"
@@ -115,7 +115,7 @@ export default function FilterForm({
       </div>
 
       <div>
-        <label className="FilterForm_label">Baths</label>
+        <label className="bigText">Baths</label>
 
         <input
           type="number"

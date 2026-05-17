@@ -27,7 +27,7 @@ export default function SideBar({
       
       <div className="SideBar_header">
         
-        <h2 className="SideBar_title">
+        <h2 className="bigText">
           Results ({rentals.length})
         </h2>
 
@@ -52,13 +52,13 @@ export default function SideBar({
       <div className="SideBar_content">
         {loading ? (
 
-          <p className="SideBar_emptyText">
+          <p className="greyText">
             loading...
           </p>
 
         ) : rentals.length === 0 ? (
 
-          <p className="SideBar_emptyText">
+          <p className="greyText">
             No data matching criteria
           </p>
 
