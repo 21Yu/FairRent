@@ -67,7 +67,7 @@ export default function SideBar({
           <ul>
             {sortedRentals.map((rental) => (
               <RentalCard
-                key={rental.id}
+                key={rental.rentfaster_id}
                 rental={rental}
               />
             ))}

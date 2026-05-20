@@ -27,31 +27,8 @@ export default function DetailPage() {
         const data = await res.json();
 
         const mapped: RentalType = {
-            id: data.rentfaster_id,
-            city: data.city,
-            province: data.province,
-            address: data.address,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            price: data.price,
-            beds: data.beds,
-            baths: data.baths,
-            squareFeet: data.sq_feet,
-            smoking: data.smoking,
-            cats: data.cats,
-            dogs: data.dogs,
-            location_freq: data.location_freq,
-            lease_term_months: data.lease_term_months,
-            type_apartment: data.type_apartment,
-            type_basement: data.type_basement,
-            type_duplex: data.type_duplex,
-            type_house: data.type_house,
-            type_other: data.type_other,
-            type_townhouse: data.type_townhouse,
-            furnishing_furnished: data.furnishing_furnished,
-            furnishing_negotiable: data.furnishing_negotiable,
-            furnishing_unfurnished: data.furnishing_unfurnished,
-            availability_days: data.availability_days,
+          ...data,
+          rentfaster_id: String(data.rentfaster_id)
         };
 
         setRental(mapped);
@@ -68,7 +45,6 @@ export default function DetailPage() {
 
   async function fetchPredictedPrice() {
     setIsPredicting(true);
-
     try {
       const res = await fetch(
         `${baseURL}/predict?id=${id}`
@@ -133,7 +109,7 @@ export default function DetailPage() {
                 {
                   label: "Sq Ft",
                   value:
-                    rental.squareFeet,
+                    rental.sq_feet,
                 },
               ].map((spec) => (
                 <div
@@ -171,7 +147,7 @@ export default function DetailPage() {
                   </span>
                   <span>
                     {
-                      rental.lease_term_months
+                      rental.lease_term
                     }{" "}
                     Months
                   </span>

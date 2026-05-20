@@ -19,9 +19,7 @@ export default function RentalCard({
 
           <span className="RentalCard_unitId">
             UNIT_
-            {rental.id
-              .toString()
-              .padStart(3, "0")}
+            {rental.rentfaster_id}
           </span>
         </div>
 
@@ -60,7 +58,7 @@ export default function RentalCard({
                 <p>
                   {rental.beds} BD {" "}
                   {rental.baths} BA {" "}
-                  {rental.squareFeet} SQFT
+                  {rental.sq_feet} SQFT
                 </p>
               </div>
             </div>
@@ -94,7 +92,7 @@ export default function RentalCard({
         </div>
 
         <Link
-          to={`/details/${rental.id}`}
+          to={`/details/${rental.rentfaster_id}`}
           target="_blank" 
           rel="noopener noreferrer"
           className="RentalCard_footerLink"

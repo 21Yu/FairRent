@@ -25,12 +25,12 @@ data.drop_duplicates(inplace=True)
 # handle city and province
 data['location'] = data['city'].astype('string').str.strip().str.lower() + ', ' + data['province'].astype('string').str.strip().str.lower()
 location_freq = data["location"].value_counts()
-data["location_freq"] = data["location"].map(location_freq)
+data["location_freq"] = data["location"].map(location_freq).astype(float)
 data.drop(columns=['city', 'province', 'location'], inplace=True)
 
 #handle lease term
 data['lease_term'] = data['lease_term'].astype('string').str.strip().str.lower()
-data['lease_term_months'] = data['lease_term'].map({
+data['lease_term'] = data['lease_term'].map({
     'long term': 12,
     'short term': 3,
     'negotiable': 6,
@@ -38,7 +38,6 @@ data['lease_term_months'] = data['lease_term'].map({
     '6 months': 6,
     'months': 6
 }).fillna(6)
-data.drop(columns=['lease_term'], inplace=True)
 
 #handle type
 data['type'] = data['type'].astype('string').str.strip().str.lower()
@@ -64,7 +63,7 @@ data['beds'] = data['beds'].astype('string').str.strip().str.lower()
 data['beds'] = data['beds'].replace({'studio': '0', 'none beds': np.nan})
 data['beds'] = data['beds'].str.extract('(\d+)')
 data['beds'] = pd.to_numeric(data['beds'])
-data['beds'] = data['beds'].fillna(data['beds'].median())
+data['beds'] = data['beds'].fillna(data['beds'].median()).astype(float)
 
 # #handle baths
 data['baths'] = data['baths'].astype('string').str.strip().str.lower()
@@ -81,17 +80,15 @@ data['sq_feet'] = (
     .str.replace('+', '', regex=False)
     .str.extract(r'(\d+\.?\d*)')[0]
 )
-
 data['sq_feet'] = pd.to_numeric(data['sq_feet'])
-
 data.loc[data['sq_feet'] == 0, 'sq_feet'] = np.nan
-
 data['sq_feet'] = data['sq_feet'].fillna(data['sq_feet'].median())
 
 # handle furnishing
 data['furnishing'] = data['furnishing'].astype('string').str.strip().str.lower()
-data['furnishing'] = data['furnishing'].replace({'unfurnished, negotiable': 'unfurnished'})
-data = pd.get_dummies(data, columns=['furnishing'], prefix='furnishing', dtype=int)
+data['furnishing'] = data['furnishing'].map({'unfurnished, negotiable': 0, 'unfurnished': 0,
+    'negotiable': 0, 
+    'furnished': 1})
 
 # #handle available date
 ref_date = pd.Timestamp("2024-06-01")
@@ -141,4 +138,5 @@ data['dogs'] = data['dogs'].map({True: 1, False: 0}).fillna(0).astype(int)
 data.dropna(inplace=True)
 data.drop_duplicates(inplace=True)  
 
+print(data.dtypes)
 data.to_csv("data/processed/rentfaster_training.csv", index=False)

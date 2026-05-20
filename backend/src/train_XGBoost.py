@@ -21,14 +21,11 @@ data["room_density"] = data["beds"] / (data["sq_feet"] + 1)
 
 # define features & target
 features = [
-    'latitude', 'longitude', 'beds',
-    'baths', 'sq_feet', 'smoking', 'cats',
-    'dogs', 'location_freq', 'lease_term_months',
-    'type_apartment', 'type_basement', 'type_duplex',
-    'type_house', 'type_other', 'type_townhouse',
-    'furnishing_furnished', 'furnishing_negotiable',
-    'furnishing_unfurnished', 'availability_days',
-    'geo_cluster', 'room_density'
+    'latitude', 'longitude', 'beds', 'baths', 'sq_feet', 'furnishing',
+    'smoking', 'cats', 'dogs', 'location_freq',
+    'lease_term', 'type_apartment', 'type_basement',
+    'type_duplex', 'type_house', 'type_other', 'type_townhouse',
+    'availability_days', 'geo_cluster', 'room_density'
 ]
 target = 'price'
 joblib.dump(features, "models/features.pkl")

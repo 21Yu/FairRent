@@ -105,7 +105,7 @@ Evaluated multiple regression models:
 | Linear Regression | 725.26 | 401.00 | 0.4008 |
 | Gradient Boosting | 548.57 | 276.87 | 0.6572 |
 | Tuned Gradient Boosting | 506.04 | 235.51 | 0.7083 |
-| XGBoost (Final) | 511.99 | 230.43 | 0.7014 |
+| XGBoost (Final) | 448.61 | 223.39 | 0.7568 |
 
 ## Getting Started
 

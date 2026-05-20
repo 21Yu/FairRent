@@ -17,7 +17,6 @@ model = joblib.load(model_path)
 
 app = FastAPI()
 
-
 # allow frontend origin
 origins = [
     "http://localhost:5173",
@@ -35,27 +34,11 @@ app.add_middleware(
 
 def filter_listing(df, price=None, type=None, beds=None, baths=None, squareFeet=None):
     
+    if type:
+        df = df[df["type"] == type]
+
     if price is not None:
         df = df[df["price"] <= price]
-    
-    if type:
-        if type == "apartment":
-            df = df[df["type_apartment"] == 1]
-
-        elif type == "basement":
-            df = df[df["type_basement"] == 1]
-
-        elif type == "duplex":
-            df = df[df["type_duplex"] == 1]   
-
-        elif type == "house":
-            df = df[df["type_house"] == 1]   
-
-        elif type == "townhouse":
-            df = df[df["type_townhouse"] == 1]   
-
-        elif type == "other":
-            df = df[df["type_other"] == 1]   
 
     if beds is not None:
         df = df[df["beds"] <= beds]
@@ -70,9 +53,9 @@ def filter_listing(df, price=None, type=None, beds=None, baths=None, squareFeet=
 
 @app.get("/rentals")
 def get_rentals(
-    price: float | None = None,
     type: str | None = None,
-    beds: int | None = None, 
+    price: float | None = None,
+    beds: float | None = None, 
     baths: float | None = None,
     squareFeet: float | None = None,
     north: float | None = None,
@@ -101,8 +84,7 @@ def get_rental(id: int):
 
 @app.get("/predict")
 def get_predict(id: int):   
-    data = listing.copy();
-    result = listing[listing["rentfaster_id"] == id];
+    result = listing[listing["rentfaster_id"] == id].copy();
 
     if result.empty:
         return {"error": "Rental not found"}
@@ -116,6 +98,12 @@ def get_predict(id: int):
     result["room_density"] = (
         result["beds"] / (result["sq_feet"] + 1)
     )
+
+    result = pd.get_dummies(result, columns=['type'], prefix='type', dtype=int)
+
+    for col in feature_columns:
+        if col not in result:
+            result[col] = 0
 
     X = result[feature_columns]
 

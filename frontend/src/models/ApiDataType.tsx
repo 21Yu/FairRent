@@ -1,5 +1,5 @@
-export interface RentalType {
-	rentfaster_id: string;
+export interface ApiDataType {
+	rentfaster_id: number;
 	city: string;
 	province: string;
 	address: string;
@@ -17,4 +17,4 @@ export interface RentalType {
 	dogs: boolean;
 	location_freq: number;
 	availability_days: number;
-}
+};
