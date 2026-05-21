@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
-  const getLinkClass = ({ isActive }) =>
+  const getLinkClass = ({ isActive } : { isActive: boolean }) =>
     `px-3 lg:px-12 flex items-center text-[12px] font-bold transition-colors ${
       isActive 
         ? "bg-[#0000ff] text-white" 
