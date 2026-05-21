@@ -66,8 +66,8 @@ export default function DetailPage() {
   if (!rental) {
     return (
       <Layout>
-        <div className="p-20 text-center font-bold animate-pulse uppercase tracking-[0.5em]">
-          Loading_System_Data...
+        <div className="p-20 text-center font-bold animate-pulse tracking-[0.5em]">
+          Loading System Data...
         </div>
       </Layout>
     );
@@ -75,28 +75,28 @@ export default function DetailPage() {
 
   return (
     <Layout>
-      <div className="DetailPage_container">
+      <div className="p-12">
         
-        <div className="DetailPage_header">
+        <div className="border-b-4 border-black pb-6 mb-12 flex justify-between items-baseline">
           <div>
-            <h1 className="DetailPage_title">
+            <h1 className="text-[42px] font-bold">
               {rental.address}
             </h1>
 
-            <p className="DetailPage_subtitle">
+            <p className="text-[18px] text-gray-500">
               {rental.city} {" "}
               {rental.province}
             </p>
           </div>
 
-          <div className="DetailPage_idBox">
-            ID_{id}
+          <div className="bg-black text-white px-6 py-2 font-mono text-[24px]">
+            ID {id}
           </div>
         </div>
 
-          <div className="DetailPage_main">
+          <div className="space-y-12">
             
-            <div className="DetailPage_specsGrid">
+            <div className="grid grid-cols-3 gap-1">
               {[
                 {
                   label: "Beds",
@@ -114,16 +114,16 @@ export default function DetailPage() {
               ].map((spec) => (
                 <div
                   key={spec.label}
-                  className="DetailPage_specsCard"
+                  className="bg-white p-6 text-center"
                 >
                   <p
-                    className="greyText"
+                    className="text-[12px] text-gray-400"
                   >
                     {spec.label}
                   </p>
 
                   <p
-                    className="bigText"
+                    className="text-[16px] font-bold"
                   >
                     {spec.value}
                   </p>
@@ -133,15 +133,15 @@ export default function DetailPage() {
 
             <div>
               <h3
-                className="bigText"
+                className="text-[16px] font-bold"
               >
                 Technical Parameters
               </h3>
 
               <div
-                className="DetailPage_technicalGrid"
+                className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 font-mono text-[13px] pt-2"
               >
-                <div className="DetailPage_row">
+                <div className="flex justify-between border-b border-gray-300 py-1">
                   <span>
                     Lease Term
                   </span>
@@ -153,7 +153,7 @@ export default function DetailPage() {
                   </span>
                 </div>
 
-                <div className="DetailPage_row">
+                <div className="flex justify-between border-b border-gray-300 py-1">
                   <span>
                     Availability
                   </span>
@@ -165,50 +165,50 @@ export default function DetailPage() {
                   </span>
                 </div>
 
-                <div className="DetailPage_row">
+                <div className="flex justify-between border-b border-gray-300 py-1">
                   <span>Cats</span>
                   <span
                     className={
                       rental.cats
-                        ? "DetailPage_allowed"
+                        ? "text-[#00ff00] font-bold"
                         : ""
                     }
                   >
                     {rental.cats
-                      ? "ALLOWED"
-                      : "NONE"}
+                      ? "Allowed"
+                      : "None"}
                   </span>
                 </div>
 
-                <div className="DetailPage_row">
+                <div className="flex justify-between border-b border-gray-300 py-1">
                   <span>Dogs</span>
                   <span
                     className={
                       rental.dogs
-                        ? "DetailPage_allowed"
+                        ? "text-[#00ff00] font-bold"
                         : ""
                     }
                   >
                     {rental.dogs
-                      ? "ALLOWED"
-                      : "NONE"}
+                      ? "Allowed"
+                      : "None"}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="DetailPage_side">
+            <div className="border-2 border-black p-8 space-y-8">
               
               <div>
                 <label>
                   Current Rent
                 </label>
 
-                <p className="DetailPage_price">
+                <p className="text-[48px] font-bold">
                   ${rental.price}
                 </p>
 
-                <p className="greyText">
+                <p className="text-[12px] text-gray-400">
                   Per Month / Fixed
                 </p>
               </div>
@@ -219,7 +219,8 @@ export default function DetailPage() {
                     fetchPredictedPrice
                   }
                   disabled={isPredicting}
-                  className={`DetailPage_button ${isPredicting ? 'DetailPage_button-loading' : 'DetailPage_button-ready'}`}
+                  className={`w-full py-4 font-bold border-2 border-black
+                  ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white'}`}
                 >
                   {isPredicting
                     ? "Calculating..."
@@ -229,27 +230,27 @@ export default function DetailPage() {
                 {predictedPrice !==
                   null && (
                   <div
-                    className="DetailPage_prediction-box"
+                    className="mt-6 bg-black text-white p-6"
                   >
                     <label
-                      className="DetailPage_prediction-label"
+                      className="text-[10px] font-bold text-[#fbffa7]"
                     >
-                      ML_Prediction_Output
+                      ML Prediction Output
                     </label>
 
-                    <p className="DetailPage_prediction-price">
+                    <p className="text-[36px] font-bold">
                       ${predictedPrice}
                     </p>
 
                     {(rental.price >= predictedPrice - 100) && 
                     (rental.price <= predictedPrice + 100) &&
-                    (<p className="greyText">Fair price</p>)}
+                    (<p className="text-[12px] text-gray-400">Fair price</p>)}
 
                     {(rental.price < predictedPrice - 100) &&
-                    (<p className="greyText">Good deal</p>)}
+                    (<p className="text-[12px] text-gray-400">Good deal</p>)}
 
                     {(rental.price > predictedPrice + 100) &&
-                    (<p className="greyText">Overpriced</p>)}                    
+                    (<p className="text-[12px] text-gray-400">Overpriced</p>)}                    
                   </div>
                 )}
 

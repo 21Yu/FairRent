@@ -1,24 +1,31 @@
 import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
+  const getLinkClass = ({ isActive }) =>
+    `px-3 lg:px-12 flex items-center text-[12px] font-bold transition-colors ${
+      isActive 
+        ? "bg-[#0000ff] text-white" 
+        : "text-black hover:bg-black hover:text-white"
+    }`;
+
   return (
     <header>
 
-      <nav className="Header_nav">
+      <nav className="h-[60px] bg-white flex">
         
-        <Link to="/" className="Header_header-nav">
+        <Link to="/" className="px-4 lg:px-8 items-center hover:bg-black hover:text-white flex font-bold">
           <h1>FairRent</h1>
         </Link>
 
-        <NavLink to="/" className="Header_nav-link">
+        <NavLink to="/" className={getLinkClass}>
           Home
         </NavLink>
 
-        <NavLink to="/about" className="Header_nav-link">
+        <NavLink to="/about" className={getLinkClass}>
           About
         </NavLink>
 
-        <NavLink to="/contact" className="Header_nav-link">
+        <NavLink to="/contact" className={getLinkClass}>
           Contact
         </NavLink>
       </nav>

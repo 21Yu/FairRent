@@ -10,7 +10,7 @@ export default function Layout({
   children,
 }: LayoutProps) {
   return (
-    <div className="Layout_wrapper">
+    <div className="flex flex-col min-h-screen">
       <Header />
 
       <main>

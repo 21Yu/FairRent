@@ -23,11 +23,11 @@ export default function SideBar({
   );
 
   return (
-    <aside className="SideBar_container">
+    <aside className="w-full h-screen flex flex-col">
       
-      <div className="SideBar_header">
+      <div className="p-4 bg-[#d1d1d1] flex items-center justify-between">
         
-        <h2 className="bigText">
+        <h2 className="text-[16px] font-bold">
           Results ({rentals.length})
         </h2>
 
@@ -35,7 +35,8 @@ export default function SideBar({
           onClick={() =>
             setAscending(!ascending)
           }
-          className={`SideBar_sortButton ${ascending ? 'SideBar_sortButton_ascending' : 'SideBar_sortButton_descending'}`}
+          className={`flex gap-2 px-2 py-1 border border-black
+          ${ascending ? 'bg-[#ff764d]' : 'bg-white'}`}
         >
           <span >
             Price:
@@ -49,16 +50,16 @@ export default function SideBar({
         </button>
       </div>
 
-      <div className="SideBar_content">
+      <div className="p-4 overflow-y-auto">
         {loading ? (
 
-          <p className="greyText">
+          <p className="text-[12px] text-gray-400">
             loading...
           </p>
 
         ) : rentals.length === 0 ? (
 
-          <p className="greyText">
+          <p className="text-[12px] text-gray-400">
             No data matching criteria
           </p>
 

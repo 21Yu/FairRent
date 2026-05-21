@@ -94,13 +94,13 @@ function MainPage() {
           />
         </section>
 
-        <main className="MainPage_main">
+        <main className="flex flex-col lg:flex-row">
           
-          <section className="MainPage_sidebar">
+          <section className="w-full lg:w-[400px] h-[50vh] lg:h-screen">
             <SideBar rentals={rentals} loading={loading} />
           </section>
 
-          <section className="MainPage_mapSection">
+          <section className="flex-1 h-[50vh] lg:h-screen">
             <Map
               rentals={rentals}
               onBoundsChange={setBounds}

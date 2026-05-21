@@ -9,26 +9,26 @@ export default function RentalCard({
   rental,
 }: RentalCardProps) {
   return (
-    <li className="RentalCard_listItem">
-      <div className="RentalCard_card">
+    <li className="mb-6">
+      <div className="border-2 border-black bg-white">
         
-        <div className="RentalCard_header">
-          <h3 className="bigText">
+        <div className="bg-black text-white p-3 flex justify-between items-center">
+          <h3 className="text-[16px] font-bold">
             {rental.address}
           </h3>
 
-          <span className="RentalCard_unitId">
-            UNIT_
+          <span className="text-[12px] font-mono bg-[#0000ff] px-2 py-1">
+            Unit
             {rental.rentfaster_id}
           </span>
         </div>
 
-        <div className="RentalCard_content">
+        <div className="p-4 flex">
           
-          <div className="RentalCard_infoSection">
+          <div className="space-y-4">
             
             <div>
-              <p className="greyText">
+              <p className="text-[12px] text-gray-400">
                 Location
               </p>
 
@@ -37,10 +37,10 @@ export default function RentalCard({
               </p>
             </div>
 
-            <div className="RentalCard_specsWrapper">
+            <div className="flex gap-8">
               
               <div>
-                <p className="greyText">
+                <p className="text-[12px] text-gray-400">
                   Pricing
                 </p>
 
@@ -51,41 +51,44 @@ export default function RentalCard({
               </div>
 
               <div>
-                <p className="greyText">
+                <p className="text-[12px] text-gray-400">
                   Specs
                 </p>
 
                 <p>
-                  {rental.beds} BD {" "}
-                  {rental.baths} BA {" "}
-                  {rental.sq_feet} SQFT
+                  {rental.beds} bd {" "}
+                  {rental.baths} ba {" "}
+                  {rental.sq_feet} sq ft
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="RentalCard_statusPanel">
+          <div className="flex flex-col gap-2">
             
-            <div className={`RentalCard_statusBadge ${rental.cats ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
+            <div className={`text-[10px] px-2 py-0.5 border border-black
+              ${rental.cats ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
               Cats 
             </div>
 
-            <div className={`RentalCard_statusBadge ${rental.dogs ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
+            <div className={`text-[10px] px-2 py-0.5 border border-black 
+              ${rental.dogs ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
               Dogs 
             </div>
 
-            <div className={`RentalCard_statusBadge ${rental.smoking ? 'RentalCard_allowed' : 'RentalCard_notAllowed'}`}>
+            <div className={`text-[10px] px-2 py-0.5 border border-black
+              ${rental.smoking ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
               Smoke
             </div>
 
-            <div className="RentalCard_availabilityWrapper">
-              <p className="greyText">
+            <div className="mt-auto pt-4">
+              <p className="text-[12px] text-gray-400">
                 Availability
               </p>
 
               <p>
-                IN{" "}
-                {rental.availability_days} DAYS
+                In{" "}
+                {rental.availability_days} days
               </p>
             </div>
           </div>
@@ -95,9 +98,9 @@ export default function RentalCard({
           to={`/details/${rental.rentfaster_id}`}
           target="_blank" 
           rel="noopener noreferrer"
-          className="RentalCard_footerLink"
+          className="flex border-t-2 border-black p-3 items-center bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white"
         >
-          <h3 className="bigText">
+          <h3 className="text-[16px] font-bold">
             Open Listing Details
           </h3>
         </Link>

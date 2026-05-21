@@ -76,7 +76,7 @@ export default function Map({
     const customIcon = L.divIcon({
       className: "a-marker",
 
-      html: `<div class="Map_map-marker"></div>`,
+      html: `<div class="w-4 h-4 bg-[#0000ff] border-2 border-black"></div>`,
 
       iconSize: [16, 16],
     });
@@ -85,7 +85,7 @@ export default function Map({
       const popupContent = `
         <div>
           
-          <h3 class="Map_popup-title">
+          <h3 class="text-[12px] font-bold border-b border-black pb-1">
             ${rental.address}
           </h3>
 
@@ -112,10 +112,10 @@ export default function Map({
   }, [rentals]);
 
   return (
-    <div className="Map_map-container">
+    <div className="border-2 border-black">
       <div
         ref={mapRef}
-        className="Map_map-view"
+        className="w-full h-screen"
       />
     </div>
   );

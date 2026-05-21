@@ -44,11 +44,11 @@ export default function FilterForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="FilterForm_grid"
+      className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8 p-10 bg-[#fbffa7]"
     >
         
       <div>
-        <label className="bigText">
+        <label className="text-[16px] font-bold">
           Maximum Price
         </label>
 
@@ -56,7 +56,7 @@ export default function FilterForm({
           type="range"
           min="0"
           max="5000"
-          className="FilterForm_range"
+          className="w-full h-1 appearance-none bg-black"
           {...register("price")}
         />
 
@@ -66,7 +66,7 @@ export default function FilterForm({
       </div>
 
       <div>
-        <label className="bigText">
+        <label className="text-[16px] font-bold">
           Max. Square Feet
         </label>
 
@@ -74,22 +74,22 @@ export default function FilterForm({
           type="range"
           min="0"
           max="3000"
-          className="FilterForm_range"
+          className="w-full h-1 appearance-none bg-black"
           {...register("squareFeet")}
         />
 
         <p>
-          {selectedSquareFeet} SQ FT
+          {selectedSquareFeet} sq ft
         </p>
       </div>
       
       <div>
-        <label className="bigText">
+        <label className="text-[16px] font-bold">
           Property Type
         </label>
 
         <select
-          className="FilterForm_input"
+          className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
           {...register("type")}
         >
           <option value="">Select...</option>
@@ -103,26 +103,26 @@ export default function FilterForm({
       </div>
 
       <div>
-        <label className="bigText">Beds</label>
+        <label className="text-[16px] font-bold">Beds</label>
 
         <input
           type="number"
           min="0"
           max="5"
-          className="FilterForm_input"
+          className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
           {...register("beds")}
         />
       </div>
 
       <div>
-        <label className="bigText">Baths</label>
+        <label className="text-[16px] font-bold">Baths</label>
 
         <input
           type="number"
           min="0"
           max="5"
           step="0.5"
-          className="FilterForm_input"
+          className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
           {...register("baths")}
         />
       </div>
@@ -130,7 +130,7 @@ export default function FilterForm({
       <div>
         <button
           type="submit"
-          className="FilterForm_button"
+          className="bg-[#0000ff] text-white w-full px-3 py-4 mt-4 font-bold hover:bg-black"
         >
           Search Rentals
         </button>
