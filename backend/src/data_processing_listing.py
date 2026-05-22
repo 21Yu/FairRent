@@ -95,6 +95,9 @@ data['sq_feet'] = pd.to_numeric(data['sq_feet'])
 data.loc[data['sq_feet'] == 0, 'sq_feet'] = np.nan
 data['sq_feet'] = data['sq_feet'].fillna(data['sq_feet'].median()).astype(float)
 
+# price per sq feet
+data['price_sq_ft'] = (data['price'] / data['sq_feet']).round(2).astype(float)
+
 # handle furnishing
 data['furnishing'] = (
     data['furnishing']

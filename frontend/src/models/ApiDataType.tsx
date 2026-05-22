@@ -16,5 +16,6 @@ export interface ApiDataType {
 	cats: boolean;
 	dogs: boolean;
 	location_freq: number;
+	price_sq_ft: number;
 	availability_days: number;
 };

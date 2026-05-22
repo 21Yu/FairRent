@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import type { RentalType } from "../models/RentalType";
 
@@ -9,18 +9,30 @@ type SideBarProps = {
   loading: boolean;
 };
 
+type SortOption = "price_asc" | "price_desc" | "sqft_asc" | "sqft_desc";
+
 export default function SideBar({
   rentals, loading
 }: SideBarProps) {
-  const [ascending, setAscending] =
-    useState(true);
 
-  const sortedRentals = [...rentals].sort(
-    (a, b) =>
-      ascending
-        ? a.price - b.price
-        : b.price - a.price
-  );
+  const [sortBy, setSortBy] = useState<SortOption>("price_asc");
+
+  const sortedRentals = useMemo(() => {
+    return [...rentals].sort((a, b) => {
+      switch (sortBy) {
+        case "price_asc":
+          return a.price - b.price;
+        case "price_desc":
+          return b.price - a.price;
+        case "sqft_asc":
+          return (a.price_sq_ft || 0) - (b.price_sq_ft || 0);
+        case "sqft_desc":
+          return (b.price_sq_ft || 0) - (a.price_sq_ft || 0);
+        default:
+          return 0;
+      }
+    });
+  }, [rentals, sortBy]);
 
   return (
     <aside className="w-full h-screen flex flex-col">
@@ -31,23 +43,16 @@ export default function SideBar({
           Results ({rentals.length})
         </h2>
 
-        <button
-          onClick={() =>
-            setAscending(!ascending)
-          }
-          className={`flex gap-2 px-2 py-1 border border-black
-          ${ascending ? 'bg-[#ff764d]' : 'bg-white'}`}
+        <select 
+          className="p-1 text-sm bg-white border"
+          value={sortBy} 
+          onChange={(e) => setSortBy(e.target.value as SortOption)}
         >
-          <span >
-            Price:
-          </span>
-
-          <span>
-            {ascending
-              ? "Low → High"
-              : "High → Low"}
-          </span>
-        </button>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="sqft_asc">Price/Sq Ft: Low to High</option>
+          <option value="sqft_desc">Price/Sq Ft: High to Low</option>
+        </select>
       </div>
 
       <div className="p-4 overflow-y-auto">

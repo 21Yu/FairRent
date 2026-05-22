@@ -44,9 +44,12 @@ export default function RentalCard({
                   Pricing
                 </p>
 
-                <p>
-                  $
-                  {rental.price.toLocaleString()}
+                <p className="font-bold">
+                  ${rental.price.toLocaleString()}
+                </p>
+
+                <p className="text-[12px] text-gray-500 mt-0.5">
+                    ${rental.price_sq_ft}/sq ft
                 </p>
               </div>
 

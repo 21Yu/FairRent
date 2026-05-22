@@ -166,6 +166,20 @@ export default function DetailPage() {
                 </div>
 
                 <div className="flex justify-between border-b border-gray-300 py-1">
+                  <span>Furnishing</span>
+                  <span className={rental.furnishing ? "text-[#00ff00] font-bold" : ""}>
+                    {rental.furnishing ? "Furnished" : "Unfurnished"}
+                  </span>
+                </div>
+
+                <div className="flex justify-between border-b border-gray-300 py-1">
+                  <span>Smoking</span>
+                  <span className={!rental.smoking ? "text-[#00ff00] font-bold" : "text-[#ff0000]"}>
+                    {rental.smoking ? "Allowed" : "No Smoking"}
+                  </span>
+                </div>
+
+                <div className="flex justify-between border-b border-gray-300 py-1">
                   <span>Cats</span>
                   <span
                     className={
@@ -198,19 +212,32 @@ export default function DetailPage() {
             </div>
 
             <div className="border-2 border-black p-8 space-y-8">
-              
-              <div>
-                <label>
-                  Current Rent
-                </label>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                  <label>
+                    Current Rent
+                  </label>
 
-                <p className="text-[48px] font-bold">
-                  ${rental.price}
-                </p>
+                  <p className="text-[48px] font-bold">
+                    ${rental.price}
+                  </p>
 
-                <p className="text-[12px] text-gray-400">
-                  Per Month / Fixed
-                </p>
+                  <p className="text-[12px] text-gray-400">
+                    Per Month / Fixed
+                  </p>
+                </div>
+
+                <div className="border-t-2 md:border-t-0 md:border-l-2 border-gray-200 pt-4 md:pt-0 md:pl-8 w-full md:w-auto">
+                  <label className="text-[12px] text-gray-400 block mb-1">
+                    Unit Economy
+                  </label>
+                  <p className="text-[24px] font-mono font-bold text-gray-700">
+                    ${rental.price_sq_ft ? rental.price_sq_ft.toFixed(2) : "0.00"}
+                  </p>
+                  <p className="text-[12px] text-gray-400 mt-1">
+                    Per Square Foot
+                  </p>
+                </div>
               </div>
 
               <div>
