@@ -4,6 +4,7 @@ from pathlib import Path
 from fastapi import FastAPI
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Response
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -114,3 +115,7 @@ def get_predict(id: int):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the FairRent API"}
+
+@app.route("/health", methods=["HEAD"])
+def head_health_check():
+    return Response(status_code=200)
