@@ -116,6 +116,6 @@ def get_predict(id: int):
 def read_root():
     return {"message": "Welcome to the FairRent API"}
 
-@app.route("/health", methods=["HEAD"])
+@app.api_route("/health", methods=["HEAD"])
 def head_health_check():
     return Response(status_code=200)
