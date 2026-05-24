@@ -110,3 +110,7 @@ def get_predict(id: int):
     prediction = model.predict(X)[0]
 
     return round(float(prediction), 2)
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the FairRent API"}
