@@ -30,6 +30,8 @@ function MainPage() {
 
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [selectedRentalId, setSelectedRentalId] = useState<string>("");
+
   useEffect(() => {
     if (!bounds) return;
 
@@ -97,13 +99,18 @@ function MainPage() {
         <main className="flex flex-col lg:flex-row">
           
           <section className="w-full lg:w-[400px] h-[50vh] lg:h-screen">
-            <SideBar rentals={rentals} loading={loading} />
+            <SideBar 
+              rentals={rentals} 
+              loading={loading}
+              selectedRentalId={selectedRentalId}
+            />
           </section>
 
           <section className="flex-1 h-[50vh] lg:h-screen">
             <Map
               rentals={rentals}
               onBoundsChange={setBounds}
+              onMarkerClick={setSelectedRentalId}
             />
 
           </section>

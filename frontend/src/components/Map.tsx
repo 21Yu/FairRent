@@ -12,11 +12,14 @@ type MapProps = {
     east: number;
     west: number;
   }) => void;
+
+  onMarkerClick: (id: string) => void;
 };
 
 export default function Map({
   rentals,
   onBoundsChange,
+  onMarkerClick
 }: MapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
@@ -100,16 +103,15 @@ export default function Map({
         </div>
       `;
 
-      L.marker(
-        [rental.latitude, rental.longitude],
-        {
-          icon: customIcon,
-        }
-      )
-        .bindPopup(popupContent)
+      const marker = L.marker([rental.latitude, rental.longitude], { icon: customIcon })
+        .bindPopup(popupContent, { autoPan: false })
         .addTo(markersLayer);
+
+      marker.on("click", () => {
+        onMarkerClick(rental.rentfaster_id); 
+      });
     });
-  }, [rentals]);
+  }, [rentals, onMarkerClick]);
 
   return (
     <div className="border-2 border-black">

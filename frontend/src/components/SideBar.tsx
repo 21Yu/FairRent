@@ -7,12 +7,13 @@ import RentalCard from "./RentalCard";
 type SideBarProps = {
   rentals: RentalType[];
   loading: boolean;
+  selectedRentalId: string;
 };
 
 type SortOption = "price_asc" | "price_desc" | "sqft_asc" | "sqft_desc";
 
 export default function SideBar({
-  rentals, loading
+  rentals, loading, selectedRentalId
 }: SideBarProps) {
 
   const [sortBy, setSortBy] = useState<SortOption>("price_asc");
@@ -75,6 +76,7 @@ export default function SideBar({
               <RentalCard
                 key={rental.rentfaster_id}
                 rental={rental}
+                isSelected={rental.rentfaster_id === selectedRentalId}
               />
             ))}
           </ul>

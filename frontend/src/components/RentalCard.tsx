@@ -1,16 +1,29 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import type { RentalType } from "../models/RentalType";
 
 type RentalCardProps = {
   rental: RentalType;
+  isSelected: boolean;
 };
 
 export default function RentalCard({
-  rental,
+  rental, isSelected
 }: RentalCardProps) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isSelected && cardRef.current) {
+      cardRef.current.scrollIntoView({
+        behavior: "smooth", 
+        block: "nearest",   
+      });
+    }
+  }, [isSelected]);
+  
   return (
     <li className="mb-6">
-      <div className="border-2 border-black bg-white">
+      <div ref={cardRef} className={`border-2  ${isSelected ? "border-4" : "border-black bg-white"}`}>
         
         <div className="bg-black text-white p-3 flex justify-between items-center">
           <h3 className="text-[16px] font-bold">
