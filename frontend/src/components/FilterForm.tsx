@@ -44,96 +44,108 @@ export default function FilterForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-8 p-10 bg-[#fbffa7]"
+      className="flex flex-col md:flex-row gap-8 p-10 bg-[#fbffa7]"
     >
         
-      <div>
-        <label className="text-[16px] font-bold">
-          Maximum Price
-        </label>
+      <div className="flex items-center">
+        <div>
+          <label className="text-[16px] font-bold">
+            Maximum Price
+          </label>
 
-        <input
-          type="range"
-          min="0"
-          max="5000"
-          className="w-full h-1 appearance-none bg-black"
-          {...register("price")}
-        />
+          <input
+            type="range"
+            min="0"
+            max="5000"
+            className="w-full h-1 appearance-none bg-black"
+            {...register("price")}
+          />
 
-        <p>
-          ${selectedPrice}
-        </p>
+          <p>
+            ${selectedPrice}
+          </p>
+        </div>
       </div>
 
-      <div>
-        <label className="text-[16px] font-bold">
-          Max. Square Feet
-        </label>
+      <div className="flex items-center">
+        <div>
+          <label className="text-[16px] font-bold">
+            Max. Square Feet
+          </label>
 
-        <input
-          type="range"
-          min="0"
-          max="3000"
-          className="w-full h-1 appearance-none bg-black"
-          {...register("squareFeet")}
-        />
+          <input
+            type="range"
+            min="0"
+            max="3000"
+            className="w-full h-1 appearance-none bg-black"
+            {...register("squareFeet")}
+          />
 
-        <p>
-          {selectedSquareFeet} sq ft
-        </p>
+          <p>
+            {selectedSquareFeet} sq ft
+          </p>
+        </div>
       </div>
       
-      <div>
-        <label className="text-[16px] font-bold">
-          Property Type
-        </label>
+      <div className="flex items-center">
+        <div>
+          <label className="text-[16px] font-bold">
+            Property Type
+          </label>
 
-        <select
-          className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
-          {...register("type")}
-        >
-          <option value="">Select...</option>
-          <option value="apartment">Apartment</option>
-          <option value="basement">Basement</option>
-          <option value="duplex">Duplex</option>
-          <option value="house">House</option>
-          <option value="townhouse">Townhouse</option>
-          <option value="other">Other</option>
-        </select>
+          <select
+            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
+            {...register("type")}
+          >
+            <option value="">Select...</option>
+            <option value="apartment">Apartment</option>
+            <option value="basement">Basement</option>
+            <option value="duplex">Duplex</option>
+            <option value="house">House</option>
+            <option value="townhouse">Townhouse</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
       </div>
 
-      <div>
-        <label className="text-[16px] font-bold">Beds</label>
+      <div className="flex items-center">
+        <div>
+          <label className="text-[16px] font-bold">Beds</label>
 
-        <input
-          type="number"
-          min="0"
-          max="5"
-          className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
-          {...register("beds")}
-        />
+          <input
+            type="number"
+            min="0"
+            max="5"
+            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
+            {...register("beds")}
+          />
+        </div>
       </div>
 
-      <div>
-        <label className="text-[16px] font-bold">Baths</label>
+      <div className="flex items-center">
+        <div>
+          <label className="text-[16px] font-bold">Baths</label>
 
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.5"
-          className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
-          {...register("baths")}
-        />
+          <input
+            type="number"
+            min="0"
+            max="5"
+            step="0.5"
+            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
+            {...register("baths")}
+          />
+        </div>
       </div>
 
-      <div>
-        <button
-          type="submit"
-          className="bg-[#0000ff] text-white w-full px-3 py-4 mt-4 font-bold hover:bg-black"
-        >
-          Search Rentals
-        </button>
+      <div className="flex items-center">
+        <div>
+          <button
+            type="submit"
+            className="bg-[#0000ff] text-white w-full p-4 font-bold hover:bg-black"
+          >
+            Search Rentals
+          </button>
+        </div>
       </div>
     </form>
   );

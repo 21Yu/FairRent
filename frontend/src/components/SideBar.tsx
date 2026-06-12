@@ -56,7 +56,7 @@ export default function SideBar({
         </select>
       </div>
 
-      <div className="p-4 overflow-y-auto">
+      <div id="sidebar-scroll-container" className="p-4 overflow-y-auto">
         {loading ? (
 
           <p className="text-[12px] text-gray-400">

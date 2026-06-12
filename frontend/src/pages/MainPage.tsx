@@ -96,9 +96,9 @@ function MainPage() {
           />
         </section>
 
-        <main className="flex flex-col lg:flex-row">
+        <main className="flex flex-col md:flex-row">
           
-          <section className="w-full lg:w-[400px] h-[50vh] lg:h-screen">
+          <section className="flex-1">
             <SideBar 
               rentals={rentals} 
               loading={loading}
@@ -106,7 +106,7 @@ function MainPage() {
             />
           </section>
 
-          <section className="flex-1 h-[50vh] lg:h-screen">
+          <section className="flex-3">
             <Map
               rentals={rentals}
               onBoundsChange={setBounds}

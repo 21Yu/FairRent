@@ -14,12 +14,15 @@ export default function RentalCard({
 
   useEffect(() => {
     if (isSelected && cardRef.current) {
-      cardRef.current.scrollIntoView({
-        behavior: "smooth", 
-        block: "nearest",   
-      });
-    }
-  }, [isSelected]);
+      const container = document.getElementById("sidebar-scroll-container");
+
+      if (container) {
+        container.scrollTo({
+          top: cardRef.current.offsetTop - container.offsetTop,
+          behavior: "smooth",
+        });
+      }
+    }}, [isSelected]);
   
   return (
     <li className="mb-6">
