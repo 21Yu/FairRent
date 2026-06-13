@@ -33,24 +33,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def filter_listing(df, price=None, type=None, beds=None, baths=None, squareFeet=None):
-    
+def filter_listing(price=None, type=None, beds=None, baths=None, squareFeet=None):
+    result = listing
+
     if type:
-        df = df[df["type"] == type]
+        result = listing[listing["type"] == type]
 
     if price is not None:
-        df = df[df["price"] <= price]
+        result = listing[listing["price"] <= price]
 
     if beds is not None:
-        df = df[df["beds"] <= beds]
+        result = listing[listing["beds"] <= beds]
 
     if baths is not None:
-        df = df[df["baths"] <= baths]
+        result = listing[listing["baths"] <= baths]
 
     if squareFeet is not None:
-        df = df[df["sq_feet"] <= squareFeet]
+        result = listing[listing["sq_feet"] <= squareFeet]
 
-    return df
+    return result
 
 @app.get("/rentals")
 def get_rentals(
@@ -63,7 +64,7 @@ def get_rentals(
     south: float | None = None,
     east: float | None = None,
     west: float | None = None):
-    result = filter_listing(listing.copy(), price, type, beds, baths, squareFeet)
+    result = filter_listing(price, type, beds, baths, squareFeet)
 
     if None not in (north, south, east, west):
         result = result[(result["latitude"] <= north) &
@@ -75,8 +76,7 @@ def get_rentals(
 
 @app.get("/rental")
 def get_rental(id: int):
-    data = listing.copy();
-    result = data[data["rentfaster_id"] == id];
+    result = listing[listing["rentfaster_id"] == id];
 
     if result.empty:
         return {"error": "Rental not found"}
@@ -111,6 +111,33 @@ def get_predict(id: int):
     prediction = model.predict(X)[0]
 
     return round(float(prediction), 2)
+
+@app.get("/insights")
+def get_insights(id: int):
+    rental = listing[listing["rentfaster_id"] == id]
+    if rental.empty:
+        return {"error": "Rental not found"}
+    
+    lat = float(rental["latitude"].iloc[0])
+    lon = float(rental["longitude"].iloc[0])
+    current_price = float(rental["price"].iloc[0])
+    
+    cluster_id = int(kmeans.predict([[lat, lon]])[0])
+
+    temp = listing.copy()
+    temp["geo_cluster"] = kmeans.predict(temp[["latitude", "longitude"]])
+
+    cluster_listings = temp[temp["geo_cluster"] == cluster_id]
+    cluster_avg_price = float(cluster_listings["price"].mean())
+    cluster_count = int(len(cluster_listings))
+
+    diff_pct = round(((current_price - cluster_avg_price) / cluster_avg_price) * 100, 1)
+
+    return {
+        "average_price": round(cluster_avg_price, 2),
+        "total_properties_in_cluster": cluster_count,
+        "difference_percentage": diff_pct
+    }
 
 @app.get("/")
 def read_root():

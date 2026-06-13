@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { RentalType } from "../models/RentalType";
+import type { InsightsType } from "../models/InsightsType";
 import Layout from "../components/layout/Layout";
 import Map from "../components/Map";
 
@@ -11,6 +12,7 @@ export default function DetailPage() {
   const [rental, setRental] = useState<RentalType | null>(null);
   const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
   const [isPredicting, setIsPredicting] = useState(false);
+  const [insights, setInsights] = useState<InsightsType | null>(null);
 
   useEffect(() => {
     async function fetchRental() {
@@ -20,12 +22,11 @@ export default function DetailPage() {
         );
         const data = await res.json();
 
-        const mapped: RentalType = {
-          ...data,
-          rentfaster_id: String(data.rentfaster_id)
-        };
-
-        setRental(mapped);
+        setRental({ ...data, rentfaster_id: String(data.rentfaster_id) });
+        const insightsRes = await fetch(`${baseURL}/insights?id=${id}`);
+        const insightsData = await insightsRes.json();
+        console.log(insightsData);
+        setInsights(insightsData);
       } catch (err) {
         console.error(
           "Failed to fetch rental:",
@@ -148,12 +149,6 @@ export default function DetailPage() {
               </div>
             </div>
 
-            <div className="mb-4">
-              <h3 className="text-[16px] font-bold">
-                Insights
-              </h3>
-            </div>
-
             <div className="space-y-4">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                 <div>
@@ -183,28 +178,50 @@ export default function DetailPage() {
 
                 {predictedPrice !==
                   null && (
-                  <div
-                    className="mt-6 bg-black text-white p-6"
-                  >
-                    <label
-                      className="text-[10px] font-bold text-[#fbffa7]"
-                    >
-                      ML Prediction Output
-                    </label>
+                  <div className="mt-6 bg-black text-white p-6">
+                    <div>
+                      <label
+                        className="text-[10px] font-bold text-[#fbffa7]"
+                      >
+                        ML Prediction Output
+                      </label>
 
-                    <p className="text-[36px] font-bold">
-                      ${predictedPrice}
-                    </p>
+                      <p className="text-[36px] font-bold">
+                        ${predictedPrice}
+                      </p>
 
-                    {(rental.price >= predictedPrice - 100) && 
-                    (rental.price <= predictedPrice + 100) &&
-                    (<p className="text-[12px] text-gray-400">Fair price</p>)}
+                      {(rental.price >= predictedPrice - 100) && 
+                      (rental.price <= predictedPrice + 100) &&
+                      (<p className="text-[12px] text-gray-400">Fair price</p>)}
 
-                    {(rental.price < predictedPrice - 100) &&
-                    (<p className="text-[12px] text-gray-400">Good deal</p>)}
+                      {(rental.price < predictedPrice - 100) &&
+                      (<p className="text-[12px] text-gray-400">Good deal</p>)}
 
-                    {(rental.price > predictedPrice + 100) &&
-                    (<p className="text-[12px] text-gray-400">Overpriced</p>)}                    
+                      {(rental.price > predictedPrice + 100) &&
+                      (<p className="text-[12px] text-gray-400">Overpriced</p>)}
+                    </div>    
+
+                    <div className="mb-4">
+                      <h3 className="text-[16px] font-bold">
+                        Market Insights
+                      </h3>
+                      {insights ? (
+                        <div>
+                          <span>Micro-Neighborhood Comps</span>
+                          <p>
+                          {insights.difference_percentage > 0 
+                          ? `+${insights.difference_percentage}% Over Comps`
+                          : `${insights.difference_percentage}% Below Comps`
+                          }
+                          </p>
+                          <p>
+                          The average rent in this geo-cluster profile is{" "}
+                          <strong>${insights.average_price}</strong> (evaluated across {insights.total_properties_in_cluster} active comps).
+                          </p>
+                        </div>
+                      ) : (<></>)}
+                    </div>
+                                  
                   </div>
                 )}
               </div>

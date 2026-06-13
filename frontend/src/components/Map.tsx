@@ -28,6 +28,8 @@ export default function Map({
     onBoundsChangeRef.current = onBoundsChange;
   }, [onBoundsChange]);
   const initialRentalsRef = useRef(rentals);
+  
+  const isSingleRental = !Array.isArray(rentals);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -115,9 +117,10 @@ export default function Map({
     });
   }, [rentals, onMarkerClick]);
 
+  
   return (
     <div className="border-2 border-black">
-      <div ref={mapRef} className="w-full h-screen"/>
+      <div ref={mapRef} className={`w-full ${isSingleRental ? "h-[50vh]" : "h-screen"}`}/>
     </div>
   );
 }
