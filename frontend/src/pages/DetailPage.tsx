@@ -72,7 +72,7 @@ export default function DetailPage() {
     <Layout>
       <div className="p-12">
         
-        <div className="pb-6 mb-6 flex justify-between items-baseline">
+        <div className="flex justify-between items-baseline">
           <div>
             <h1 className="text-[42px] font-bold">
               {rental.address}
@@ -84,153 +84,133 @@ export default function DetailPage() {
             </p>
           </div>
 
-          <div className="bg-black text-white px-6 py-2 font-mono text-[24px]">
+          <div className="bg-black text-white px-2 py-2 font-mono text-[24px]">
             ID {id}
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row">
-          <div className="flex-1">
-            <div className="mb-4">
+          <div className="flex-1"><Map rentals={rental}/></div>
+
+          <div className="flex-1 flex flex-col md:flex-row">
+            <div className="flex-1 p-4">
               <h3 className="text-[16px] font-bold">
                 Details
               </h3>
-
-              <div className="gap-y-2">
-                <div>
-                  <span> Beds: </span>
-                  <span> {" "}{rental.beds} </span>
-                </div>
-
-                <div>
-                  <span> Baths: </span> 
-                  <span> {" "}{rental.baths} </span>
-                </div>
-
-                <div>
-                  <span> Square Feet: </span>
-                  <span> {" "}{rental.sq_feet} </span>
-                </div>
-
-                <div>
-                  <span> Lease Term: </span>
-                  <span> {" "}{rental.lease_term}{" "}Months </span>
-                </div>
-
-                <div>
-                  <span> Price Per Square Foot: </span>
-                  <span> {" "}{rental.price_sq_ft}{"$"} </span>
-                </div>
-
-                <div>
-                  <span> Availability: </span>
-                  <span> {" "}{rental.availability_days}{" "}Days </span>
-                </div>
-                
-                <div>
-                  <span> Furnishing: </span>
-                  <span> {" "}{rental.furnishing ? "Furnished" : "Unfurnished"} </span>
-                </div>
-
-                <div>
-                  <span> Smoking: </span>
-                  <span> {" "}{rental.smoking ? "Allowed" : "No Smoking"} </span>
-                </div>
-
-                <div>
-                  <span> Cats: </span>
-                  <span> {" "}{rental.cats ? "Allowed" : "None"} </span>
-                </div>
-
-                <div>
-                  <span> Dogs: </span>
-                  <span> {" "}{rental.dogs ? "Allowed" : "None"} </span>
-                </div>
-              </div>
+              <table className="divide-y divide-gray-200 border text-sm w-full">
+                <tbody className="divide-y divide-gray-400">
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Beds</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.beds}</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Baths</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.baths}</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Square Feet</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.sq_feet} sq ft</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Lease Term</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.lease_term} Months</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Price / Sq Ft</th>
+                    <td className="px-4 py-2 text-gray-700">${rental.price_sq_ft}</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Availability</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.availability_days} Days</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Furnishing</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.furnishing ? "Furnished" : "Unfurnished"}</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Smoking</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.smoking ? "Allowed" : "No Smoking"}</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Cats</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.cats ? "Allowed" : "None"}</td>
+                  </tr>
+                  <tr>
+                    <th className="px-4 py-2 font-medium text-left">Dogs</th>
+                    <td className="px-4 py-2 text-gray-700">{rental.dogs ? "Allowed" : "None"}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                <div>
-                  <label>
-                    Current Rent
-                  </label>
-                  <p className="text-[48px] font-bold">
-                    ${rental.price}
-                  </p>
-                  <p className="text-[12px] text-gray-400">Per Month</p>
-                </div>
+            <div className="flex-1 flex-col">
+              <div className="flex flex-col gap-2 mb-4">
+                <label className="text-[16px] font-bold">
+                  Current Rent:
+                </label>
+                <p className="text-[48px] font-bold">
+                  ${rental.price}
+                </p>
+                <p className="text-[12px] text-gray-400">Per Month</p>
               </div>
 
-              <div>
-                <button
-                  onClick={
-                    fetchPredictedPrice
-                  }
-                  disabled={isPredicting}
-                  className={`w-full py-4 font-bold border-2 border-black
-                  ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white'}`}
-                >
-                  {isPredicting
-                    ? "Calculating..."
-                    : "Predict Market Price"}
-                </button>
+              <button
+                onClick={fetchPredictedPrice}
+                disabled={isPredicting}
+                className={`w-full py-4 font-bold border-2 border-black mb-4
+                ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white'}`}
+              >
+                {isPredicting
+                  ? "Calculating..."
+                  : "Predict Market Price"}
+              </button>
 
-                {predictedPrice !==
-                  null && (
-                  <div className="mt-6 bg-black text-white p-6">
-                    <div>
-                      <label
-                        className="text-[10px] font-bold text-[#fbffa7]"
-                      >
-                        ML Prediction Output
-                      </label>
+              {predictedPrice !==
+                null && (
+                <div className="bg-black text-white p-6">
+                  <div className="mb-4">
+                    <label className="font-bold text-[#fbffa7]">
+                      Prediction:
+                    </label>
+                    <p className="text-[36px] font-bold">
+                      ${predictedPrice}
+                    </p>
+                    {(rental.price >= predictedPrice - 100) && 
+                    (rental.price <= predictedPrice + 100) &&
+                    (<p className="text-[12px] text-gray-400">Fair price</p>)}
 
-                      <p className="text-[36px] font-bold">
-                        ${predictedPrice}
-                      </p>
+                    {(rental.price < predictedPrice - 100) &&
+                    (<p className="text-[12px] text-gray-400">Good deal</p>)}
 
-                      {(rental.price >= predictedPrice - 100) && 
-                      (rental.price <= predictedPrice + 100) &&
-                      (<p className="text-[12px] text-gray-400">Fair price</p>)}
+                    {(rental.price > predictedPrice + 100) &&
+                    (<p className="text-[12px] text-gray-400">Overpriced</p>)}
+                  </div>    
 
-                      {(rental.price < predictedPrice - 100) &&
-                      (<p className="text-[12px] text-gray-400">Good deal</p>)}
-
-                      {(rental.price > predictedPrice + 100) &&
-                      (<p className="text-[12px] text-gray-400">Overpriced</p>)}
-                    </div>    
-
-                    <div className="mb-4">
-                      <h3 className="text-[16px] font-bold">
-                        Market Insights
-                      </h3>
-                      {insights ? (
-                        <div>
-                          <span>Micro-Neighborhood Comps</span>
-                          <p>
-                          {insights.difference_percentage > 0 
-                          ? `+${insights.difference_percentage}% Over Comps`
-                          : `${insights.difference_percentage}% Below Comps`
-                          }
-                          </p>
-                          <p>
-                          The average rent in this geo-cluster profile is{" "}
-                          <strong>${insights.average_price}</strong> (evaluated across {insights.total_properties_in_cluster} active comps).
-                          </p>
-                        </div>
-                      ) : (<></>)}
-                    </div>
-                                  
+                  <div className="mb-4">
+                    <h3 className="text-[16px] font-bold text-[#fbffa7]">
+                      Market Insights
+                    </h3>
+                    {insights ? (
+                      <div>
+                        <p className="text-[12px] text-gray-400">Micro-Neighborhood Comps</p>
+                        <p>
+                        {insights.difference_percentage > 0 
+                        ? `+${insights.difference_percentage}% Over Comps`
+                        : `${insights.difference_percentage}% Below Comps`
+                        }
+                        </p>
+                        <p>
+                        The average rent in this geo-cluster profile is{" "}
+                        <strong>${insights.average_price}</strong> (evaluated across {insights.total_properties_in_cluster} active comps).
+                        </p>
+                      </div>
+                    ) : (<></>)}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          </div> 
-
-          <div className="flex-1"><Map rentals={rental}/></div>
-        </div>
-
+          </div>
+        </div> 
       </div>
     </Layout>
   );
