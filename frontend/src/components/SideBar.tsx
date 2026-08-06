@@ -38,14 +38,14 @@ export default function SideBar({
   return (
     <aside className="w-full h-screen flex flex-col">
       
-      <div className="p-4 bg-[#d1d1d1] flex items-center justify-between">
+      <div className="p-4 flex items-center justify-between">
         
         <h2 className="text-[16px] font-bold">
           Results ({rentals.length})
         </h2>
 
         <select 
-          className="p-1 text-sm bg-white border"
+          className="p-1 text-sm bg-white border focus:bg-indigo-300 focus:text-white"
           value={sortBy} 
           onChange={(e) => setSortBy(e.target.value as SortOption)}
         >

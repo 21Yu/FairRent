@@ -5,7 +5,7 @@ export default function Header() {
     `px-3 md:px-12 flex items-center text-[12px] font-bold ${
       isActive 
         ? "bg-black text-white" 
-        : "text-black hover:bg-[#0000ff] hover:text-white"
+        : "text-black hover:bg-indigo-300 hover:text-white"
     }`;
 
   return (

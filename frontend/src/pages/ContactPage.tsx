@@ -5,9 +5,8 @@ export default function ContactPage() {
         <Layout>
             <div className="p-6 lg:p-16 max-w-2xl mx-auto space-y-16">
                 
-                <header className="border-b-4 border-black pb-4 flex justify-between items-baseline">
+                <header className="pb-4 flex justify-center">
                     <h1 className="text-[28px] lg:text-[40px] font-bold">Contact</h1>
-                    <span className="font-mono text-[14px] bg-black text-white px-3 py-1">Get in touch</span>
                 </header>
 
                 <form 

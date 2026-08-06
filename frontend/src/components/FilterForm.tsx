@@ -44,7 +44,7 @@ export default function FilterForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col md:flex-row gap-8 p-10 bg-[#fbffa7]"
+      className="flex flex-col md:flex-row gap-8 p-10"
     >
         
       <div className="flex items-center">
@@ -70,7 +70,7 @@ export default function FilterForm({
       <div className="flex items-center">
         <div>
           <label className="text-[16px] font-bold">
-            Max. Square Feet
+            Maximum Square Feet
           </label>
 
           <input
@@ -94,7 +94,7 @@ export default function FilterForm({
           </label>
 
           <select
-            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
+            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
             {...register("type")}
           >
             <option value="">Select...</option>
@@ -116,7 +116,7 @@ export default function FilterForm({
             type="number"
             min="0"
             max="5"
-            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
+            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
             {...register("beds")}
           />
         </div>
@@ -131,7 +131,7 @@ export default function FilterForm({
             min="0"
             max="5"
             step="0.5"
-            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-[#0000ff] focus:text-white"
+            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
             {...register("baths")}
           />
         </div>
@@ -141,7 +141,7 @@ export default function FilterForm({
         <div>
           <button
             type="submit"
-            className="bg-[#0000ff] text-white w-full p-4 font-bold hover:bg-black"
+            className="bg-black text-white w-full p-4 font-bold hover:bg-indigo-300"
           >
             Search Rentals
           </button>
