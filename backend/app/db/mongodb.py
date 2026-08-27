@@ -9,4 +9,7 @@ class Database:
 db = Database()
 
 async def get_database():
+    if db.client is None:
+        raise RuntimeError("Database client is not initialized.")
+    
     return db.client[settings.DATABASE_NAME]

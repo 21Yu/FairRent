@@ -1,9 +1,12 @@
 # Login, register, refresh from fastapi import APIRouter, HTTPException, status, Depends
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from app.db.mongodb import get_database
+
 from app.core.security import hash_password, verify_password, create_access_token
-from app.models.schemas.user import UserCreate, UserResponse, Token
+from app.models.schemas.user import UserCreate, UserResponse
+from app.models.schemas.token import Token
+from app.middleware.auth_middleware import get_current_user
 
 router = APIRouter()
 
@@ -20,7 +23,11 @@ async def signup(user_in: UserCreate, db = Depends(get_database)):
         "saved_listings": []
     }
     result = await db.users.insert_one(user_doc)
-    return {**user_in.dict(), "id": str(result.inserted_id)}
+    return {
+        "id": str(result.inserted_id),
+        "email": user_in.email,
+        "full_name": user_in.full_name
+    }
 
 @router.post("/login", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(get_database)):
@@ -30,3 +37,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(g
     
     access_token = create_access_token(data={"sub": user["email"], "id": str(user["_id"])})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.get("/me", response_model=UserResponse)
+async def read_users_me(current_user: dict = Depends(get_current_user)):
+    return current_user

@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 import joblib
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 class DataContainer:
     listing: pd.DataFrame = None
@@ -13,10 +13,10 @@ class DataContainer:
 data_store = DataContainer()
 
 def load_artifacts():
-    listing_path = BASE_DIR / "data" / "processed" / "rentfaster_listing.csv"
-    model_path = BASE_DIR / "models" / "xgb_boosting_tuned.pkl"
-    kmeans_path = BASE_DIR / "models" / "kmeans.pkl"
-    features_path = BASE_DIR / "models" / "features.pkl"
+    listing_path = BASE_DIR / "ml" / "data" / "processed" / "rentfaster_listing.csv"
+    model_path = BASE_DIR / "ml" / "models" / "xgb_boosting_tuned.pkl"
+    kmeans_path = BASE_DIR / "ml" / "models" / "kmeans.pkl"
+    features_path = BASE_DIR / "ml" / "models" / "features.pkl"
 
     data_store.listing = pd.read_csv(listing_path)
     data_store.model = joblib.load(model_path)

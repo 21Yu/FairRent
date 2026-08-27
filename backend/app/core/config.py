@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     DATABASE_NAME: str = "fairrent"
     SECRET_KEY: str = "YOUR_SUPER_SECRET_KEY_HERE"
     ALGORITHM: str = "HS256"
+    ENVIRONMENT: str = "development"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 1 day
 
     class Config:
