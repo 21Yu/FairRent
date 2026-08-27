@@ -1,0 +1,1 @@
+//  Global auth state (user, token, login/logout functions)
