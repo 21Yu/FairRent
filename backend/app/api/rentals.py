@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 from app.services.data_loader import data_store
 
-router = APIRouter(prefix="/rentals", tags=["Rentals"])
+router = APIRouter()
 
 @router.get("/")
 def get_rentals(

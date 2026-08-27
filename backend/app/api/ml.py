@@ -3,7 +3,7 @@ import pandas as pd
 from fastapi import APIRouter, HTTPException
 from app.services.data_loader import data_store
 
-router = APIRouter(tags=["ML & Insights"])
+router = APIRouter()
 
 @router.get("/predict/{id}")
 def get_predict(id: int):   
