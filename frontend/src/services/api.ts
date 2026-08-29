@@ -1,3 +1,7 @@
+import type { Filters, MapBounds } from "../pages/MainPage";
+import type { RentalType } from "../models/RentalType";
+import type { InsightsType } from "../models/InsightsType";
+
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export interface UserResponse {
@@ -19,12 +23,10 @@ export async function register(user_name: string, email: string, password: strin
         throw new Error(error ?? 'Register Failed');
     }
 
-    const data: UserResponse = await res.json();
-    return data;
+    return res.json();
 }
 
 export async function login(email: string, password: string): Promise<UserResponse> {
-
     const formData = new URLSearchParams();
     formData.append("username", email);
     formData.append("password", password);
@@ -41,8 +43,7 @@ export async function login(email: string, password: string): Promise<UserRespon
         throw new Error(error ?? 'Login Failed');
     }
 
-    const data: UserResponse = await res.json();
-    return data;
+    return res.json();
 }
 
 export async function logout(): Promise<void> {
@@ -51,8 +52,9 @@ export async function logout(): Promise<void> {
         credentials: 'include',
     });
 
-    const data = await res.json();
-    return data;
+    if (!res.ok) {
+        throw new Error('Logout failed');
+    }
 }
 
 export async function getCurrentUser(): Promise<UserResponse> {
@@ -61,6 +63,64 @@ export async function getCurrentUser(): Promise<UserResponse> {
         credentials: 'include',
     });
 
-    const data:UserResponse = await res.json();
-    return data;    
+    if (!res.ok) {
+        throw new Error('Failed to fetch current user');
+    }
+
+    return res.json();
+}
+
+export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise<RentalType[]> {
+    const cleanFilters = Object.fromEntries(
+        Object.entries(filters).filter((entry) => entry[1] !== "")
+    );
+
+    const query = new URLSearchParams(
+        Object.fromEntries(
+            Object.entries({
+                ...cleanFilters,
+                ...bounds,
+            }).map(([key, value]) => [key, String(value)])
+        )
+    ).toString();
+
+    const res = await fetch(`${baseURL}/rentals?${query}`);
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch rentals');
+    }
+
+    return res.json();
+}
+
+export async function fetchRental(id: string): Promise<RentalType> {
+    const res = await fetch(
+        `${baseURL}/rental?id=${id}`
+    );
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch rental');
+    }
+
+    return res.json();
+}
+
+export async function fetchInsights(id: string): Promise<InsightsType> {
+    const res = await fetch(`${baseURL}/ml/insights?id=${id}`);
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch rental');
+    }
+
+    return res.json();    
+}
+
+export async function fetchPredictedPrice(id: string): Promise<number> {
+    const res = await fetch(`${baseURL}/ml/predict?id=${id}`);
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch rental');
+    }
+
+    return res.json();    
 }

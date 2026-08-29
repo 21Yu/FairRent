@@ -65,7 +65,7 @@ async def logout(response: Response):
         secure=True,
         samesite="lax"
     )
-    return {"message": "Successfully logged out"}
+    return
 
 
 @router.get("/me", response_model=UserResponse)
