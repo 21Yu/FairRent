@@ -31,7 +31,7 @@ export default function LoginForm() {
             className="space-y-8 text-[12px] font-bold"
         >
             <div className="space-y-2">
-                <h2>Register</h2>
+                <h2>Log In</h2>
             </div>
 
             <div className="space-y-2">
