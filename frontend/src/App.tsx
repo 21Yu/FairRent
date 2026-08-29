@@ -7,7 +7,7 @@ import {
 import MainPage from "./pages/MainPage";
 import DetailPage from "./pages/DetailPage";
 import AboutPage from "./pages/AboutPage";
-import ContactPage from "./pages/ContactPage";
+import ProfilePage from "./pages/ProfilePage";
 
 export default function App() {
   return (
@@ -15,7 +15,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<MainPage />}/>
         <Route path="/about" element={<AboutPage />}/>
-        <Route path="/contact" element={<ContactPage />}/>
+        <Route path="/profile" element={<ProfilePage />}/>
         <Route path="/details/:id" element={<DetailPage />}/>
       </Routes>
     </BrowserRouter>

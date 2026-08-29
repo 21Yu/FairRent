@@ -10,7 +10,7 @@ from app.middleware.auth_middleware import get_current_user
 
 router = APIRouter()
 
-@router.post("/signup", response_model=UserResponse)
+@router.post("/register", response_model=UserResponse)
 async def signup(user_in: UserCreate, db = Depends(get_database)):
     existing_user = await db.users.find_one({"email": user_in.email})
     if existing_user:

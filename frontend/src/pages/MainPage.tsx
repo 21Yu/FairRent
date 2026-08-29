@@ -88,7 +88,7 @@ function MainPage() {
 
   return (
     <Layout>
-      <div>
+      <div className="p-8 md:p-4">
         
         <section>
           <FilterForm

@@ -8,7 +8,7 @@ async def test_auth(client):
     }
 
     # 1. Sign up
-    reg_response = await client.post("/auth/signup", json=user_payload)
+    reg_response = await client.post("/auth/register", json=user_payload)
     assert reg_response.status_code in [200, 201]
 
     # 2. Login

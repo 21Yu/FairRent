@@ -7,9 +7,9 @@
 ### 0. Reset Database
 POST {{baseUrl}}/test/reset-db
 
-### 1. Register / Sign Up User
-# @name signup
-POST {{baseUrl}}/auth/signup
+### 1. Register User
+# @name register
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
