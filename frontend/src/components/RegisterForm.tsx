@@ -1,10 +1,6 @@
 import { useState } from "react";
 
-type RegisterFormValues = {
-    userName: string;
-    email: string;
-    password: string;
-};
+import type { RegisterFormValues } from "../models/AuthType";
 
 export default function RegisterForm() {
     const [formData, setFormData] = useState<RegisterFormValues>({

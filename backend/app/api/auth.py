@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.db.mongodb import get_database
 
 from app.core.security import hash_password, verify_password, create_access_token
+from app.core.config import settings
 from app.models.schemas.user import UserCreate, UserResponse
 from app.models.schemas.token import Token
 from app.middleware.auth_middleware import get_current_user
@@ -18,17 +19,17 @@ async def register(user_in: UserCreate, db = Depends(get_database)):
     user_doc = {
         "email": user_in.email,
         "hashed_password": hash_password(user_in.password),
-        "full_name": user_in.full_name,
+        "user_name": user_in.user_name,
         "saved_listings": []
     }
     result = await db.users.insert_one(user_doc)
     return {
         "id": str(result.inserted_id),
         "email": user_in.email,
-        "full_name": user_in.full_name
+        "user_name": user_in.user_name
     }
 
-@router.post("/login")
+@router.post("/login", response_model=UserResponse)
 async def login(
     response: Response, 
     form_data: OAuth2PasswordRequestForm = Depends(), 
@@ -47,10 +48,14 @@ async def login(
         httponly=True,  # Prevents client-side JS from reading the cookie (XSS protection)
         secure=True,    # Set to True in production (requires HTTPS)
         samesite="lax", # Helps mitigate CSRF attacks
-        max_age=1800    # Cookie expiration in seconds (e.g., 30 mins)
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
     )
     
-    return {"message": "Login successful" }
+    return {
+        "id": str(user["_id"]),
+        "email": user["email"],
+        "user_name": user["user_name"]
+    }
 
 @router.post("/logout")
 async def logout(response: Response):
