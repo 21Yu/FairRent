@@ -4,61 +4,56 @@ import type { RentalType } from "../models/RentalType";
 import type { InsightsType } from "../models/InsightsType";
 import Layout from "../components/layout/Layout";
 import Map from "../components/Map";
-
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+import { fetchRental, fetchPredictedPrice, fetchInsights } from "../services/api";
 
 export default function DetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  
   const [rental, setRental] = useState<RentalType | null>(null);
   const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
-  const [isPredicting, setIsPredicting] = useState(false);
   const [insights, setInsights] = useState<InsightsType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPredicting, setIsPredicting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchRental() {
+    if (!id) return;
+
+    const loadRentalData = async () => {
       try {
-        const res = await fetch(
-          `${baseURL}/rental?id=${id}`
-        );
-        const data = await res.json();
-
-        setRental({ ...data, rentfaster_id: String(data.rentfaster_id) });
-        const insightsRes = await fetch(`${baseURL}/insights?id=${id}`);
-        const insightsData = await insightsRes.json();
-        console.log(insightsData);
-        setInsights(insightsData);
+        setIsLoading(true);
+        const data = await fetchRental(id);
+        setRental(data);
       } catch (err) {
-        console.error(
-          "Failed to fetch rental:",
-          err
-        );
+        setError(err instanceof Error ? err.message : "Failed to load rental details");
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchRental();
+    loadRentalData();
   }, [id]);
 
-  async function fetchPredictedPrice() {
-    setIsPredicting(true);
+  const handlePredictPrice = async () => {
+    if (!id) return;
+
     try {
-      const res = await fetch(
-        `${baseURL}/predict?id=${id}`
-      );
+      setIsPredicting(true);
+      const [priceData, insightsData] = await Promise.all([
+        fetchPredictedPrice(id),
+        fetchInsights(id)
+      ]);
 
-      const data = await res.json();
-
-      setPredictedPrice(data);
+      setPredictedPrice(priceData);
+      setInsights(insightsData);
     } catch (err) {
-      console.error(
-        "Failed to fetch predicted price:",
-        err
-      );
+      console.error("Failed to calculate predictions:", err);
     } finally {
       setIsPredicting(false);
     }
-  }
+  };
 
-  if (!rental) {
+  if (isLoading) {
     return (
       <Layout>
         <div className="p-20 text-center font-bold">
@@ -68,19 +63,26 @@ export default function DetailPage() {
     );
   }
 
+  if (error || !rental) {
+    return (
+      <Layout>
+        <div className="p-20 text-center font-bold text-red-500">
+          {error || "Rental not found"}
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="p-12">
-        
         <div className="flex justify-between items-baseline">
           <div>
             <h1 className="text-[42px] font-bold">
               {rental.address}
             </h1>
-
             <p className="text-[18px] text-gray-500">
-              {rental.city} {" "}
-              {rental.province}
+              {rental.city} {rental.province}
             </p>
           </div>
 
@@ -155,7 +157,7 @@ export default function DetailPage() {
               </div>
 
               <button
-                onClick={fetchPredictedPrice}
+                onClick={handlePredictPrice}
                 disabled={isPredicting}
                 className={`w-full py-4 font-bold border-2 border-black mb-4
                 ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white'}`}
@@ -165,8 +167,7 @@ export default function DetailPage() {
                   : "Predict Market Price"}
               </button>
 
-              {predictedPrice !==
-                null && (
+              {predictedPrice !== null && (
                 <div className="bg-black text-white p-6">
                   <div className="mb-4">
                     <label className="font-bold text-[#fbffa7]">
@@ -194,17 +195,17 @@ export default function DetailPage() {
                       <div>
                         <p className="text-[12px] text-gray-400">Micro-Neighborhood Comps</p>
                         <p>
-                        {insights.difference_percentage > 0 
-                        ? `+${insights.difference_percentage}% Over Comps`
-                        : `${insights.difference_percentage}% Below Comps`
-                        }
+                          {insights.difference_percentage > 0 
+                            ? `+${insights.difference_percentage}% Over Comps`
+                            : `${insights.difference_percentage}% Below Comps`
+                          }
                         </p>
                         <p>
-                        The average rent in this geo-cluster profile is{" "}
-                        <strong>${insights.average_price}</strong> (evaluated across {insights.total_properties_in_cluster} active comps).
+                          The average rent in this geo-cluster profile is{" "}
+                          <strong>${insights.average_price}</strong> (evaluated across {insights.total_properties_in_cluster} active comps).
                         </p>
                       </div>
-                    ) : (<></>)}
+                    ) : null}
                   </div>
                 </div>
               )}

@@ -1,0 +1,54 @@
+### Variables
+@baseUrl = http://127.0.0.1:8000
+@email = testuser@example.com
+@password = Password123!
+@fullName = Test User
+
+### 0. Reset Database
+POST {{baseUrl}}/test/reset-db
+
+### 1. Register User
+# @name register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "full_name": "{{fullName}}"
+}
+
+###
+
+### 2. Login User
+# Note: OAuth2 Password flow uses form-urlencoded format, not JSON!
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username={{email}}&password={{password}}
+
+###
+
+### Extract Token Variable from Login Response
+@authToken = {{login.response.body.access_token}}
+
+###
+
+### 3. Get Current User Profile (/me)
+# Requires valid Authorization header
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{authToken}}
+
+###
+
+### 4. Test Invalid Login (Negative Test Case)
+POST {{baseUrl}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username={{email}}&password=wrongpassword
+
+###
+
+### 5. Test Access /me Without Token (Should Return 401 Unauthorized)
+GET {{baseUrl}}/auth/me

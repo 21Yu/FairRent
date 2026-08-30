@@ -1,5 +1,4 @@
-import { useForm } from "react-hook-form";
-import { useWatch } from "react-hook-form";
+import { useState } from "react";
 
 type FilterFormValues = {
   price: string;
@@ -13,89 +12,75 @@ type FilterFormProps = {
   onFormSubmit: (data: FilterFormValues) => void;
 };
 
-export default function FilterForm({
-  onFormSubmit,
-}: FilterFormProps) {
-  const {
-    register,
-    handleSubmit,
-    control,
-  } = useForm<FilterFormValues>({
-    defaultValues: {
-      price: "2500",
-      squareFeet: "1000",
-    },
+export default function FilterForm({ onFormSubmit }: FilterFormProps) {
+  const [formData, setFormData] = useState<FilterFormValues>({
+    price: "2500",
+    type: "",
+    beds: "",
+    baths: "",
+    squareFeet: "1000",
   });
 
-  const selectedPrice = useWatch({
-    control,
-    name: "price",
-  });
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
-  const selectedSquareFeet = useWatch({
-    control,
-    name: "squareFeet",
-  });
-
-  function onSubmit(data: FilterFormValues) {
-    onFormSubmit(data);
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    onFormSubmit(formData);
   }
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit}
       className="flex flex-col md:flex-row gap-8 p-10"
     >
-        
       <div className="flex items-center">
         <div>
-          <label className="text-[16px] font-bold">
-            Maximum Price
-          </label>
-
+          <label className="text-[16px] font-bold">Maximum Price</label>
           <input
             type="range"
+            name="price"
             min="0"
             max="5000"
+            value={formData.price}
+            onChange={handleChange}
             className="w-full h-1 appearance-none bg-black"
-            {...register("price")}
           />
-
-          <p>
-            ${selectedPrice}
-          </p>
+          <p>${formData.price}</p>
         </div>
       </div>
 
       <div className="flex items-center">
         <div>
-          <label className="text-[16px] font-bold">
-            Maximum Square Feet
-          </label>
-
+          <label className="text-[16px] font-bold">Maximum Square Feet</label>
           <input
             type="range"
+            name="squareFeet"
             min="0"
             max="3000"
+            value={formData.squareFeet}
+            onChange={handleChange}
             className="w-full h-1 appearance-none bg-black"
-            {...register("squareFeet")}
           />
-
-          <p>
-            {selectedSquareFeet} sq ft
-          </p>
+          <p>{formData.squareFeet} sq ft</p>
         </div>
       </div>
-      
+
       <div className="flex items-center">
         <div>
-          <label className="text-[16px] font-bold">
-            Property Type
-          </label>
-
+          <label className="text-[16px] font-bold">Property Type</label>
           <select
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
             className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
-            {...register("type")}
           >
             <option value="">Select...</option>
             <option value="apartment">Apartment</option>
@@ -111,13 +96,14 @@ export default function FilterForm({
       <div className="flex items-center">
         <div>
           <label className="text-[16px] font-bold">Beds</label>
-
           <input
             type="number"
+            name="beds"
             min="0"
             max="5"
+            value={formData.beds}
+            onChange={handleChange}
             className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
-            {...register("beds")}
           />
         </div>
       </div>
@@ -125,14 +111,15 @@ export default function FilterForm({
       <div className="flex items-center">
         <div>
           <label className="text-[16px] font-bold">Baths</label>
-
           <input
             type="number"
+            name="baths"
             min="0"
             max="5"
             step="0.5"
+            value={formData.baths}
+            onChange={handleChange}
             className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
-            {...register("baths")}
           />
         </div>
       </div>

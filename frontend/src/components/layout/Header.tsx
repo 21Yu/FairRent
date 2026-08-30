@@ -4,14 +4,14 @@ export default function Header() {
   const getLinkClass = ({ isActive } : { isActive: boolean }) =>
     `px-3 md:px-12 flex items-center text-[12px] font-bold ${
       isActive 
-        ? "bg-black text-white" 
-        : "text-black hover:bg-indigo-300 hover:text-white"
+        ? "text-indigo-300" 
+        : ""
     }`;
 
   return (
     <header>
 
-      <nav className="h-[60px] bg-white flex">
+      <nav className="h-[60px] bg-white flex border-b border-gray-300">
         
         <h1 className="px-4 md:px-8 items-center flex font-bold">FairRent</h1>
 
@@ -23,9 +23,10 @@ export default function Header() {
           About
         </NavLink>
 
-        <NavLink to="/contact" className={getLinkClass}>
-          Contact
+        <NavLink to="/profile" className={getLinkClass}>
+          Profile
         </NavLink>
+
       </nav>
     </header>
   );

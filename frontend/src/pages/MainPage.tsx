@@ -4,14 +4,27 @@ import Map from "../components/Map";
 import FilterForm from "../components/FilterForm";
 import SideBar from "../components/SideBar";
 import Layout from "../components/layout/Layout";
+import { fetchRentals } from "../services/api";
 
 import type { RentalType } from "../models/RentalType";
-import type { ApiDataType } from "../models/ApiDataType";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+export interface Filters {
+  price: string;
+  type: string;
+  beds: string;
+  baths: string;
+  squareFeet: string; 
+}
+
+export interface MapBounds {
+  north: number;
+  south: number;
+  east: number;
+  west: number;
+}
 
 function MainPage() {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     price: "",
     type: "",
     beds: "",
@@ -19,12 +32,7 @@ function MainPage() {
     squareFeet: "",
   });
 
-  const [bounds, setBounds] = useState<{
-    north: number;
-    south: number;
-    east: number;
-    west: number;
-  } | null>(null);
+  const [bounds, setBounds] = useState<MapBounds | null>(null);
 
   const [rentals, setRentals] = useState<RentalType[]>([]);
 
@@ -35,60 +43,21 @@ function MainPage() {
   useEffect(() => {
     if (!bounds) return;
 
-    const timeout = setTimeout(() => {
-      fetchRentals();
+    const timeout = setTimeout(async () => {
+      setLoading(true);
+      const data = await fetchRentals(filters, bounds);
+      setRentals(data);
+      setLoading(false);
     }, 300);
 
     return () => clearTimeout(timeout);
 
-    async function fetchRentals() {
-      try {
-        const cleanFilters = Object.fromEntries(
-          Object.entries(filters).filter(
-            (entry) => entry[1] !== ""
-          )
-        );
 
-        const query = new URLSearchParams(
-          Object.fromEntries(
-            Object.entries({
-              ...cleanFilters,
-              ...bounds,
-            }).map(([key, value]) => [
-              key,
-              String(value),
-            ])
-          )
-        ).toString();
-
-        setLoading(true);
-
-        const res = await fetch(
-          `${baseURL}/rentals?${query}`
-        );
-
-        const data = await res.json();
-
-        const mapped: RentalType[] = data.map((item: ApiDataType) => ({
-          ...item,
-          rentfaster_id: String(item.rentfaster_id)
-        }));
-
-        setRentals(mapped);
-
-        setLoading(false);
-      } catch (err) {
-        console.error(
-          "Failed to fetch rentals:",
-          err
-        );
-      }
-    }
   }, [filters, bounds]);
 
   return (
     <Layout>
-      <div>
+      <div className="p-8 md:p-4">
         
         <section>
           <FilterForm
