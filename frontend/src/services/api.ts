@@ -1,5 +1,5 @@
 import type { Filters, MapBounds } from "../pages/MainPage";
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../models/ListingType";
 import type { InsightsType } from "../models/InsightsType";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -82,7 +82,7 @@ export async function getCurrentUser(): Promise<UserResponse> {
     return res.json();
 }
 
-export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise<RentalType[]> {
+export async function fetchListings(filters: Filters, bounds: MapBounds): Promise<ListingType[]> {
     const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter((entry) => entry[1] !== "")
     );
@@ -96,22 +96,22 @@ export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise
         )
     ).toString();
 
-    const res = await fetch(`${baseURL}/rentals/?${query}`);
+    const res = await fetch(`${baseURL}/listings/?${query}`);
 
     if (!res.ok) {
-        throw new Error('Failed to fetch rentals');
+        throw new Error('Failed to fetch listings');
     }
 
     return res.json();
 }
 
-export async function fetchRental(id: string): Promise<RentalType> {
+export async function fetchListing(id: string): Promise<ListingType> {
     const res = await fetch(
-        `${baseURL}/rentals/${id}`
+        `${baseURL}/listings/${id}`
     );
 
     if (!res.ok) {
-        throw new Error('Failed to fetch rental');
+        throw new Error('Failed to fetch listing');
     }
 
     return res.json();

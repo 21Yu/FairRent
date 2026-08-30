@@ -130,7 +130,7 @@ export default function FilterForm({ onFormSubmit }: FilterFormProps) {
             type="submit"
             className="bg-black text-white w-full p-4 font-bold hover:bg-indigo-300"
           >
-            Search Rentals
+            Search
           </button>
         </div>
       </div>

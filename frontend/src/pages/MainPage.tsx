@@ -4,9 +4,9 @@ import Map from "../components/Map";
 import FilterForm from "../components/FilterForm";
 import SideBar from "../components/SideBar";
 import Layout from "../components/layout/Layout";
-import { fetchRentals } from "../services/api";
+import { fetchListings } from "../services/api";
 
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../models/ListingType";
 
 export interface Filters {
   price: string;
@@ -34,19 +34,19 @@ function MainPage() {
 
   const [bounds, setBounds] = useState<MapBounds | null>(null);
 
-  const [rentals, setRentals] = useState<RentalType[]>([]);
+  const [listings, setListings] = useState<ListingType[]>([]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [selectedRentalId, setSelectedRentalId] = useState<string>("");
+  const [selectedListingId, setSelectedListingId] = useState<string>("");
 
   useEffect(() => {
     if (!bounds) return;
 
     const timeout = setTimeout(async () => {
       setLoading(true);
-      const data = await fetchRentals(filters, bounds);
-      setRentals(data);
+      const data = await fetchListings(filters, bounds);
+      setListings(data);
       setLoading(false);
     }, 300);
 
@@ -69,17 +69,17 @@ function MainPage() {
           
           <section className="flex-1">
             <SideBar 
-              rentals={rentals} 
+              listings={listings} 
               loading={loading}
-              selectedRentalId={selectedRentalId}
+              selectedListingId={selectedListingId}
             />
           </section>
 
           <section className="flex-3">
             <Map
-              rentals={rentals}
+              listings={listings}
               onBoundsChange={setBounds}
-              onMarkerClick={setSelectedRentalId}
+              onMarkerClick={setSelectedListingId}
             />
 
           </section>

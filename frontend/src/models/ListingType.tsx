@@ -1,4 +1,4 @@
-export interface RentalType {
+export interface ListingType {
 	rentfaster_id: string;
 	city: string;
 	province: string;

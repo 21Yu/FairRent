@@ -5,8 +5,8 @@ from app.db.mongodb import get_database
 from app.core.security import hash_password, verify_password, create_access_token
 from app.core.config import settings
 from app.models.schemas.user import UserCreate, UserResponse
-from app.models.schemas.token import Token
 from app.middleware.auth_middleware import get_current_user
+from app.models.schemas.user import SaveListingRequest, UserResponse
 
 router = APIRouter()
 
@@ -67,8 +67,52 @@ async def logout(response: Response):
     )
     return
 
-
 @router.get("/me", response_model=UserResponse)
 async def read_users_me(current_user: dict = Depends(get_current_user)):
     return current_user
+
+# save a listing
+@router.get("/saved-listings")
+async def save_listing(
+    payload: SaveListingRequest,
+    current_user: dict = Depends(get_current_user),
+    db = Depends(get_database)
+):
+    listing_id = payload.listing_id
+
+    await db.users.update_one(
+        {"_id": current_user["_id"]},
+        {"$addToSet": {"saved_listings": listing_id}}
+    )
+    return {"message": "Listing saved successfully", "listing_id": listing_id}
+
+# unsave a listing
+@router.delete("/saved-listings/{listing_id}")
+async def remove_saved_listing(
+    listing_id: str,
+    current_user: dict = Depends(get_current_user),
+    db = Depends(get_database)
+):
+    await db.users.update_one(
+        {"_id": current_user["_id"]},
+        {"$pull": {"saved_listings": listing_id}}
+    )
+    return {"message": "Listing removed successfully", "listing_id": listing_id}
+
+# get all saved listings
+@router.get("/saved-listings")
+async def get_saved_listings(
+    current_user: dict = Depends(get_current_user),
+    db = Depends(get_database)
+):
+    saved_ids = current_user.get("saved_listings", [])
+
+    listings = await db.listings.find({"id": {"$in": saved_ids}}).to_list(length=100)
+    
+    for listing in listings:
+        listing["_id"] = str(listing["_id"])
+        
+    return listings
+    
+
 
