@@ -5,7 +5,7 @@ from app.services.data_loader import data_store
 
 router = APIRouter()
 
-@router.get("/predict/{id}")
+@router.get("/predict")
 def get_predict(id: int):   
     rental = data_store.listing[data_store.listing["rentfaster_id"] == id]
 
@@ -29,7 +29,7 @@ def get_predict(id: int):
     prediction = data_store.model.predict(df_row)[0]
     return {"rentfaster_id": id, "predicted_price": round(float(prediction), 2)}
 
-@router.get("/insights/{id}")
+@router.get("/insights")
 def get_insights(id: int):
     rental = data_store.listing[data_store.listing["rentfaster_id"] == id]
     

@@ -115,8 +115,6 @@ export default function RentalCard({
 
         <Link
           to={`/details/${rental.rentfaster_id}`}
-          target="_blank" 
-          rel="noopener noreferrer"
           className="flex border-t-2 border-black p-3 items-center bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white"
         >
           <h3 className="text-[16px] font-bold">

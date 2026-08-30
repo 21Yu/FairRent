@@ -10,7 +10,7 @@ export interface UserResponse {
     user_name: string;
 }
 
-export async function register(user_name: string, email: string, password: string): Promise<UserResponse> {
+export async function registerUser(user_name: string, email: string, password: string): Promise<UserResponse> {
     const res = await fetch(`${baseURL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -19,8 +19,20 @@ export async function register(user_name: string, email: string, password: strin
     });
 
     if (!res.ok) {
-        const { error } = await res.json().catch(() => ({ error: 'Register Failed' }));
-        throw new Error(error ?? 'Register Failed');
+        const data = await res.json().catch(() => null);
+
+        let errorMessage = 'Register Failed';
+        
+        // FastAPI returns validation errors in data.detail as an array of objects
+        if (Array.isArray(data?.detail)) {
+            errorMessage = data.detail
+                .map((err: { loc: string[]; msg: string }) => `${err.loc[err.loc.length - 1]}: ${err.msg}`)
+                .join(', ');
+        } else if (typeof data?.detail === 'string') {
+            errorMessage = data.detail;
+        }
+
+        throw new Error(errorMessage);
     }
 
     return res.json();
@@ -84,7 +96,7 @@ export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise
         )
     ).toString();
 
-    const res = await fetch(`${baseURL}/rentals?${query}`);
+    const res = await fetch(`${baseURL}/rentals/?${query}`);
 
     if (!res.ok) {
         throw new Error('Failed to fetch rentals');
@@ -95,7 +107,7 @@ export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise
 
 export async function fetchRental(id: string): Promise<RentalType> {
     const res = await fetch(
-        `${baseURL}/rental?id=${id}`
+        `${baseURL}/rentals/${id}`
     );
 
     if (!res.ok) {
@@ -106,7 +118,7 @@ export async function fetchRental(id: string): Promise<RentalType> {
 }
 
 export async function fetchInsights(id: string): Promise<InsightsType> {
-    const res = await fetch(`${baseURL}/ml/insights?id=${id}`);
+    const res = await fetch(`${baseURL}/ml/insights/?id=${id}`);
 
     if (!res.ok) {
         throw new Error('Failed to fetch rental');
@@ -116,11 +128,12 @@ export async function fetchInsights(id: string): Promise<InsightsType> {
 }
 
 export async function fetchPredictedPrice(id: string): Promise<number> {
-    const res = await fetch(`${baseURL}/ml/predict?id=${id}`);
+    const res = await fetch(`${baseURL}/ml/predict/?id=${id}`);
 
     if (!res.ok) {
         throw new Error('Failed to fetch rental');
     }
 
-    return res.json();    
+    const data = await res.json();
+    return data.predicted_price; 
 }
