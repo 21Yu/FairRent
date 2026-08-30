@@ -7,7 +7,7 @@ router = APIRouter()
 @router.post("/reset-db")
 async def reset_database():
     # Safety check to prevent running in production
-    if settings.ENVIRONMENT == "production":
+    if settings.ENVIRONMENT == "PRODUCTION":
         raise HTTPException(status_code=403, detail="Not allowed in production")
     
     db = await get_database()
