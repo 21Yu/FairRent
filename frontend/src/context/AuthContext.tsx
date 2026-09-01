@@ -6,6 +6,8 @@ export interface AuthState {
   loading: boolean;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
+  toggleSaveListing: (listingId: string) => Promise<void>;
+  isSaved: (listingId: string) => boolean;
 }
 
 export const AuthContext = createContext<AuthState | undefined>(undefined);

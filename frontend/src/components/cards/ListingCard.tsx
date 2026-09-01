@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import type { ListingType } from "../models/ListingType";
+import type { ListingType } from "../../models/ListingType";
+import { BookmarkButton } from "./BookmarkButton";
 
 type ListingCardProps = {
   listing: ListingType;
@@ -35,8 +36,9 @@ export default function ListingCard({
 
           <span className="text-[12px] font-mono bg-[#0000ff] px-2 py-1">
             Unit
-            {listing.rentfaster_id}
+            {listing._id}
           </span>
+          <BookmarkButton listingId={listing._id}/>
         </div>
 
         <div className="p-4 flex">
@@ -114,7 +116,7 @@ export default function ListingCard({
         </div>
 
         <Link
-          to={`/details/${listing.rentfaster_id}`}
+          to={`/details/${listing._id}`}
           className="flex border-t-2 border-black p-3 items-center bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white"
         >
           <h3 className="text-[16px] font-bold">

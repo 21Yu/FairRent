@@ -1,6 +1,6 @@
 import Layout from "../components/layout/Layout";
-import LoginForm from "../components/LoginForm";
-import RegisterForm from "../components/RegisterForm";
+import LoginForm from "../components/forms/LoginForm";
+import RegisterForm from "../components/forms/RegisterForm";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 

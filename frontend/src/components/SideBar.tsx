@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 
 import type { ListingType } from "../models/ListingType";
 
-import ListingCard from "./ListingCard";
+import ListingCard from "./cards/ListingCard";
 
 type SideBarProps = {
   listings: ListingType[];
@@ -74,9 +74,9 @@ export default function SideBar({
           <ul>
             {sortedListings.map((listing) => (
               <ListingCard
-                key={listing.rentfaster_id}
+                key={listing._id}
                 listing={listing}
-                isSelected={listing.rentfaster_id === selectedListingId}
+                isSelected={listing._id === selectedListingId}
               />
             ))}
           </ul>

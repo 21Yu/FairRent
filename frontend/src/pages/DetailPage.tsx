@@ -4,6 +4,7 @@ import type { ListingType } from "../models/ListingType";
 import type { InsightsType } from "../models/InsightsType";
 import Layout from "../components/layout/Layout";
 import Map from "../components/Map";
+import { BookmarkButton } from "../components/cards/BookmarkButton";
 import { fetchListing, fetchPredictedPrice, fetchInsights } from "../services/api";
 
 export default function DetailPage() {
@@ -89,6 +90,7 @@ export default function DetailPage() {
           <div className="bg-black text-white px-2 py-2 font-mono text-[24px]">
             ID {id}
           </div>
+          <BookmarkButton listingId={listing._id} />
         </div>
 
         <div className="flex flex-col md:flex-row">

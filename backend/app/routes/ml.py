@@ -7,8 +7,8 @@ from app.services.data_loader import data_store
 router = APIRouter()
 
 @router.get("/predict")
-async def get_predict(id: int, db = Depends(get_database)):   
-    rental = await db.listings.find_one({"rentfaster_id": id})
+async def get_predict(id: str, db = Depends(get_database)):   
+    rental = await db.listings.find_one({"_id": id})
 
     if not rental:
         raise HTTPException(status_code=404, detail="Rental not found")
@@ -29,8 +29,8 @@ async def get_predict(id: int, db = Depends(get_database)):
     return {"rentfaster_id": id, "predicted_price": round(float(prediction), 2)}
 
 @router.get("/insights")
-async def get_insights(id: int, db = Depends(get_database)):
-    rental = await db.listings.find_one({"rentfaster_id": id})
+async def get_insights(id: str, db = Depends(get_database)):
+    rental = await db.listings.find_one({"_id": id})
     
     if not rental:
         raise HTTPException(status_code=404, detail="Rental not found")

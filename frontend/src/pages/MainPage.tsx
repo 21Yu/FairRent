@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Map from "../components/Map";
-import FilterForm from "../components/FilterForm";
+import FilterForm from "../components/forms/FilterForm";
 import SideBar from "../components/SideBar";
 import Layout from "../components/layout/Layout";
 import { fetchListings } from "../services/api";

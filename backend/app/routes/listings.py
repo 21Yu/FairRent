@@ -48,8 +48,8 @@ async def get_listings(
     return listings
 
 @router.get("/{id}")
-async def get_listing(id: int, db = Depends(get_database)):
-    listing = await db.listings.find_one({"rentfaster_id": id})
+async def get_listing(id: str, db = Depends(get_database)):
+    listing = await db.listings.find_one({"_id": id})
 
     if not listing:
         raise HTTPException(status_code=404, detail="Rental not found")

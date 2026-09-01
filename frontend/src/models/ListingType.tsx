@@ -1,5 +1,5 @@
 export interface ListingType {
-	rentfaster_id: string;
+	_id: string;
 	city: string;
 	province: string;
 	address: string;

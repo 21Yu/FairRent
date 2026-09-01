@@ -8,9 +8,7 @@ from app.core.config import settings
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 CSV_PATH = BASE_DIR / "app" / "ml" / "data" / "processed" / "rentfaster_listing.csv"
-# Point directly to your saved kmeans model file:
-KMEANS_PATH = BASE_DIR / "app" / "ml" / "models" / "kmeans.pkl"  # Adjust filename/extension if needed
-
+KMEANS_PATH = BASE_DIR / "app" / "ml" / "models" / "kmeans.pkl"
 
 async def seed_database():
     print("Connecting to MongoDB...")
@@ -32,8 +30,11 @@ async def seed_database():
 
     for record in records:
         if "rentfaster_id" in record and record["rentfaster_id"] is not None:
-            record["id"] = str(record["rentfaster_id"])
-            record["rentfaster_id"] = int(record["rentfaster_id"])
+            record["_id"] = str(int(record["rentfaster_id"]))
+            record.pop("rentfaster_id", None)
+
+        # Make sure old 'id' field is removed if present in the CSV
+        record.pop("id", None)
 
         lat = record.get("latitude")
         lng = record.get("longitude")
@@ -43,8 +44,8 @@ async def seed_database():
                 "coordinates": [float(lng), float(lat)],
             }
 
-    print("Clearing existing listings collection...")
-    await db.listings.delete_many({})
+    print("Dropping existing listings collection and old indexes...")
+    await db.listings.drop()  # FIX: Drops the collection AND its old indexes
 
     print(f"Inserting {len(records)} listing records...")
     if records:
@@ -52,8 +53,6 @@ async def seed_database():
 
     print("Creating indexes...")
     await db.listings.create_index([("location", "2dsphere")])
-    await db.listings.create_index("id", unique=True)
-    await db.listings.create_index("rentfaster_id")
     await db.listings.create_index("price")
     await db.listings.create_index("type")
     await db.listings.create_index("geo_cluster")

@@ -1,10 +1,11 @@
 import { useState } from "react";
-import type { RegisterFormValues } from "../models/AuthType";
-import { registerUser } from "../services/api";
 
-export default function RegisterForm() {
-    const [formData, setFormData] = useState<RegisterFormValues>({
-        userName: "",
+import type { LoginFormValues } from "../../models/AuthType";
+import { useAuth } from "../../context/AuthContext";
+
+export default function LoginForm() {
+    const { handleLogin } = useAuth();
+    const [formData, setFormData] = useState<LoginFormValues>({
         email: "",
         password: "",
     });
@@ -27,9 +28,8 @@ export default function RegisterForm() {
         setError(null);
 
         try {
-            await registerUser(formData.userName, formData.email, formData.password);
+            await handleLogin( formData.email, formData.password);
             setFormData({
-                userName: "",
                 email: "",
                 password: "",
             });
@@ -46,20 +46,7 @@ export default function RegisterForm() {
             className="space-y-8 text-[12px] font-bold"
         >
             <div className="space-y-2">
-                <h2>Register</h2>
-            </div>
-
-            <div className="space-y-2">
-                <label className="block">Name</label>
-                <input 
-                    type="text" 
-                    name="userName"
-                    value={formData.userName}
-                    onChange={handleChange}
-                    required
-                    placeholder="Enter User Name"
-                    className="appearance-none w-full bg-white border-2 border-black p-4 focus:outline-none placeholder-gray-400"
-                />
+                <h2>Log In</h2>
             </div>
 
             <div className="space-y-2">
@@ -92,7 +79,7 @@ export default function RegisterForm() {
                 type="submit"
                 className="bg-black text-white w-full p-4 font-bold hover:bg-indigo-300"
             >
-                {loading ? "Registering..." : "Register"}
+                {loading ? "Signing In..." : "Sign In"}
             </button>
 
             {error && (

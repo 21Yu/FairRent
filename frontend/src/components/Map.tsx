@@ -111,7 +111,7 @@ export default function Map({
 
       marker.on("click", () => {
         if (onMarkerClick) {
-          onMarkerClick(listing.rentfaster_id); 
+          onMarkerClick(listing._id); 
         }
       });
     });
