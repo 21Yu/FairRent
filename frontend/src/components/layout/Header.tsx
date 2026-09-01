@@ -27,7 +27,7 @@ export default function Header() {
           Profile
         </NavLink>
 
-        <NavLink to="/savelistings" className={getLinkClass}>
+        <NavLink to="/savedlistings" className={getLinkClass}>
           Saved Listings
         </NavLink>
 
