@@ -45,7 +45,7 @@ export default function SideBar({
         </h2>
 
         <select 
-          className="p-1 text-sm bg-white border focus:bg-indigo-300 focus:text-white"
+          className="p-1 text-sm bg-white border"
           value={sortBy} 
           onChange={(e) => setSortBy(e.target.value as SortOption)}
         >

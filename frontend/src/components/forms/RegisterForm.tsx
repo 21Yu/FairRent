@@ -43,7 +43,7 @@ export default function RegisterForm() {
     return (
         <form 
             onSubmit={handleSubmit} 
-            className="space-y-8 text-[12px] font-bold"
+            className="flex flex-col space-y-8"
         >
             <div className="space-y-2">
                 <h2>Register</h2>
@@ -58,7 +58,7 @@ export default function RegisterForm() {
                     onChange={handleChange}
                     required
                     placeholder="Enter User Name"
-                    className="appearance-none w-full bg-white border-2 border-black p-4 focus:outline-none placeholder-gray-400"
+                    className="appearance-none w-full bg-white border-1 p-4 focus:outline-none placeholder-gray-400"
                 />
             </div>
 
@@ -71,7 +71,7 @@ export default function RegisterForm() {
                     onChange={handleChange}
                     required
                     placeholder="Enter Email"
-                    className="appearance-none w-full bg-white border-2 border-black p-4 focus:outline-none placeholder-gray-400"
+                    className="appearance-none w-full bg-white border-1 p-4 focus:outline-none placeholder-gray-400"
                 />
             </div>
 
@@ -84,7 +84,7 @@ export default function RegisterForm() {
                     onChange={handleChange}
                     required
                     placeholder="Enter Password"
-                    className="appearance-none w-full bg-white border-2 border-black p-4 focus:outline-none placeholder-gray-400"
+                    className="appearance-none w-full bg-white border-1 p-4 focus:outline-none placeholder-gray-400"
                 />
             </div>
 

@@ -87,17 +87,19 @@ export default function DetailPage() {
             </p>
           </div>
 
-          <div className="bg-black text-white px-2 py-2 font-mono text-[24px]">
-            ID {id}
+          <div className="p-2 text-[24px]">
+            Unit {id}
           </div>
           <BookmarkButton listingId={listing._id} />
         </div>
 
-        <div className="flex flex-col md:flex-row">
-          <div className="flex-1"><Map listings={listing}/></div>
+        <div className="flex flex-col md:flex-row gap-16">
 
-          <div className="flex-1 flex flex-col md:flex-row">
-            <div className="flex-1 p-4">
+          <div className="flex-1 flex-col flex">
+
+            <div><Map listings={listing}/></div>
+
+            <div>
               <h3 className="text-[16px] font-bold">
                 Details
               </h3>
@@ -147,7 +149,10 @@ export default function DetailPage() {
               </table>
             </div>
 
-            <div className="flex-1 flex-col">
+          </div>
+
+          <div className="flex-1 flex flex-col">
+
               <div className="flex flex-col gap-2 mb-4">
                 <label className="text-[16px] font-bold">
                   Current Rent:
@@ -161,8 +166,8 @@ export default function DetailPage() {
               <button
                 onClick={handlePredictPrice}
                 disabled={isPredicting}
-                className={`w-full py-4 font-bold border-2 border-black mb-4
-                ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white'}`}
+                className={`w-full py-4 font-bold mb-4
+                ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-black text-white hover:bg-indigo-300'}`}
               >
                 {isPredicting
                   ? "Calculating..."
@@ -214,7 +219,6 @@ export default function DetailPage() {
             </div>
           </div>
         </div> 
-      </div>
     </Layout>
   );
 }

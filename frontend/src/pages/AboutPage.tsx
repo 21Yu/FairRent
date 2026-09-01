@@ -3,7 +3,7 @@ import Layout from "../components/layout/Layout";
 export default function AboutPage() {
     return (
         <Layout>
-            <div className="p-6 lg:p-16 max-w-4xl mx-auto space-y-16">
+            <div className="p-6 md:p-16 space-y-16">
                 
                 <header className="pb-4 flex justify-center">
                     <h1 className="text-[28px] lg:text-[40px] font-bold">About FairRent</h1>
@@ -20,7 +20,7 @@ export default function AboutPage() {
                         href="https://github.com/21Yu/FairRent" 
                         target="_blank" 
                         rel="noreferrer"
-                        className="block text-center w-full py-4 font-bold bg-black text-white hover:bg-indigo-300 text-[12px]"
+                        className="block text-center w-full py-4 font-bold bg-black text-white hover:bg-indigo-300"
                     >
                         View source code on GitHub
                     </a>

@@ -5,7 +5,7 @@ import { BookmarkButton } from "./BookmarkButton";
 
 type ListingCardProps = {
   listing: ListingType;
-  isSelected: boolean;
+  isSelected?: boolean;
 };
 
 export default function ListingCard({
@@ -26,17 +26,16 @@ export default function ListingCard({
     }}, [isSelected]);
   
   return (
-    <li className="mb-6">
-      <div ref={cardRef} className={`border-2  ${isSelected ? "border-4" : "border-black bg-white"}`}>
+    <li className="mb-6 list-none">
+      <div ref={cardRef} className={`border-1 ${isSelected ? "border-indigo-300" : ""}`}>
         
-        <div className="bg-black text-white p-3 flex justify-between items-center">
+        <div className="p-3 flex justify-between items-center">
           <h3 className="text-[16px] font-bold">
             {listing.address}
           </h3>
 
-          <span className="text-[12px] font-mono bg-[#0000ff] px-2 py-1">
-            Unit
-            {listing._id}
+          <span className="text-[12px] px-2 py-1">
+            Unit {listing._id}
           </span>
           <BookmarkButton listingId={listing._id}/>
         </div>
@@ -65,10 +64,6 @@ export default function ListingCard({
                 <p className="font-bold">
                   ${listing.price.toLocaleString()}
                 </p>
-
-                <p className="text-[12px] text-gray-500 mt-0.5">
-                    ${listing.price_sq_ft}/sq ft
-                </p>
               </div>
 
               <div>
@@ -87,20 +82,6 @@ export default function ListingCard({
 
           <div className="flex flex-col gap-2">
             
-            <div className={`text-[10px] px-2 py-0.5 border border-black
-              ${listing.cats ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
-              Cats 
-            </div>
-
-            <div className={`text-[10px] px-2 py-0.5 border border-black 
-              ${listing.dogs ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
-              Dogs 
-            </div>
-
-            <div className={`text-[10px] px-2 py-0.5 border border-black
-              ${listing.smoking ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
-              Smoke
-            </div>
 
             <div className="mt-auto pt-4">
               <p className="text-[12px] text-gray-400">
@@ -117,9 +98,9 @@ export default function ListingCard({
 
         <Link
           to={`/details/${listing._id}`}
-          className="flex border-t-2 border-black p-3 items-center bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white"
+          className="flex p-3 font-bold justify-center hover:text-indigo-300"
         >
-          <h3 className="text-[16px] font-bold">
+          <h3>
             Open Listing Details
           </h3>
         </Link>

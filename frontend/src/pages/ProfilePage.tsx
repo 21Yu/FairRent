@@ -19,9 +19,16 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <Layout>
-                <div className="p-8 md:p-4 flex flex-col md:flex-row gap-8">
-                    <LoginForm />
-                    <RegisterForm />
+                <div className="p-8">
+                    <div className="flex flex-col md:flex-row gap-16 md:p-4">
+                        <div className="flex flex-col md:flex-1">
+                            <LoginForm />
+                        </div>
+                        
+                        <div className="flex flex-col md:flex-1">
+                            <RegisterForm />
+                        </div>
+                    </div>
                 </div>
             </Layout>
         );
@@ -41,7 +48,7 @@ export default function ProfilePage() {
             <div className="p-8">
                 <h1 className="text-2xl font-bold">Welcome, {user.user_name}!</h1>
                 <button 
-                    className="w-full py-4 border-2 border-black bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white"
+                    className="w-full py-4 font-bold bg-black text-white hover:bg-indigo-300"
                     onClick={onLogoutClick}
                 >
                     {isLoggingOut ? "Logging out..." : "Log Out"}

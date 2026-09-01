@@ -47,10 +47,10 @@ export default function Map({
       scrollWheelZoom: true,
     }).setView(defaultCenter, defaultZoom);
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' }
-    ).addTo(map);
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+      maxZoom: 16,
+    }).addTo(map);
 
     const markersLayer = L.layerGroup().addTo(map);
 
@@ -87,9 +87,14 @@ export default function Map({
     markersLayer.clearLayers();
 
     const customIcon = L.divIcon({
-      className: "a-marker",
-      html: `<div class="w-4 h-4 bg-[#0000ff] border-2 border-black"></div>`,
-      iconSize: [16, 16],
+      className: "custom-marker-wrapper",
+      html: `
+        <div class="group relative w-6 h-6 rounded-full bg-indigo-300 border-2 border-white shadow-md transition-transform duration-200 hover:scale-125 hover:bg-indigo-300 flex items-center justify-center">
+          <div class="w-2 h-2 rounded-full bg-indigo-300"></div>
+        </div>
+      `,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
     });
 
     const listingsArray = Array.isArray(listings) ? listings : [listings];
@@ -119,7 +124,7 @@ export default function Map({
 
   
   return (
-    <div className="border-2 border-black">
+    <div className="border-1">
       <div ref={mapRef} className={`w-full ${isSingleListing ? "h-[50vh]" : "h-screen"}`}/>
     </div>
   );
