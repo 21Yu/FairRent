@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from app.services.data_loader import load_artifacts
-from app.api import rentals, ml, auth, health, utils
+from app.routes import ml, users, health, utils, listings
 from app.db.mongodb import db
 from app.core.config import settings
 
@@ -34,8 +34,8 @@ app.add_middleware(
 )
 
 # Mount APIRouters
-app.include_router(rentals.router, prefix="/rentals")
+app.include_router(listings.router, prefix="/listings")
 app.include_router(ml.router, prefix="/ml")
-app.include_router(auth.router, prefix="/auth")
+app.include_router(users.router, prefix="/users")
 app.include_router(health.router, prefix="/health")
 app.include_router(utils.router, prefix="/test")

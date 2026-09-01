@@ -1,5 +1,5 @@
 import type { Filters, MapBounds } from "../pages/MainPage";
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../models/ListingType";
 import type { InsightsType } from "../models/InsightsType";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -8,13 +8,28 @@ export interface UserResponse {
     id: string;
     email: string;
     user_name: string;
+    saved_listings: string[];
+}
+
+export interface LoginResponse {
+    access_token: string;
+    token_type: string;
+}
+
+// Token Helper Functions
+export const getToken = (): string | null => localStorage.getItem('token');
+export const setToken = (token: string): void => localStorage.setItem('token', token);
+export const removeToken = (): void => localStorage.removeItem('token');
+
+function getAuthHeaders(): Record<string, string> {
+    const token = getToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 export async function registerUser(user_name: string, email: string, password: string): Promise<UserResponse> {
-    const res = await fetch(`${baseURL}/auth/register`, {
+    const res = await fetch(`${baseURL}/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ user_name, email, password })
     });
 
@@ -23,7 +38,6 @@ export async function registerUser(user_name: string, email: string, password: s
 
         let errorMessage = 'Register Failed';
         
-        // FastAPI returns validation errors in data.detail as an array of objects
         if (Array.isArray(data?.detail)) {
             errorMessage = data.detail
                 .map((err: { loc: string[]; msg: string }) => `${err.loc[err.loc.length - 1]}: ${err.msg}`)
@@ -43,36 +57,43 @@ export async function login(email: string, password: string): Promise<UserRespon
     formData.append("username", email);
     formData.append("password", password);
 
-    const res = await fetch(`${baseURL}/auth/login`, {
+    const res = await fetch(`${baseURL}/users/login`, {
         method: 'POST',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        credentials: 'include',
         body: formData
     });
 
     if (!res.ok) {
-        const { error } = await res.json().catch(() => ({ error: 'Login Failed' }));
-        throw new Error(error ?? 'Login Failed');
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Login Failed');
     }
 
-    return res.json();
+    const tokenData: LoginResponse = await res.json();
+    setToken(tokenData.access_token);
+
+    // Retrieve full user payload following successful authentication
+    return await getCurrentUser();
 }
 
 export async function logout(): Promise<void> {
-    const res = await fetch(`${baseURL}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-    });
-
-    if (!res.ok) {
-        throw new Error('Logout failed');
+    try {
+        await fetch(`${baseURL}/users/logout`, {
+            method: 'POST',
+            headers: {
+                ...getAuthHeaders()
+            }
+        });
+    } finally {
+        removeToken();
     }
 }
 
 export async function getCurrentUser(): Promise<UserResponse> {
-    const res = await fetch(`${baseURL}/auth/me`, {
+    const res = await fetch(`${baseURL}/users/me`, {
         method: 'GET',
-        credentials: 'include',
+        headers: {
+            ...getAuthHeaders()
+        }
     });
 
     if (!res.ok) {
@@ -82,7 +103,7 @@ export async function getCurrentUser(): Promise<UserResponse> {
     return res.json();
 }
 
-export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise<RentalType[]> {
+export async function fetchListings(filters: Filters, bounds: MapBounds): Promise<ListingType[]> {
     const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter((entry) => entry[1] !== "")
     );
@@ -96,44 +117,86 @@ export async function fetchRentals(filters: Filters, bounds: MapBounds): Promise
         )
     ).toString();
 
-    const res = await fetch(`${baseURL}/rentals/?${query}`);
+    const res = await fetch(`${baseURL}/listings/?${query}`);
 
     if (!res.ok) {
-        throw new Error('Failed to fetch rentals');
+        throw new Error('Failed to fetch listings');
     }
 
     return res.json();
 }
 
-export async function fetchRental(id: string): Promise<RentalType> {
-    const res = await fetch(
-        `${baseURL}/rentals/${id}`
-    );
+export async function fetchListing(id: string): Promise<ListingType> {
+    const res = await fetch(`${baseURL}/listings/${id}`);
 
     if (!res.ok) {
-        throw new Error('Failed to fetch rental');
+        throw new Error('Failed to fetch listing');
     }
 
     return res.json();
 }
 
 export async function fetchInsights(id: string): Promise<InsightsType> {
-    const res = await fetch(`${baseURL}/ml/insights/?id=${id}`);
+    const res = await fetch(`${baseURL}/ml/insights?id=${id}`);
 
     if (!res.ok) {
-        throw new Error('Failed to fetch rental');
+        throw new Error('Failed to fetch insights');
     }
 
     return res.json();    
 }
 
 export async function fetchPredictedPrice(id: string): Promise<number> {
-    const res = await fetch(`${baseURL}/ml/predict/?id=${id}`);
+    const res = await fetch(`${baseURL}/ml/predict?id=${id}`);
 
     if (!res.ok) {
-        throw new Error('Failed to fetch rental');
+        throw new Error('Failed to fetch predicted Price');
     }
 
     const data = await res.json();
     return data.predicted_price; 
+}
+
+export async function saveListing(listing_id: string): Promise<void> {
+    const res = await fetch(`${baseURL}/users/saved-listings`, {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
+        body: JSON.stringify({ listing_id })
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to save listing');
+    }
+}
+
+export async function deleteListing(listing_id: string): Promise<void> {
+    const res = await fetch(`${baseURL}/users/saved-listings/${listing_id}`, {
+        method: 'DELETE',
+        headers: {
+            ...getAuthHeaders()
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to delete listing');
+    }
+}
+
+export async function getsavedListings(): Promise<ListingType[]> {
+    const res = await fetch(`${baseURL}/users/saved-listings`, {
+        method: 'GET',
+        headers: {
+            ...getAuthHeaders()
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to get saved listing');
+    }
+
+    const data: ListingType[] = await res.json();
+    return data;
 }

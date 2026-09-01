@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../../models/ListingType";
+import { BookmarkButton } from "./BookmarkButton";
 
-type RentalCardProps = {
-  rental: RentalType;
-  isSelected: boolean;
+type ListingCardProps = {
+  listing: ListingType;
+  isSelected?: boolean;
 };
 
-export default function RentalCard({
-  rental, isSelected
-}: RentalCardProps) {
+export default function ListingCard({
+  listing, isSelected
+}: ListingCardProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -25,18 +26,18 @@ export default function RentalCard({
     }}, [isSelected]);
   
   return (
-    <li className="mb-6">
-      <div ref={cardRef} className={`border-2  ${isSelected ? "border-4" : "border-black bg-white"}`}>
+    <li className="mb-6 list-none">
+      <div ref={cardRef} className={`border-1 ${isSelected ? "border-indigo-300" : ""}`}>
         
-        <div className="bg-black text-white p-3 flex justify-between items-center">
+        <div className="p-3 flex justify-between items-center">
           <h3 className="text-[16px] font-bold">
-            {rental.address}
+            {listing.address}
           </h3>
 
-          <span className="text-[12px] font-mono bg-[#0000ff] px-2 py-1">
-            Unit
-            {rental.rentfaster_id}
+          <span className="text-[12px] px-2 py-1">
+            Unit {listing._id}
           </span>
+          <BookmarkButton listingId={listing._id}/>
         </div>
 
         <div className="p-4 flex">
@@ -49,7 +50,7 @@ export default function RentalCard({
               </p>
 
               <p>
-                {rental.city}, {rental.province}
+                {listing.city}, {listing.province}
               </p>
             </div>
 
@@ -61,11 +62,7 @@ export default function RentalCard({
                 </p>
 
                 <p className="font-bold">
-                  ${rental.price.toLocaleString()}
-                </p>
-
-                <p className="text-[12px] text-gray-500 mt-0.5">
-                    ${rental.price_sq_ft}/sq ft
+                  ${listing.price.toLocaleString()}
                 </p>
               </div>
 
@@ -75,9 +72,9 @@ export default function RentalCard({
                 </p>
 
                 <p>
-                  {rental.beds} bd {" "}
-                  {rental.baths} ba {" "}
-                  {rental.sq_feet} sq ft
+                  {listing.beds} bd {" "}
+                  {listing.baths} ba {" "}
+                  {listing.sq_feet} sq ft
                 </p>
               </div>
             </div>
@@ -85,20 +82,6 @@ export default function RentalCard({
 
           <div className="flex flex-col gap-2">
             
-            <div className={`text-[10px] px-2 py-0.5 border border-black
-              ${rental.cats ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
-              Cats 
-            </div>
-
-            <div className={`text-[10px] px-2 py-0.5 border border-black 
-              ${rental.dogs ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
-              Dogs 
-            </div>
-
-            <div className={`text-[10px] px-2 py-0.5 border border-black
-              ${rental.smoking ? 'bg-[#b3ffad]' : 'bg-[#ffadad] opacity-50'}`}>
-              Smoke
-            </div>
 
             <div className="mt-auto pt-4">
               <p className="text-[12px] text-gray-400">
@@ -107,17 +90,17 @@ export default function RentalCard({
 
               <p>
                 In{" "}
-                {rental.availability_days} days
+                {listing.availability_days} days
               </p>
             </div>
           </div>
         </div>
 
         <Link
-          to={`/details/${rental.rentfaster_id}`}
-          className="flex border-t-2 border-black p-3 items-center bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white"
+          to={`/details/${listing._id}`}
+          className="flex p-3 font-bold justify-center hover:text-indigo-300"
         >
-          <h3 className="text-[16px] font-bold">
+          <h3>
             Open Listing Details
           </h3>
         </Link>

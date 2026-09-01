@@ -1,15 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../models/ListingType";
 import type { InsightsType } from "../models/InsightsType";
 import Layout from "../components/layout/Layout";
 import Map from "../components/Map";
-import { fetchRental, fetchPredictedPrice, fetchInsights } from "../services/api";
+import { BookmarkButton } from "../components/cards/BookmarkButton";
+import { fetchListing, fetchPredictedPrice, fetchInsights } from "../services/api";
 
 export default function DetailPage() {
   const { id } = useParams<{ id: string }>();
   
-  const [rental, setRental] = useState<RentalType | null>(null);
+  const [listing, setListing] = useState<ListingType | null>(null);
   const [predictedPrice, setPredictedPrice] = useState<number | null>(null);
   const [insights, setInsights] = useState<InsightsType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,19 +20,19 @@ export default function DetailPage() {
   useEffect(() => {
     if (!id) return;
 
-    const loadRentalData = async () => {
+    const loadListingData = async () => {
       try {
         setIsLoading(true);
-        const data = await fetchRental(id);
-        setRental(data);
+        const data = await fetchListing(id);
+        setListing(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load rental details");
+        setError(err instanceof Error ? err.message : "Failed to load listing details");
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadRentalData();
+    loadListingData();
   }, [id]);
 
   const handlePredictPrice = async () => {
@@ -63,11 +64,11 @@ export default function DetailPage() {
     );
   }
 
-  if (error || !rental) {
+  if (error || !listing) {
     return (
       <Layout>
         <div className="p-20 text-center font-bold text-red-500">
-          {error || "Rental not found"}
+          {error || "Listing not found"}
         </div>
       </Layout>
     );
@@ -79,23 +80,26 @@ export default function DetailPage() {
         <div className="flex justify-between items-baseline">
           <div>
             <h1 className="text-[42px] font-bold">
-              {rental.address}
+              {listing.address}
             </h1>
             <p className="text-[18px] text-gray-500">
-              {rental.city} {rental.province}
+              {listing.city} {listing.province}
             </p>
           </div>
 
-          <div className="bg-black text-white px-2 py-2 font-mono text-[24px]">
-            ID {id}
+          <div className="p-2 text-[24px]">
+            Unit {id}
           </div>
+          <BookmarkButton listingId={listing._id} />
         </div>
 
-        <div className="flex flex-col md:flex-row">
-          <div className="flex-1"><Map rentals={rental}/></div>
+        <div className="flex flex-col md:flex-row gap-16">
 
-          <div className="flex-1 flex flex-col md:flex-row">
-            <div className="flex-1 p-4">
+          <div className="flex-1 flex-col flex">
+
+            <div><Map listings={listing}/></div>
+
+            <div>
               <h3 className="text-[16px] font-bold">
                 Details
               </h3>
@@ -103,55 +107,58 @@ export default function DetailPage() {
                 <tbody className="divide-y divide-gray-400">
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Beds</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.beds}</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.beds}</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Baths</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.baths}</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.baths}</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Square Feet</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.sq_feet} sq ft</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.sq_feet} sq ft</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Lease Term</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.lease_term} Months</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.lease_term} Months</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Price / Sq Ft</th>
-                    <td className="px-4 py-2 text-gray-700">${rental.price_sq_ft}</td>
+                    <td className="px-4 py-2 text-gray-700">${listing.price_sq_ft}</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Availability</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.availability_days} Days</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.availability_days} Days</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Furnishing</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.furnishing ? "Furnished" : "Unfurnished"}</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.furnishing ? "Furnished" : "Unfurnished"}</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Smoking</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.smoking ? "Allowed" : "No Smoking"}</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.smoking ? "Allowed" : "No Smoking"}</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Cats</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.cats ? "Allowed" : "None"}</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.cats ? "Allowed" : "None"}</td>
                   </tr>
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Dogs</th>
-                    <td className="px-4 py-2 text-gray-700">{rental.dogs ? "Allowed" : "None"}</td>
+                    <td className="px-4 py-2 text-gray-700">{listing.dogs ? "Allowed" : "None"}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <div className="flex-1 flex-col">
+          </div>
+
+          <div className="flex-1 flex flex-col">
+
               <div className="flex flex-col gap-2 mb-4">
                 <label className="text-[16px] font-bold">
                   Current Rent:
                 </label>
                 <p className="text-[48px] font-bold">
-                  ${rental.price}
+                  ${listing.price}
                 </p>
                 <p className="text-[12px] text-gray-400">Per Month</p>
               </div>
@@ -159,8 +166,8 @@ export default function DetailPage() {
               <button
                 onClick={handlePredictPrice}
                 disabled={isPredicting}
-                className={`w-full py-4 font-bold border-2 border-black mb-4
-                ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-[#fbffa7] hover:bg-[#0000ff] hover:text-white'}`}
+                className={`w-full py-4 font-bold mb-4
+                ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-black text-white hover:bg-indigo-300'}`}
               >
                 {isPredicting
                   ? "Calculating..."
@@ -176,14 +183,14 @@ export default function DetailPage() {
                     <p className="text-[36px] font-bold">
                       ${predictedPrice}
                     </p>
-                    {(rental.price >= predictedPrice - 100) && 
-                    (rental.price <= predictedPrice + 100) &&
+                    {(listing.price >= predictedPrice - 100) && 
+                    (listing.price <= predictedPrice + 100) &&
                     (<p className="text-[12px] text-gray-400">Fair price</p>)}
 
-                    {(rental.price < predictedPrice - 100) &&
+                    {(listing.price < predictedPrice - 100) &&
                     (<p className="text-[12px] text-gray-400">Good deal</p>)}
 
-                    {(rental.price > predictedPrice + 100) &&
+                    {(listing.price > predictedPrice + 100) &&
                     (<p className="text-[12px] text-gray-400">Overpriced</p>)}
                   </div>    
 
@@ -212,7 +219,6 @@ export default function DetailPage() {
             </div>
           </div>
         </div> 
-      </div>
     </Layout>
   );
 }

@@ -1,25 +1,25 @@
 import { useState, useMemo } from "react";
 
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../models/ListingType";
 
-import RentalCard from "./RentalCard";
+import ListingCard from "./cards/ListingCard";
 
 type SideBarProps = {
-  rentals: RentalType[];
+  listings: ListingType[];
   loading: boolean;
-  selectedRentalId: string;
+  selectedListingId: string;
 };
 
 type SortOption = "price_asc" | "price_desc" | "sqft_asc" | "sqft_desc";
 
 export default function SideBar({
-  rentals, loading, selectedRentalId
+  listings, loading, selectedListingId
 }: SideBarProps) {
 
   const [sortBy, setSortBy] = useState<SortOption>("price_asc");
 
-  const sortedRentals = useMemo(() => {
-    return [...rentals].sort((a, b) => {
+  const sortedListings = useMemo(() => {
+    return [...listings].sort((a, b) => {
       switch (sortBy) {
         case "price_asc":
           return a.price - b.price;
@@ -33,7 +33,7 @@ export default function SideBar({
           return 0;
       }
     });
-  }, [rentals, sortBy]);
+  }, [listings, sortBy]);
 
   return (
     <aside className="w-full h-screen flex flex-col">
@@ -41,11 +41,11 @@ export default function SideBar({
       <div className="p-4 flex items-center justify-between">
         
         <h2 className="text-[16px] font-bold">
-          Results ({rentals.length})
+          Results ({listings.length})
         </h2>
 
         <select 
-          className="p-1 text-sm bg-white border focus:bg-indigo-300 focus:text-white"
+          className="p-1 text-sm bg-white border"
           value={sortBy} 
           onChange={(e) => setSortBy(e.target.value as SortOption)}
         >
@@ -63,7 +63,7 @@ export default function SideBar({
             loading...
           </p>
 
-        ) : rentals.length === 0 ? (
+        ) : listings.length === 0 ? (
 
           <p className="text-[12px] text-gray-400">
             No data matching criteria
@@ -72,11 +72,11 @@ export default function SideBar({
         ) : (
 
           <ul>
-            {sortedRentals.map((rental) => (
-              <RentalCard
-                key={rental.rentfaster_id}
-                rental={rental}
-                isSelected={rental.rentfaster_id === selectedRentalId}
+            {sortedListings.map((listing) => (
+              <ListingCard
+                key={listing._id}
+                listing={listing}
+                isSelected={listing._id === selectedListingId}
               />
             ))}
           </ul>

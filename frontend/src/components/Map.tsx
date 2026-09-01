@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import type { RentalType } from "../models/RentalType";
+import type { ListingType } from "../models/ListingType";
 
 type MapProps = {
-  rentals: RentalType[] | RentalType;
+  listings: ListingType[] | ListingType;
   onBoundsChange?: (bounds: {
     north: number;
     south: number;
@@ -15,7 +15,7 @@ type MapProps = {
 };
 
 export default function Map({
-  rentals,
+  listings,
   onBoundsChange,
   onMarkerClick
 }: MapProps) {
@@ -27,30 +27,30 @@ export default function Map({
   useEffect(() => {
     onBoundsChangeRef.current = onBoundsChange;
   }, [onBoundsChange]);
-  const initialRentalsRef = useRef(rentals);
+  const initialListingsRef = useRef(listings);
   
-  const isSingleRental = !Array.isArray(rentals);
+  const isSingleListing = !Array.isArray(listings);
 
   useEffect(() => {
     if (!mapRef.current) return;
 
-    const initialRentals = Array.isArray(initialRentalsRef.current) 
-      ? initialRentalsRef.current : [initialRentalsRef.current];
-    const defaultCenter: [number, number] = initialRentals.length === 1 
-      ? [initialRentals[0].latitude, initialRentals[0].longitude]
+    const initialListings = Array.isArray(initialListingsRef.current) 
+      ? initialListingsRef.current : [initialListingsRef.current];
+    const defaultCenter: [number, number] = initialListings.length === 1 
+      ? [initialListings[0].latitude, initialListings[0].longitude]
       : [49.2827, -123.1207];
     
-    const defaultZoom = initialRentals.length === 1 ? 14 : 11;
+    const defaultZoom = initialListings.length === 1 ? 14 : 11;
     
     const map = L.map(mapRef.current, {
       zoomControl: false,
       scrollWheelZoom: true,
     }).setView(defaultCenter, defaultZoom);
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' }
-    ).addTo(map);
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+      maxZoom: 16,
+    }).addTo(map);
 
     const markersLayer = L.layerGroup().addTo(map);
 
@@ -87,40 +87,45 @@ export default function Map({
     markersLayer.clearLayers();
 
     const customIcon = L.divIcon({
-      className: "a-marker",
-      html: `<div class="w-4 h-4 bg-[#0000ff] border-2 border-black"></div>`,
-      iconSize: [16, 16],
+      className: "custom-marker-wrapper",
+      html: `
+        <div class="group relative w-6 h-6 rounded-full bg-indigo-300 border-2 border-white shadow-md transition-transform duration-200 hover:scale-125 hover:bg-indigo-300 flex items-center justify-center">
+          <div class="w-2 h-2 rounded-full bg-indigo-300"></div>
+        </div>
+      `,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
     });
 
-    const rentalsArray = Array.isArray(rentals) ? rentals : [rentals];
+    const listingsArray = Array.isArray(listings) ? listings : [listings];
 
-    rentalsArray.forEach((rental) => {
+    listingsArray.forEach((listing) => {
       const popupContent = `
         <div>
           <h3 class="text-[12px] font-bold border-b border-black pb-1">
-            ${rental.address}
+            ${listing.address}
           </h3>
-          <p>${rental.city}, ${rental.province}</p>          
-          <p>$${rental.price} Per Month</p>
+          <p>${listing.city}, ${listing.province}</p>          
+          <p>$${listing.price} Per Month</p>
         </div>
       `;
 
-      const marker = L.marker([rental.latitude, rental.longitude], { icon: customIcon })
+      const marker = L.marker([listing.latitude, listing.longitude], { icon: customIcon })
         .bindPopup(popupContent, { autoPan: false })
         .addTo(markersLayer);
 
       marker.on("click", () => {
         if (onMarkerClick) {
-          onMarkerClick(rental.rentfaster_id); 
+          onMarkerClick(listing._id); 
         }
       });
     });
-  }, [rentals, onMarkerClick]);
+  }, [listings, onMarkerClick]);
 
   
   return (
-    <div className="border-2 border-black">
-      <div ref={mapRef} className={`w-full ${isSingleRental ? "h-[50vh]" : "h-screen"}`}/>
+    <div className="border-1">
+      <div ref={mapRef} className={`w-full ${isSingleListing ? "h-[50vh]" : "h-screen"}`}/>
     </div>
   );
 }

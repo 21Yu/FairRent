@@ -80,7 +80,7 @@ export default function FilterForm({ onFormSubmit }: FilterFormProps) {
             name="type"
             value={formData.type}
             onChange={handleChange}
-            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
+            className="appearance-none w-full bg-white border-1 p-3"
           >
             <option value="">Select...</option>
             <option value="apartment">Apartment</option>
@@ -103,7 +103,7 @@ export default function FilterForm({ onFormSubmit }: FilterFormProps) {
             max="5"
             value={formData.beds}
             onChange={handleChange}
-            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
+            className="appearance-none w-full bg-white border-1 p-3"
           />
         </div>
       </div>
@@ -119,7 +119,7 @@ export default function FilterForm({ onFormSubmit }: FilterFormProps) {
             step="0.5"
             value={formData.baths}
             onChange={handleChange}
-            className="appearance-none w-full bg-white border-2 border-black p-3 focus:bg-indigo-300 focus:text-white"
+            className="appearance-none w-full bg-white border-1 p-3"
           />
         </div>
       </div>
@@ -130,7 +130,7 @@ export default function FilterForm({ onFormSubmit }: FilterFormProps) {
             type="submit"
             className="bg-black text-white w-full p-4 font-bold hover:bg-indigo-300"
           >
-            Search Rentals
+            Search
           </button>
         </div>
       </div>

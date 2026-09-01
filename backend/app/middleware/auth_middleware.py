@@ -1,29 +1,15 @@
-from fastapi import Depends, HTTPException, Request, status
-from fastapi.security import HTTPBearer
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 
 from app.core.config import settings
 from app.db.mongodb import get_database
 
-class OAuth2PasswordCookie(HTTPBearer):
-    """Extracts the access token from an HTTP-only cookie."""
-    async def __call__(self, request: Request) -> str:
-        token = request.cookies.get("access_token")
-        if not token:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Not authenticated",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-        # Strip "Bearer " prefix if included in cookie value
-        if token.startswith("Bearer "):
-            token = token[7:]
-        return token
-
-oauth2_cookie_scheme = OAuth2PasswordCookie()
+# OAuth2 scheme looking for 'Authorization: Bearer <token>'
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 async def get_current_user(
-    token: str = Depends(oauth2_cookie_scheme), 
+    token: str = Depends(oauth2_scheme), 
     db = Depends(get_database)
 ) -> dict:
     credentials_exception = HTTPException(
