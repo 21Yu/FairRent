@@ -38,9 +38,9 @@ export default function SideBar({
   return (
     <aside className="w-full h-screen flex flex-col">
       
-      <div className="p-4 flex items-center justify-between">
+      <div className="p-4 flex items-center justify-between gap-2">
         
-        <h2 className="text-[16px] font-bold">
+        <h2>
           Results ({listings.length})
         </h2>
 

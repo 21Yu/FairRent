@@ -158,7 +158,7 @@ export default function DetailPage() {
                   Current Rent:
                 </label>
                 <p className="text-[48px] font-bold">
-                  ${listing.price}
+                  ${listing.price.toLocaleString()}
                 </p>
                 <p className="text-[12px] text-gray-400">Per Month</p>
               </div>
@@ -177,39 +177,41 @@ export default function DetailPage() {
               {predictedPrice !== null && (
                 <div className="bg-black text-white p-6">
                   <div className="mb-4">
-                    <label className="font-bold text-[#fbffa7]">
-                      Prediction:
+                    <label className="font-bold text-indigo-300">
+                      Estimated Market Value
                     </label>
                     <p className="text-[36px] font-bold">
-                      ${predictedPrice}
+                      ${predictedPrice.toLocaleString()}
                     </p>
                     {(listing.price >= predictedPrice - 100) && 
                     (listing.price <= predictedPrice + 100) &&
-                    (<p className="text-[12px] text-gray-400">Fair price</p>)}
+                    (<p className="text-[12px] text-gray-300">Fair price</p>)}
 
                     {(listing.price < predictedPrice - 100) &&
-                    (<p className="text-[12px] text-gray-400">Good deal</p>)}
+                    (<p className="text-[12px] text-green-300">Good deal</p>)}
 
                     {(listing.price > predictedPrice + 100) &&
-                    (<p className="text-[12px] text-gray-400">Overpriced</p>)}
+                    (<p className="text-[12px] text-red-300">Overpriced</p>)}
                   </div>    
 
                   <div className="mb-4">
-                    <h3 className="text-[16px] font-bold text-[#fbffa7]">
-                      Market Insights
+                    <h3 className="text-[16px] font-bold text-indigo-300">
+                      Local Market Comparison
                     </h3>
                     {insights ? (
                       <div>
-                        <p className="text-[12px] text-gray-400">Micro-Neighborhood Comps</p>
+                        <p> This home is{" "}
+                          <strong>
+                            {insights.difference_percentage > 0 
+                              ? `${insights.difference_percentage}% higher`
+                              : `${Math.abs(insights.difference_percentage)}% lower`
+                            }
+                          </strong>
+                          {" "} than nearby similar listings
+                        </p> 
                         <p>
-                          {insights.difference_percentage > 0 
-                            ? `+${insights.difference_percentage}% Over Comps`
-                            : `${insights.difference_percentage}% Below Comps`
-                          }
-                        </p>
-                        <p>
-                          The average rent in this geo-cluster profile is{" "}
-                          <strong>${insights.average_price}</strong> (evaluated across {insights.total_properties_in_cluster} active comps).
+                          Average rent nearby is{" "}
+                          <strong>${insights.average_price.toLocaleString()}</strong> (based on {insights.total_properties_in_cluster} recent homes).
                         </p>
                       </div>
                     ) : null}

@@ -3,7 +3,7 @@ import Layout from "../components/layout/Layout";
 export default function AboutPage() {
     return (
         <Layout>
-            <div className="p-6 md:p-16 space-y-16">
+            <div className="p-6 md:p-16 space-y-8">
                 
                 <header className="pb-4 flex justify-center">
                     <h1 className="text-[28px] lg:text-[40px] font-bold">About FairRent</h1>

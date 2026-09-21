@@ -27,7 +27,7 @@ export default function ListingCard({
   
   return (
     <li className="mb-6 list-none">
-      <div ref={cardRef} className={`border-1 ${isSelected ? "border-indigo-300" : ""}`}>
+      <div ref={cardRef} className={`border ${isSelected ? "border-indigo-300" : ""}`}>
         
         <div className="p-3 flex justify-between items-center">
           <h3 className="text-[16px] font-bold">
@@ -68,37 +68,23 @@ export default function ListingCard({
 
               <div>
                 <p className="text-[12px] text-gray-400">
-                  Specs
+                  Overview
                 </p>
 
-                <p>
-                  {listing.beds} bd {" "}
-                  {listing.baths} ba {" "}
-                  {listing.sq_feet} sq ft
+                <p className="flex flex-col">
+                  <span>{listing.beds} Beds {" "}</span>
+                  <span>{listing.baths} Baths {" "}</span>
+                  <span>{listing.sq_feet} sq ft</span>
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            
-
-            <div className="mt-auto pt-4">
-              <p className="text-[12px] text-gray-400">
-                Availability
-              </p>
-
-              <p>
-                In{" "}
-                {listing.availability_days} days
-              </p>
-            </div>
-          </div>
         </div>
 
         <Link
           to={`/details/${listing._id}`}
-          className="flex p-3 font-bold justify-center hover:text-indigo-300"
+          className="flex p-3 font-bold justify-center hover:text-indigo-300 border-t border-black"
         >
           <h3>
             Open Listing Details
