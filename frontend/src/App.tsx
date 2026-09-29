@@ -8,7 +8,7 @@ import MainPage from "./pages/MainPage";
 import DetailPage from "./pages/DetailPage";
 import AboutPage from "./pages/AboutPage";
 import ProfilePage from "./pages/ProfilePage";
-import { SavedListingsPage } from "./pages/SavedListingsPage";
+import SavedListingsPage from "./pages/SavedListingsPage";
 
 export default function App() {
   return (
@@ -19,6 +19,7 @@ export default function App() {
         <Route path="/profile" element={<ProfilePage />}/>
         <Route path="/details/:id" element={<DetailPage />}/>
         <Route path="/savedlistings" element={<SavedListingsPage />}/>
+        <Route path="/listview" element=
       </Routes>
     </BrowserRouter>
   );
