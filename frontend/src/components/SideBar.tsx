@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 
-import type { ListingType } from "../models/ListingType";
+import type { ListingType } from "../models/ListingTypes";
 
 import ListingCard from "./cards/ListingCard";
 

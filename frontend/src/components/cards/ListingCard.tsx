@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import type { ListingType } from "../../models/ListingType";
+import type { ListingType } from "../../models/ListingTypes";
 import { BookmarkButton } from "./BookmarkButton";
 
 type ListingCardProps = {

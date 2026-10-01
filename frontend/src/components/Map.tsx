@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import type { ListingType } from "../models/ListingType";
+import type { ListingType } from "../models/ListingTypes";
 
 type MapProps = {
   listings: ListingType[] | ListingType;

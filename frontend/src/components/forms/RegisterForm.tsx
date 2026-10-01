@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { RegisterFormValues } from "../../models/AuthType";
+import type { RegisterFormValues } from "../../models/UserTypes";
 import { registerUser } from "../../services/api";
 
 export default function RegisterForm() {

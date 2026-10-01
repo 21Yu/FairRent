@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { LoginFormValues } from "../../models/AuthType";
+import type { LoginFormValues } from "../../models/UserTypes";
 import { useAuth } from "../../context/AuthContext";
 
 export default function LoginForm() {

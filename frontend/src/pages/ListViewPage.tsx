@@ -3,17 +3,9 @@ import { useState, useEffect } from "react";
 import FilterForm from "../components/forms/FilterForm";
 import { fetchListings } from "../services/api";
 import Layout from "../components/layout/Layout";
-import type { ListingType } from "../models/ListingType";
+import type { ListingType } from "../models/ListingTypes";
 import ListingCard from "../components/cards/ListingCard";
-
-export interface Filters {
-    price: string;
-    type: string;
-    beds: string;
-    baths: string;
-    squareFeet: string; 
-    province?: string;
-}
+import type { Filters } from "../models/FormTypes";
 
 export default function ListViewPage() {
     const [filters, setFilters] = useState<Filters>({

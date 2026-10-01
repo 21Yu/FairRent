@@ -1,21 +1,14 @@
 import { useState } from "react";
 
-type FilterFormValues = {
-  price: string;
-  type: string;
-  beds: string;
-  baths: string;
-  squareFeet: string;
-  province?: string;
-};
+import type { Filters } from "../../models/FormTypes";
 
 type FilterFormProps = {
-  onFormSubmit: (data: FilterFormValues) => void;
+  onFormSubmit: (data: Filters) => void;
   isListView: boolean;
 };
 
 export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps) {
-  const [formData, setFormData] = useState<FilterFormValues>({
+  const [formData, setFormData] = useState<Filters>({
     price: "2500",
     type: "",
     beds: "",

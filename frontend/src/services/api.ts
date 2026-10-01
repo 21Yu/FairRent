@@ -1,21 +1,11 @@
-import type { Filters, MapBounds } from "../pages/MainPage";
-import type { ListingType } from "../models/ListingType";
-import type { InsightsType } from "../models/InsightsType";
+import type { Filters, MapBounds } from "../models/FormTypes";
+import type { ListingType } from "../models/ListingTypes";
+import type { InsightsType } from "../models/ListingTypes";
+import type { UserResponse, LoginResponse } from "../models/UserTypes";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-export interface UserResponse {
-    id: string;
-    email: string;
-    user_name: string;
-    saved_listings: string[];
-}
-
-export interface LoginResponse {
-    access_token: string;
-    token_type: string;
-}
-
+// Token Helper Functions
 export const getToken = (): string | null => localStorage.getItem('token');
 export const setToken = (token: string): void => localStorage.setItem('token', token);
 export const removeToken = (): void => localStorage.removeItem('token');

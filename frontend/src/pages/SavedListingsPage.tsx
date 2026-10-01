@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getsavedListings } from '../services/api';
-import type { ListingType } from '../models/ListingType';
+import type { ListingType } from '../models/ListingTypes';
 import { useAuth } from '../context/AuthContext';
 import ListingCard from '../components/cards/ListingCard';
 import Layout from '../components/layout/Layout';

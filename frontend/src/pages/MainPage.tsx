@@ -6,23 +6,8 @@ import SideBar from "../components/SideBar";
 import Layout from "../components/layout/Layout";
 import { fetchListings } from "../services/api";
 
-import type { ListingType } from "../models/ListingType";
-
-export interface Filters {
-  price: string;
-  type: string;
-  beds: string;
-  baths: string;
-  squareFeet: string; 
-  province?: string;
-}
-
-export interface MapBounds {
-  north: number;
-  south: number;
-  east: number;
-  west: number;
-}
+import type { ListingType } from "../models/ListingTypes";
+import type { MapBounds, Filters } from "../models/FormTypes";
 
 function MainPage() {
   const [filters, setFilters] = useState<Filters>({

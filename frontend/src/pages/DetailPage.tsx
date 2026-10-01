@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import type { ListingType } from "../models/ListingType";
-import type { InsightsType } from "../models/InsightsType";
+import type { ListingType } from "../models/ListingTypes";
+import type { InsightsType } from "../models/ListingTypes";
 import Layout from "../components/layout/Layout";
 import Map from "../components/Map";
 import { BookmarkButton } from "../components/cards/BookmarkButton";
