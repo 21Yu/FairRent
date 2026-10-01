@@ -10,6 +10,7 @@ async def get_listings(
     beds: float | None = Query(None, ge=0), 
     baths: float | None = Query(None, ge=0),
     squareFeet: float | None = Query(None, ge=0),
+    province: str | None = None,
     north: float | None = None,
     south: float | None = None,
     east: float | None = None,
@@ -28,6 +29,8 @@ async def get_listings(
         query["baths"] = {"$lte": baths}
     if squareFeet is not None:
         query["sq_feet"] = {"$lte": squareFeet}
+    if province is not None:
+        query["province"] = province
 
     # Dynamic Leaflet map bounds query using MongoDB 2dsphere indexing
     if None not in (north, south, east, west):

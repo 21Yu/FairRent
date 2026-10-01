@@ -14,6 +14,7 @@ export interface Filters {
   beds: string;
   baths: string;
   squareFeet: string; 
+  province?: string;
 }
 
 export interface MapBounds {
@@ -62,6 +63,7 @@ function MainPage() {
         <section>
           <FilterForm
             onFormSubmit={setFilters}
+            isListView={false}
           />
         </section>
 

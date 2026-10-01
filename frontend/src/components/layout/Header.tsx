@@ -19,6 +19,10 @@ export default function Header() {
           Home
         </NavLink>
 
+        <NavLink to="/listview" className={getLinkClass}>
+          List View
+        </NavLink>
+
         <NavLink to="/about" className={getLinkClass}>
           About
         </NavLink>

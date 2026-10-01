@@ -16,7 +16,6 @@ export interface LoginResponse {
     token_type: string;
 }
 
-// Token Helper Functions
 export const getToken = (): string | null => localStorage.getItem('token');
 export const setToken = (token: string): void => localStorage.setItem('token', token);
 export const removeToken = (): void => localStorage.removeItem('token');
@@ -103,7 +102,7 @@ export async function getCurrentUser(): Promise<UserResponse> {
     return res.json();
 }
 
-export async function fetchListings(filters: Filters, bounds: MapBounds): Promise<ListingType[]> {
+export async function fetchListings(filters: Filters, bounds?: MapBounds): Promise<ListingType[]> {
     const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter((entry) => entry[1] !== "")
     );

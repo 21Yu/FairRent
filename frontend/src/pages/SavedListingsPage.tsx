@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import ListingCard from '../components/cards/ListingCard';
 import Layout from '../components/layout/Layout';
 
-export function SavedListingsPage () {
+export default function SavedListingsPage () {
   const [listings, setListings] = useState<ListingType[]>([]);
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
