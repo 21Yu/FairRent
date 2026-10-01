@@ -29,6 +29,13 @@ export default function ListViewPage() {
     const [listings, setListings] = useState<ListingType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+    const filteredListings = listings.filter((listing) =>
+        [listing.address, listing.city, listing.province, listing.type]
+            .some((value) => value.toLowerCase().includes(normalizedSearchQuery))
+    );
 
     useEffect(() => {
 
@@ -55,13 +62,23 @@ export default function ListViewPage() {
                 </section>
             </div>
             <div className="p-6 max-w-7xl mx-auto">
+                <label className="mb-6 block">
+                    <span className="sr-only">Search listings</span>
+                    <input
+                        type="search"
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        placeholder="Search by address, city, province, or property type"
+                        className="w-full border border-gray-300 bg-white px-4 py-3 text-sm focus:border-black focus:outline-none"
+                    />
+                </label>
                 {loading ? (
         
                     <p className="text-[12px] text-gray-400">
                     loading...
                     </p>
         
-                ) : listings.length === 0 ? (
+                ) : filteredListings.length === 0 ? (
         
                     <p className="text-[12px] text-gray-400">
                     No data matching criteria
@@ -69,7 +86,7 @@ export default function ListViewPage() {
         
                 ) : (    
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {listings.map((item) => (
+                    {filteredListings.map((item) => (
                         <ListingCard key={item._id} listing={item} />
                     ))}
                     </div>
