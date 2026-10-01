@@ -102,7 +102,7 @@ export async function getCurrentUser(): Promise<UserResponse> {
     return res.json();
 }
 
-export async function fetchListings(filters: Filters, bounds: MapBounds): Promise<ListingType[]> {
+export async function fetchListings(filters: Filters, bounds?: MapBounds): Promise<ListingType[]> {
     const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter((entry) => entry[1] !== "")
     );

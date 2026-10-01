@@ -6,19 +6,22 @@ type FilterFormValues = {
   beds: string;
   baths: string;
   squareFeet: string;
+  province?: string;
 };
 
 type FilterFormProps = {
   onFormSubmit: (data: FilterFormValues) => void;
+  isListView: boolean;
 };
 
-export default function FilterForm({ onFormSubmit }: FilterFormProps) {
+export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps) {
   const [formData, setFormData] = useState<FilterFormValues>({
     price: "2500",
     type: "",
     beds: "",
     baths: "",
     squareFeet: "1000",
+    province: ""
   });
 
   function handleChange(
@@ -92,6 +95,32 @@ export default function FilterForm({ onFormSubmit }: FilterFormProps) {
           </select>
         </div>
       </div>
+
+      {isListView && 
+        <div className="flex items-center">
+          <div>
+            <label className="text-[16px] font-bold">Province</label>
+            <select
+              name="province"
+              value={formData.province}
+              onChange={handleChange}
+              className="appearance-none w-full bg-white border-1 p-3"
+            >
+              <option value="">Select...</option>
+              <option value="Alberta">Alberta</option>
+              <option value="British Columbia">British Columbia</option>
+              <option value="Manitoba">Manitoba</option>
+              <option value="New Brunswick">New Brunswick</option>
+              <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+              <option value="Nova Scotia">Nova Scotia</option>
+              <option value="Northwest Territories">Northwest Territories</option>
+              <option value="Ontario">Ontario</option>
+              <option value="Quebec">Quebec</option>
+              <option value="Saskatchewan">Saskatchewan</option>
+            </select>
+          </div>
+        </div>
+      }
 
       <div className="flex items-center">
         <div>
