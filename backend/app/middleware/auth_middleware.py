@@ -32,3 +32,14 @@ async def get_current_user(
 
     user["id"] = str(user["_id"])
     return user
+
+
+def is_admin_email(email: str) -> bool:
+    admin_emails = {item.strip().lower() for item in settings.ADMIN_EMAILS.split(",") if item.strip()}
+    return email.lower() in admin_emails
+
+
+async def get_admin_user(current_user: dict = Depends(get_current_user)) -> dict:
+    if not is_admin_email(current_user["email"]):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin access required")
+    return current_user

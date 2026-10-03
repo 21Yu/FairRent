@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
+  const { user } = useAuth();
   const getLinkClass = ({ isActive } : { isActive: boolean }) =>
     `px-3 md:px-12 flex items-center text-[12px] font-bold ${
       isActive 
@@ -30,6 +32,12 @@ export default function Header() {
         <NavLink to="/profile" className={getLinkClass}>
           Profile
         </NavLink>
+
+        {user?.is_admin && (
+          <NavLink to="/admin" className={getLinkClass}>
+            Admin
+          </NavLink>
+        )}
 
         <NavLink to="/savedlistings" className={getLinkClass}>
           Saved Listings

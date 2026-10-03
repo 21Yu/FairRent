@@ -139,7 +139,10 @@ DATABASE_NAME=fairrent
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+ADMIN_EMAILS=admin@example.com
 ```
+
+Set `ADMIN_EMAILS` to a comma-separated list of registered email addresses to grant admin access. Admins can list, update, and delete users from the profile navigation.
 
 Then run:
 

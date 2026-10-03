@@ -1,5 +1,3 @@
-# Envs (Mongo URI, Secret Key, JWT settings)from pydantic_settings import BaseSettings
-
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -9,6 +7,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ENVIRONMENT: str = "DEVELOPMENT"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    ADMIN_EMAILS: str = ""
 
     class Config:
         env_file = ".env"

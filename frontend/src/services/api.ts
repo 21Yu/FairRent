@@ -112,6 +112,52 @@ export async function updateCurrentUser(
     return res.json();
 }
 
+export async function fetchAdminUsers(): Promise<UserResponse[]> {
+    const res = await fetch(`${baseURL}/users/admin/users`, {
+        headers: { ...getAuthHeaders() }
+    });
+
+    if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(typeof data?.detail === 'string' ? data.detail : 'Failed to fetch users');
+    }
+
+    return res.json();
+}
+
+export async function updateAdminUser(
+    userId: string,
+    updates: { user_name?: string; email?: string; password?: string }
+): Promise<UserResponse> {
+    const res = await fetch(`${baseURL}/users/admin/users/${userId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
+        body: JSON.stringify(updates)
+    });
+
+    if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(typeof data?.detail === 'string' ? data.detail : 'Failed to update user');
+    }
+
+    return res.json();
+}
+
+export async function deleteAdminUser(userId: string): Promise<void> {
+    const res = await fetch(`${baseURL}/users/admin/users/${userId}`, {
+        method: 'DELETE',
+        headers: { ...getAuthHeaders() }
+    });
+
+    if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(typeof data?.detail === 'string' ? data.detail : 'Failed to delete user');
+    }
+}
+
 export async function fetchListings(filters: Filters, bounds?: MapBounds): Promise<ListingType[]> {
     const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter((entry) => entry[1] !== "")

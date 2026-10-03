@@ -1,10 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
+from bson import ObjectId
 from app.db.mongodb import get_database
 
 from app.core.security import hash_password, verify_password, create_access_token
-from app.middleware.auth_middleware import get_current_user
-from app.models.schemas.user import SaveListingRequest, UserResponse, UserCreate, UserUpdate
+from app.middleware.auth_middleware import get_admin_user, get_current_user, is_admin_email
+from app.models.schemas.user import AdminUserUpdate, SaveListingRequest, UserResponse, UserCreate, UserUpdate
 
 router = APIRouter()
 
@@ -25,7 +26,8 @@ async def register(user_in: UserCreate, db = Depends(get_database)):
         "id": str(result.inserted_id),
         "email": user_in.email,
         "user_name": user_in.user_name,
-        "saved_listings": []
+        "saved_listings": [],
+        "is_admin": is_admin_email(user_in.email)
     }
 
 @router.post("/login")
@@ -59,7 +61,8 @@ async def read_users_me(current_user: dict = Depends(get_current_user)):
         "id": str(current_user["_id"]),
         "email": current_user["email"],
         "user_name": current_user["user_name"],
-        "saved_listings": current_user["saved_listings"]
+        "saved_listings": current_user.get("saved_listings", []),
+        "is_admin": is_admin_email(current_user["email"])
     }
 
 @router.patch("/me", response_model=UserResponse)
@@ -82,8 +85,81 @@ async def update_users_me(
         "id": str(updated_user["_id"]),
         "email": updated_user["email"],
         "user_name": updated_user["user_name"],
-        "saved_listings": updated_user.get("saved_listings", [])
+        "saved_listings": updated_user.get("saved_listings", []),
+        "is_admin": is_admin_email(updated_user["email"])
     }
+
+
+@router.get("/admin/users")
+async def list_users(
+    db=Depends(get_database),
+    admin: dict = Depends(get_admin_user)
+):
+    users = await db.users.find({}, {"hashed_password": 0}).to_list(length=None)
+    return [
+        {
+            "id": str(user["_id"]),
+            "email": user["email"],
+            "user_name": user.get("user_name", ""),
+            "saved_listings": user.get("saved_listings", []),
+            "is_admin": is_admin_email(user["email"])
+        }
+        for user in users
+    ]
+
+
+@router.patch("/admin/users/{user_id}", response_model=UserResponse)
+async def update_user(
+    user_id: str,
+    payload: AdminUserUpdate,
+    db=Depends(get_database),
+    admin: dict = Depends(get_admin_user)
+):
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user = await db.users.find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    updates = payload.model_dump(exclude_unset=True, exclude_none=True)
+    if not updates:
+        raise HTTPException(status_code=400, detail="Provide a name, email, or password to update")
+
+    if "email" in updates:
+        existing_user = await db.users.find_one({"email": updates["email"], "_id": {"$ne": user["_id"]}})
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Email already registered")
+
+    if "password" in updates:
+        updates["hashed_password"] = hash_password(updates.pop("password"))
+
+    await db.users.update_one({"_id": user["_id"]}, {"$set": updates})
+    updated_user = {**user, **updates}
+    return {
+        "id": str(updated_user["_id"]),
+        "email": updated_user["email"],
+        "user_name": updated_user.get("user_name", ""),
+        "saved_listings": updated_user.get("saved_listings", []),
+        "is_admin": is_admin_email(updated_user["email"])
+    }
+
+
+@router.delete("/admin/users/{user_id}")
+async def delete_user(
+    user_id: str,
+    db=Depends(get_database),
+    admin: dict = Depends(get_admin_user)
+):
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=404, detail="User not found")
+    if str(admin["_id"]) == user_id:
+        raise HTTPException(status_code=400, detail="You cannot delete your own account")
+
+    result = await db.users.delete_one({"_id": ObjectId(user_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {"message": "User deleted successfully"}
 
 # save a listing
 @router.post("/saved-listings")

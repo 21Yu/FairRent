@@ -14,6 +14,7 @@ export interface UserResponse {
     email: string;
     user_name: string;
     saved_listings: string[];
+    is_admin: boolean;
 }
 
 export interface LoginResponse {
