@@ -1,34 +1,30 @@
 # FairRent
 
-FairRent is a full-stack rental market platform that helps renters evaluate listings with data-driven pricing and map-based discovery. The app combines a MongoDB-backed listing catalogue, machine learning price prediction, and a React frontend that lets users browse, filter, compare, and save properties.
+FairRent is a full-stack rental market platform for discovering listings, exploring neighborhood pricing, and evaluating whether a rent is reasonable relative to market conditions. The project combines a MongoDB-backed listing catalog, a FastAPI backend, and a React + Vite frontend with map-based browsing and pricing intelligence.
 
-## Live Demo
+## Live demo
 
-[FairRent Live Demo](https://fair-rent-five.vercel.app)
+[FairRent](https://fair-rent-five.vercel.app)
+## What the app does
 
-## What’s included
-
-- Interactive map-based rental browsing with dynamic map-bounds filtering
-- Advanced search and filtering by price, type, beds, baths, and square footage
-- Listing detail pages with property attributes and neighborhood context
-- AI-assisted market pricing using a trained regression model
-- Neighborhood comp insights based on geo-cluster averages
-- User authentication with registration and login
-- Saved listings with bookmark/unbookmark functionality
-- Personal profile flow and saved listings dashboard
+- Browse rental listings on an interactive map and sidebar view
+- Filter results by price, listing type, bedrooms, bathrooms, and square footage
+- View detailed property information and neighborhood context
+- Get AI-assisted predicted rent values for individual listings
+- Compare each listing against local cluster averages for pricing insight
+- Register, log in, and manage saved listings with JWT authentication
+- Support admin-level user management in the backend
 
 ## Tech stack
 
-| Layer | Stack |
-| :--- | :--- |
-| Frontend | React, TypeScript, Vite, Tailwind CSS |
-| Mapping | Leaflet, React-Leaflet |
-| Backend | Python, FastAPI, Uvicorn |
-| Database | MongoDB, Motor |
-| ML | scikit-learn, XGBoost, pandas, NumPy, joblib |
-| Auth | JWT, Pydantic, password hashing |
+- Frontend: React, TypeScript, Vite, React Router, Leaflet, React-Leaflet
+- Styling: Tailwind CSS
+- Backend: Python, FastAPI, Uvicorn, Pydantic
+- Database: MongoDB, Motor
+- ML: pandas, NumPy, scikit-learn, XGBoost, joblib
+- Auth: JWT, password hashing, OAuth2 password flow
 
-## Project structure
+## Repository structure
 
 ```text
 FairRent/
@@ -42,96 +38,42 @@ FairRent/
 │   │   ├── routes/
 │   │   ├── services/
 │   │   └── tests/
-│   ├── requirements.txt
+│   ├── .env
 │   ├── README.md
-│   └── .env
+│   ├── pytest.ini
+│   └── requirements.txt
 ├── frontend/
+│   ├── public/
 │   ├── src/
+│   ├── index.html
 │   ├── package.json
+│   ├── tsconfig.json
 │   ├── vite.config.ts
-│   └── index.html
+│   └── vercel.json
 ├── reports/
+│   ├── plots/
+│   └── *.txt
+├── LICENSE
 ├── README.md
-└── LICENSE
+└── .github/
+    └── workflows/
 ```
 
-## Core application features
+## Prerequisites
 
-### 1. Map-first rental discovery
+- Python 3.11+
+- Node.js 18+
+- MongoDB running locally or using a MongoDB Atlas connection string
 
-The home page loads listings into a responsive map and sidebar experience. As the user pans or zooms the map, FairRent fetches filtered results based on visible map bounds, which keeps the listing inventory relevant to the current area.
+## Backend setup
 
-### 2. Smart filtering
+1. Change into the backend folder:
 
-Users can refine listings by:
+```bash
+cd backend
+```
 
-- maximum price
-- property type
-- bedrooms
-- bathrooms
-- square footage
-
-The frontend passes those filters to the backend listing API, which applies MongoDB query constraints and returns matching records.
-
-### 3. Detail page + pricing intelligence
-
-Each property has a dedicated details view showing:
-
-- address and location metadata
-- price and unit stats
-- listing characteristics (beds, baths, lease term, furnishing, pets, etc.)
-- map preview
-- AI market prediction and comp-based insights
-
-The price prediction flow calls:
-
-- `/ml/predict?id=<listing_id>`
-- `/ml/insights?id=<listing_id>`
-
-and then labels the listing as likely fair, good value, or overpriced based on the difference between the current rent and predicted market rate.
-
-### 4. Authentication and saved listings
-
-The app includes a complete user flow:
-
-- register
-- login
-- fetch current profile
-- save/remove listings
-- view saved listings on a dedicated page
-
-This is implemented via JWT-backed authentication and MongoDB user records.
-
-### 5. ML and data pipeline
-
-The backend loads and prepares rental data using a preprocessing and feature-engineering pipeline before inference. The project compares regression models, including linear regression, gradient boosting, and XGBoost, with the tuned XGBoost model being the final production choice.
-
-## API overview
-
-### Listing endpoints
-
-- `GET /listings/` — fetch listings with filters and map bounds
-- `GET /listings/{id}` — fetch one listing by ID
-
-### ML endpoints
-
-- `GET /ml/predict?id=<listing_id>` — return predicted rent for a listing
-- `GET /ml/insights?id=<listing_id>` — return cluster-comp average and spread metrics
-
-### User endpoints
-
-- `POST /users/register` — create a new user
-- `POST /users/login` — authenticate and receive JWT token
-- `GET /users/me` — return current user profile
-- `POST /users/saved-listings` — save a property
-- `DELETE /users/saved-listings/{listing_id}` — remove a saved property
-- `GET /users/saved-listings` — return all saved properties for the logged-in user
-
-## Local setup
-
-### 1. Backend
-
-Create a `.env` file inside `backend/` with values like:
+2. Create a `.env` file in the `backend/` directory with values similar to:
 
 ```env
 MONGODB_URL=mongodb://localhost:27017
@@ -142,51 +84,103 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 ADMIN_EMAILS=admin@example.com
 ```
 
-Set `ADMIN_EMAILS` to a comma-separated list of registered email addresses to grant admin access. Admins can list, update, and delete users from the profile navigation.
+`ADMIN_EMAILS` accepts a comma-separated list of user emails that should be promoted to admin access.
 
-Then run:
+3. Create and activate a virtual environment:
 
 ```bash
-cd backend
 python -m venv .venv
 source .venv/bin/activate
+```
+
+4. Install Python dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+5. Run the API:
+
+```bash
 uvicorn app.main:app --reload
 ```
 
-The API will be available at:
+The FastAPI app will be available at:
 
 - http://127.0.0.1:8000
+- Docs: http://127.0.0.1:8000/docs
 
-### 2. Frontend
+## Frontend setup
+
+1. Open a new terminal session and navigate to the frontend folder:
 
 ```bash
 cd frontend
+```
+
+2. Install dependencies:
+
+```bash
 npm install
+```
+
+3. Start the Vite app:
+
+```bash
 npm run dev
 ```
 
-The frontend development server will run with the Vite client at:
+The frontend runs at:
 
 - http://127.0.0.1:5173
 
+## API overview
+
+### Listing routes
+
+- `GET /listings/` — fetch listings, with optional filters and map bounds
+- `GET /listings/{id}` — fetch a specific listing by ID
+
+### ML routes
+
+- `GET /ml/predict?id=<listing_id>` — return the predicted rent for a listing
+- `GET /ml/insights?id=<listing_id>` — return cluster-level pricing insights
+
+### User routes
+
+- `POST /users/register` — create a new account
+- `POST /users/login` — authenticate and receive a JWT token
+- `GET /users/me` — fetch the current logged-in user
+- `PATCH /users/me` — update the signed-in user
+- `POST /users/saved-listings` — save a listing
+- `GET /users/saved-listings` — fetch saved listings for the current user
+- `DELETE /users/saved-listings/{listing_id}` — remove a saved listing
+
+### Admin routes
+
+- `GET /users/admin/users` — list users, restricted to admin accounts
+- `PATCH /users/admin/users/{user_id}` — edit user details as admin
+- `DELETE /users/admin/users/{user_id}` — delete a user as admin
+
+### Utility/testing routes
+
+- `POST /test/reset-db` — reset the local database for testing
+
 ## Model performance
 
-The project has evaluated multiple regression models for rental price prediction:
+The project compares multiple learning models for rent prediction. The final model used in the app is the XGBoost implementation.
 
-| Model | RMSE | MAE | R² |
-| :--- | :---: | :---: | :---: |
-| Linear Regression | 725.26 | 401.00 | 0.4008 |
-| Gradient Boosting | 548.57 | 276.87 | 0.6572 |
-| Tuned Gradient Boosting | 506.04 | 235.51 | 0.7083 |
-| XGBoost (Final) | 448.61 | 223.39 | 0.7568 |
+- Linear Regression: RMSE 725.26, MAE 401.00, R² 0.4008
+- Gradient Boosting: RMSE 548.57, MAE 276.87, R² 0.6572
+- Tuned Gradient Boosting: RMSE 506.04, MAE 235.51, R² 0.7083
+- XGBoost (Final): RMSE 448.61, MAE 223.39, R² 0.7568
 
 ## Notes
 
-- The frontend and backend are designed to work together through environment-based API configuration.
-- MongoDB is used for storage of listing data, clustering metadata, and saved-user state.
-- The app is intended for rental-market exploration and price-evaluation workflows rather than a full production listing management system.
+- The frontend and backend are configured to work together through environment-based API settings.
+- MongoDB stores listing records, user documents, and saved-listing state.
+- The app is intended for rental-market research and evaluation, not a full production real-estate management platform.
 
 ## License
 
-This project is distributed under the MIT license. See the repository license file for details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
