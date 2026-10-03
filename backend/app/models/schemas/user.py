@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import List
 
 class UserCreate(BaseModel):
@@ -14,4 +14,8 @@ class UserResponse(BaseModel):
 
 class SaveListingRequest(BaseModel):
     listing_id: str
+
+class UserUpdate(BaseModel):
+    user_name: str | None = Field(default=None, min_length=1)
+    password: str | None = Field(default=None, min_length=1)
 

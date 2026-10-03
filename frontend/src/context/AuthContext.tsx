@@ -6,6 +6,7 @@ export interface AuthState {
   loading: boolean;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
+  handleUpdateProfile: (updates: { user_name?: string; password?: string }) => Promise<void>;
   toggleSaveListing: (listingId: string) => Promise<void>;
   isSaved: (listingId: string) => boolean;
 }

@@ -4,7 +4,7 @@ from app.db.mongodb import get_database
 
 from app.core.security import hash_password, verify_password, create_access_token
 from app.middleware.auth_middleware import get_current_user
-from app.models.schemas.user import SaveListingRequest, UserResponse, UserCreate
+from app.models.schemas.user import SaveListingRequest, UserResponse, UserCreate, UserUpdate
 
 router = APIRouter()
 
@@ -60,6 +60,29 @@ async def read_users_me(current_user: dict = Depends(get_current_user)):
         "email": current_user["email"],
         "user_name": current_user["user_name"],
         "saved_listings": current_user["saved_listings"]
+    }
+
+@router.patch("/me", response_model=UserResponse)
+async def update_users_me(
+    payload: UserUpdate,
+    current_user: dict = Depends(get_current_user),
+    db = Depends(get_database)
+):
+    updates = payload.model_dump(exclude_unset=True)
+    updates = {key: value for key, value in updates.items() if value is not None}
+    if not updates:
+        raise HTTPException(status_code=400, detail="Provide a name or password to update")
+
+    if "password" in updates:
+        updates["hashed_password"] = hash_password(updates.pop("password"))
+
+    await db.users.update_one({"_id": current_user["_id"]}, {"$set": updates})
+    updated_user = {**current_user, **updates}
+    return {
+        "id": str(updated_user["_id"]),
+        "email": updated_user["email"],
+        "user_name": updated_user["user_name"],
+        "saved_listings": updated_user.get("saved_listings", [])
     }
 
 # save a listing

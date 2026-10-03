@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, type ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
-import { login, logout, getCurrentUser, saveListing, deleteListing, getToken } from '../services/api';
+import { login, logout, getCurrentUser, updateCurrentUser, saveListing, deleteListing, getToken } from '../services/api';
 import type { UserResponse } from '../models/UserTypes';
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -45,6 +45,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const handleLogout = useCallback(async () => {
     await logout();
     setUser(null);
+  }, []);
+
+  const handleUpdateProfile = useCallback(async (updates: { user_name?: string; password?: string }) => {
+    const updatedUser = await updateCurrentUser(updates);
+    setUser(updatedUser);
   }, []);
 
   const isSaved = useCallback(
@@ -100,10 +105,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading,
       handleLogin,
       handleLogout,
+      handleUpdateProfile,
       toggleSaveListing,
       isSaved,
     }),
-    [user, loading, handleLogin, handleLogout, toggleSaveListing, isSaved]
+    [user, loading, handleLogin, handleLogout, handleUpdateProfile, toggleSaveListing, isSaved]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

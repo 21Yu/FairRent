@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { LoginFormValues } from "../../models/UserTypes";
 import { useAuth } from "../../context/AuthContext";
 
-export default function LoginForm() {
+export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
     const { handleLogin } = useAuth();
     const [formData, setFormData] = useState<LoginFormValues>({
         email: "",
@@ -29,6 +29,7 @@ export default function LoginForm() {
 
         try {
             await handleLogin( formData.email, formData.password);
+            onSuccess?.();
             setFormData({
                 email: "",
                 password: "",

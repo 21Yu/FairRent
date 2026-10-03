@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { RegisterFormValues } from "../../models/UserTypes";
 import { registerUser } from "../../services/api";
 
-export default function RegisterForm() {
+export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) {
     const [formData, setFormData] = useState<RegisterFormValues>({
         userName: "",
         email: "",
@@ -28,6 +28,7 @@ export default function RegisterForm() {
 
         try {
             await registerUser(formData.userName, formData.email, formData.password);
+            onSuccess?.();
             setFormData({
                 userName: "",
                 email: "",

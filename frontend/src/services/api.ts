@@ -92,6 +92,26 @@ export async function getCurrentUser(): Promise<UserResponse> {
     return res.json();
 }
 
+export async function updateCurrentUser(
+    updates: { user_name?: string; password?: string }
+): Promise<UserResponse> {
+    const res = await fetch(`${baseURL}/users/me`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders()
+        },
+        body: JSON.stringify(updates)
+    });
+
+    if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(typeof data?.detail === 'string' ? data.detail : 'Failed to update profile');
+    }
+
+    return res.json();
+}
+
 export async function fetchListings(filters: Filters, bounds?: MapBounds): Promise<ListingType[]> {
     const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter((entry) => entry[1] !== "")
