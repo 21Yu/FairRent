@@ -51,8 +51,9 @@ export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
             </div>
 
             <div className="space-y-2">
-                <label className="block tracking-wider">Email Address</label>
+                <label htmlFor="login-email" className="block tracking-wider">Email Address</label>
                 <input 
+                    id="login-email"
                     type="email" 
                     name="email"
                     value={formData.email}
@@ -64,8 +65,9 @@ export default function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
             </div>
 
             <div className="space-y-2">
-                <label className="block tracking-wider">Password</label>
+                <label htmlFor="login-password" className="block tracking-wider">Password</label>
                 <input 
+                    id="login-password"
                     type="password" 
                     name="password"
                     value={formData.password}

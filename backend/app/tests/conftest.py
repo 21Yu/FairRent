@@ -19,4 +19,5 @@ async def clean_database(client):
     """Wipe database collections after FastAPI app lifespan starts."""
     database = await get_database()
     await database["users"].delete_many({})
+    await database["listings"].delete_many({})
     yield

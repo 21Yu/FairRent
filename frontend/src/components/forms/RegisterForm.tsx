@@ -51,8 +51,9 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
             </div>
 
             <div className="space-y-2">
-                <label className="block">Name</label>
+                <label htmlFor="register-name" className="block">Name</label>
                 <input 
+                    id="register-name"
                     type="text" 
                     name="userName"
                     value={formData.userName}
@@ -64,8 +65,9 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
             </div>
 
             <div className="space-y-2">
-                <label className="block tracking-wider">Email Address</label>
+                <label htmlFor="register-email" className="block tracking-wider">Email Address</label>
                 <input 
+                    id="register-email"
                     type="email" 
                     name="email"
                     value={formData.email}
@@ -77,8 +79,9 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
             </div>
 
             <div className="space-y-2">
-                <label className="block tracking-wider">Password</label>
+                <label htmlFor="register-password" className="block tracking-wider">Password</label>
                 <input 
+                    id="register-password"
                     type="password" 
                     name="password"
                     value={formData.password}

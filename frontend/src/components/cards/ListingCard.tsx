@@ -17,7 +17,7 @@ export default function ListingCard({
     if (isSelected && cardRef.current) {
       const container = document.getElementById("sidebar-scroll-container");
 
-      if (container) {
+      if (container && typeof container.scrollTo === "function") {
         container.scrollTo({
           top: cardRef.current.offsetTop - container.offsetTop,
           behavior: "smooth",
