@@ -35,11 +35,11 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row gap-8 p-10"
+      className="grid grid-cols-1 gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-6 lg:items-end lg:gap-5 lg:p-5"
     >
-      <div className="flex items-center">
+      <div className="min-w-0">
         <div>
-          <label className="text-[16px] font-bold">Maximum Price</label>
+          <label className="mb-2 block text-xs font-semibold uppercase text-gray-500">Max monthly rent</label>
           <input
             type="range"
             name="price"
@@ -47,15 +47,15 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
             max="5000"
             value={formData.price}
             onChange={handleChange}
-            className="w-full h-1 appearance-none bg-black"
+            className="w-full accent-indigo-300"
           />
-          <p>${formData.price}</p>
+          <p className="mt-1 text-sm font-semibold text-gray-900">${Number(formData.price).toLocaleString()}</p>
         </div>
       </div>
 
-      <div className="flex items-center">
+      <div className="min-w-0">
         <div>
-          <label className="text-[16px] font-bold">Maximum Square Feet</label>
+          <label className="mb-2 block text-xs font-semibold uppercase text-gray-500">Max square feet</label>
           <input
             type="range"
             name="squareFeet"
@@ -63,20 +63,20 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
             max="3000"
             value={formData.squareFeet}
             onChange={handleChange}
-            className="w-full h-1 appearance-none bg-black"
+            className="w-full accent-indigo-300"
           />
-          <p>{formData.squareFeet} sq ft</p>
+          <p className="mt-1 text-sm font-semibold text-gray-900">{Number(formData.squareFeet).toLocaleString()} sq ft</p>
         </div>
       </div>
 
-      <div className="flex items-center">
+      <div className="min-w-0">
         <div>
-          <label className="text-[16px] font-bold">Property Type</label>
+          <label className="mb-2 block text-xs font-semibold uppercase text-gray-500">Property type</label>
           <select
             name="type"
             value={formData.type}
             onChange={handleChange}
-            className="appearance-none w-full bg-white border-1 p-3"
+            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
           >
             <option value="">Select...</option>
             <option value="apartment">Apartment</option>
@@ -90,14 +90,14 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
       </div>
 
       {isListView && 
-        <div className="flex items-center">
+        <div className="min-w-0">
           <div>
-            <label className="text-[16px] font-bold">Province</label>
+            <label className="mb-2 block text-xs font-semibold uppercase text-gray-500">Province</label>
             <select
               name="province"
               value={formData.province}
               onChange={handleChange}
-              className="appearance-none w-full bg-white border-1 p-3"
+              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
             >
               <option value="">Select...</option>
               <option value="Alberta">Alberta</option>
@@ -115,9 +115,9 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
         </div>
       }
 
-      <div className="flex items-center">
+      <div className="min-w-0">
         <div>
-          <label className="text-[16px] font-bold">Beds</label>
+          <label className="mb-2 block text-xs font-semibold uppercase text-gray-500">Beds</label>
           <input
             type="number"
             name="beds"
@@ -125,14 +125,14 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
             max="5"
             value={formData.beds}
             onChange={handleChange}
-            className="appearance-none w-full bg-white border-1 p-3"
+            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
           />
         </div>
       </div>
 
-      <div className="flex items-center">
+      <div className="min-w-0">
         <div>
-          <label className="text-[16px] font-bold">Baths</label>
+          <label className="mb-2 block text-xs font-semibold uppercase text-gray-500">Baths</label>
           <input
             type="number"
             name="baths"
@@ -141,16 +141,16 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
             step="0.5"
             value={formData.baths}
             onChange={handleChange}
-            className="appearance-none w-full bg-white border-1 p-3"
+            className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
           />
         </div>
       </div>
 
-      <div className="flex items-center">
+      <div className="min-w-0 sm:col-span-2 lg:col-span-1">
         <div>
           <button
             type="submit"
-            className="bg-black text-white w-full p-4 font-bold hover:bg-indigo-300"
+            className="w-full rounded-md bg-indigo-300 px-4 py-2.5 text-sm font-semibold text-gray-950 transition hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300"
           >
             Search
           </button>

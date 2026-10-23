@@ -10,14 +10,14 @@ export default function Layout({
   children,
 }: LayoutProps) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="min-h-screen">
+      <main className="min-h-[calc(100vh-9rem)] flex-1">
         {children}
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }

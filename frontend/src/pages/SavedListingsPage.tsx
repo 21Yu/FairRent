@@ -30,16 +30,19 @@ export default function SavedListingsPage () {
   return (
     <Layout>
       {!user ? (
-        <div className="p-8 text-center text-lg min-h-screen flex items-center justify-center">Please login to see saved listings</div>
+        <div className="mx-auto flex min-h-[60vh] max-w-3xl items-center justify-center px-6 text-center text-lg text-gray-600">Sign in to see your saved listings.</div>
       ) : loading ? (
-        <div className="p-8">Loading saved listings...</div>
+        <div className="mx-auto max-w-7xl px-6 py-12 text-sm text-gray-500">Loading saved listings...</div>
       ) : (
-        <div className="p-6 max-w-7xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">Your Saved Listings</h1>
+        <div className="mx-auto max-w-[1800px] px-4 py-8 md:px-6">
+          <div className="mb-7 border-b border-gray-200 pb-5">
+            <p className="text-xs font-semibold uppercase text-gray-500">Your collection</p>
+            <h1 className="mt-1 text-3xl font-semibold text-gray-950">Saved listings</h1>
+          </div>
           {listings.length === 0 ? (
-            <p className="text-gray-500">You haven't saved any listings yet.</p>
+            <p className="rounded-md border border-dashed border-gray-300 bg-white p-8 text-sm text-gray-500">You haven't saved any listings yet.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {listings.map((item) => (
                 <ListingCard key={item._id} listing={item} />
               ))}

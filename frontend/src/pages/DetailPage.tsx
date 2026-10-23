@@ -57,7 +57,7 @@ export default function DetailPage() {
   if (isLoading) {
     return (
       <Layout>
-        <div className="p-20 text-center font-bold">
+        <div className="p-20 text-center text-sm font-medium text-gray-500">
           Loading System Data...
         </div>
       </Layout>
@@ -67,7 +67,7 @@ export default function DetailPage() {
   if (error || !listing) {
     return (
       <Layout>
-        <div className="p-20 text-center font-bold text-red-500">
+        <div className="m-8 rounded-lg border border-red-200 bg-red-50 p-10 text-center font-medium text-red-700">
           {error || "Listing not found"}
         </div>
       </Layout>
@@ -76,35 +76,36 @@ export default function DetailPage() {
 
   return (
     <Layout>
-      <div className="p-12">
-        <div className="flex justify-between items-baseline">
+      <div className="mx-auto max-w-[1500px] space-y-7 px-4 py-7 md:px-8">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-5">
           <div>
-            <h1 className="text-[42px] font-bold">
+            <p className="mb-1 text-xs font-semibold uppercase text-gray-500">Rental listing</p>
+            <h1 className="text-3xl font-semibold text-gray-950 md:text-4xl">
               {listing.address}
             </h1>
-            <p className="text-[18px] text-gray-500">
+            <p className="mt-1 text-sm text-gray-500">
               {listing.city} {listing.province}
             </p>
           </div>
 
-          <div className="p-2 text-[24px]">
-            Unit {id}
+          <div className="flex items-center gap-3">
+            <span className="rounded-md bg-white px-3 py-2 text-xs font-medium text-gray-500 ring-1 ring-gray-200">Listing {id}</span>
+            <BookmarkButton listingId={listing._id} />
           </div>
-          <BookmarkButton listingId={listing._id} />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-16">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(320px,0.75fr)]">
 
-          <div className="flex-1 flex-col flex">
+          <div className="flex min-w-0 flex-col gap-5">
 
-            <div><Map listings={listing}/></div>
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm"><Map listings={listing}/></div>
 
-            <div>
-              <h3 className="text-[16px] font-bold">
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+              <h3 className="border-b border-gray-200 px-5 py-4 text-lg font-semibold text-gray-950">
                 Details
               </h3>
-              <table className="divide-y divide-gray-200 border text-sm w-full">
-                <tbody className="divide-y divide-gray-400">
+              <table className="w-full divide-y divide-gray-100 text-sm">
+                <tbody className="divide-y divide-gray-100">
                   <tr>
                     <th className="px-4 py-2 font-medium text-left">Beds</th>
                     <td className="px-4 py-2 text-gray-700">{listing.beds}</td>
@@ -151,23 +152,23 @@ export default function DetailPage() {
 
           </div>
 
-          <div className="flex-1 flex flex-col">
+          <div className="flex flex-col gap-4">
 
-              <div className="flex flex-col gap-2 mb-4">
-                <label className="text-[16px] font-bold">
-                  Current Rent:
+              <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+                <label className="text-xs font-semibold uppercase text-gray-500">
+                  Monthly rent
                 </label>
-                <p className="text-[48px] font-bold">
+                <p className="mt-1 text-4xl font-bold text-gray-950">
                   ${listing.price.toLocaleString()}
                 </p>
-                <p className="text-[12px] text-gray-400">Per Month</p>
+                <p className="text-sm text-gray-500">per month</p>
               </div>
 
               <button
                 onClick={handlePredictPrice}
                 disabled={isPredicting}
-                className={`w-full py-4 font-bold mb-4
-                ${isPredicting ? 'bg-gray-200 cursor-not-allowed' : 'bg-black text-white hover:bg-indigo-300'}`}
+                className={`w-full rounded-md px-4 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300
+                ${isPredicting ? 'cursor-not-allowed bg-gray-200 text-gray-500' : 'bg-indigo-300 text-gray-950 hover:bg-indigo-400'}`}
               >
                 {isPredicting
                   ? "Calculating..."
@@ -175,12 +176,12 @@ export default function DetailPage() {
               </button>
 
               {predictedPrice !== null && (
-                <div className="bg-black text-white p-6">
+                <div className="rounded-lg border border-gray-800 bg-gray-950 p-5 text-white shadow-sm">
                   <div className="mb-4">
-                    <label className="font-bold text-indigo-300">
+                    <label className="text-xs font-semibold uppercase text-indigo-300">
                       Estimated Market Value
                     </label>
-                    <p className="text-[36px] font-bold">
+                    <p className="mt-1 text-3xl font-bold">
                       ${predictedPrice.toLocaleString()}
                     </p>
                     {(listing.price >= predictedPrice - 100) && 
@@ -195,7 +196,7 @@ export default function DetailPage() {
                   </div>    
 
                   <div className="mb-4">
-                    <h3 className="text-[16px] font-bold text-indigo-300">
+                    <h3 className="text-base font-semibold text-indigo-300">
                       Local Market Comparison
                     </h3>
                     {insights ? (

@@ -44,14 +44,15 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
     return (
         <form 
             onSubmit={handleSubmit} 
-            className="flex flex-col space-y-8"
+            className="flex flex-col gap-5"
         >
             <div className="space-y-2">
-                <h2>Register</h2>
+                <p className="mb-1 text-xs font-semibold uppercase text-gray-500">New to FairRent</p>
+                <h2 className="text-2xl font-semibold text-gray-950">Create account</h2>
             </div>
 
             <div className="space-y-2">
-                <label htmlFor="register-name" className="block">Name</label>
+                <label htmlFor="register-name" className="block text-sm font-medium text-gray-700">Name</label>
                 <input 
                     id="register-name"
                     type="text" 
@@ -60,12 +61,12 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
                     onChange={handleChange}
                     required
                     placeholder="Enter User Name"
-                    className="appearance-none w-full bg-white border-1 p-4 focus:outline-none placeholder-gray-400"
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-sm outline-none placeholder:text-gray-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
                 />
             </div>
 
             <div className="space-y-2">
-                <label htmlFor="register-email" className="block tracking-wider">Email Address</label>
+                <label htmlFor="register-email" className="block text-sm font-medium text-gray-700">Email address</label>
                 <input 
                     id="register-email"
                     type="email" 
@@ -74,12 +75,12 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
                     onChange={handleChange}
                     required
                     placeholder="Enter Email"
-                    className="appearance-none w-full bg-white border-1 p-4 focus:outline-none placeholder-gray-400"
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-sm outline-none placeholder:text-gray-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
                 />
             </div>
 
             <div className="space-y-2">
-                <label htmlFor="register-password" className="block tracking-wider">Password</label>
+                <label htmlFor="register-password" className="block text-sm font-medium text-gray-700">Password</label>
                 <input 
                     id="register-password"
                     type="password" 
@@ -88,19 +89,19 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void }) 
                     onChange={handleChange}
                     required
                     placeholder="Enter Password"
-                    className="appearance-none w-full bg-white border-1 p-4 focus:outline-none placeholder-gray-400"
+                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-3 text-sm outline-none placeholder:text-gray-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
                 />
             </div>
 
             <button 
                 type="submit"
-                className="bg-black text-white w-full p-4 font-bold hover:bg-indigo-300"
+                className="w-full rounded-md bg-indigo-300 px-4 py-3 font-semibold text-gray-950 transition hover:bg-indigo-400 disabled:cursor-wait disabled:opacity-60"
             >
                 {loading ? "Registering..." : "Register"}
             </button>
 
             {error && (
-                <div className="p-3 border-2 border-red-600 bg-red-100 text-red-600 font-mono">
+                <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
                     {error}
                 </div>
             )}

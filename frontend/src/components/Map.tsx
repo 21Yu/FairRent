@@ -89,8 +89,8 @@ export default function Map({
     const customIcon = L.divIcon({
       className: "custom-marker-wrapper",
       html: `
-        <div class="group relative w-6 h-6 rounded-full bg-indigo-300 border-2 border-white shadow-md transition-transform duration-200 hover:scale-125 hover:bg-indigo-300 flex items-center justify-center">
-          <div class="w-2 h-2 rounded-full bg-indigo-300"></div>
+        <div class="group relative flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-indigo-300 shadow-md transition-transform duration-200 hover:scale-125">
+          <div class="h-2 w-2 rounded-full bg-gray-950"></div>
         </div>
       `,
       iconSize: [24, 24],
@@ -124,8 +124,8 @@ export default function Map({
 
   
   return (
-    <div className="border-1">
-      <div ref={mapRef} className={`w-full ${isSingleListing ? "h-[50vh]" : "h-screen"}`}/>
+    <div className="h-full w-full">
+      <div ref={mapRef} className={`h-full min-h-[420px] w-full ${isSingleListing ? "h-[50vh]" : "md:min-h-0"}`}/>
     </div>
   );
 }

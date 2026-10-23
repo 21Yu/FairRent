@@ -45,7 +45,7 @@ export default function ListViewPage() {
 
     return (
         <Layout>
-            <div className="p-8 md:p-4">
+            <div className="mx-auto max-w-[1800px] px-4 pt-5 md:px-6">
                 <section>
                     <FilterForm
                     onFormSubmit={setFilters}
@@ -53,31 +53,31 @@ export default function ListViewPage() {
                     />
                 </section>
             </div>
-            <div className="p-6 max-w-7xl mx-auto">
-                <label className="mb-6 block">
+            <div className="mx-auto max-w-[1800px] px-4 py-6 md:px-6">
+                <label className="mb-6 block max-w-2xl">
                     <span className="sr-only">Search listings</span>
                     <input
                         type="search"
                         value={searchQuery}
                         onChange={(event) => setSearchQuery(event.target.value)}
                         placeholder="Search by address, city, province, or property type"
-                        className="w-full border border-gray-300 bg-white px-4 py-3 text-sm focus:border-black focus:outline-none"
+                        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm shadow-sm outline-none placeholder:text-gray-400 focus:border-indigo-300 focus:ring-2 focus:ring-indigo-100"
                     />
                 </label>
                 {loading ? (
         
-                    <p className="text-[12px] text-gray-400">
-                    loading...
+                    <p className="rounded-md border border-gray-200 bg-white p-6 text-sm text-gray-500">
+                    Loading listings...
                     </p>
         
                 ) : filteredListings.length === 0 ? (
         
-                    <p className="text-[12px] text-gray-400">
-                    No data matching criteria
+                    <p className="rounded-md border border-dashed border-gray-300 bg-white p-8 text-sm text-gray-500">
+                    No listings match your search and filters.
                     </p>
         
                 ) : (    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {filteredListings.map((item) => (
                         <ListingCard key={item._id} listing={item} />
                     ))}

@@ -43,8 +43,7 @@ function MainPage() {
 
   return (
     <Layout>
-      <div className="p-8 md:p-4">
-        
+      <div className="mx-auto max-w-[1800px] space-y-5 px-4 py-5 md:px-6">
         <section>
           <FilterForm
             onFormSubmit={setFilters}
@@ -52,9 +51,8 @@ function MainPage() {
           />
         </section>
 
-        <main className="flex flex-col md:flex-row">
-          
-          <section className="flex-1">
+        <main className="grid min-h-[620px] grid-cols-1 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm md:h-[calc(100vh-15rem)] md:min-h-[560px] md:grid-cols-[minmax(330px,0.85fr)_minmax(0,1.6fr)]">
+          <section className="min-h-[440px] overflow-hidden border-b border-gray-200 md:border-b-0 md:border-r">
             <SideBar 
               listings={listings} 
               loading={loading}
@@ -62,7 +60,7 @@ function MainPage() {
             />
           </section>
 
-          <section className="flex-3">
+          <section className="min-h-[420px] overflow-hidden">
             <Map
               listings={listings}
               onBoundsChange={setBounds}

@@ -81,10 +81,10 @@ export default function AdminPage() {
     return (
         <Layout>
             <main className="mx-auto max-w-6xl px-5 py-8 md:px-8">
-                <div className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-gray-300 pb-4">
+                <div className="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-gray-200 pb-4">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Administration</p>
-                        <h1 className="mt-1 text-2xl font-bold">Users</h1>
+                        <h1 className="mt-1 text-3xl font-semibold text-gray-950">Users</h1>
                     </div>
                     {!isLoading && <p className="text-sm text-gray-600">{users.length} accounts</p>}
                 </div>
@@ -96,9 +96,9 @@ export default function AdminPage() {
                 ) : error && users.length === 0 ? null : users.length === 0 ? (
                     <p className="py-8 text-gray-600">No user accounts found.</p>
                 ) : (
-                    <div className="overflow-x-auto border border-gray-300">
+                    <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
                         <table className="w-full min-w-[680px] border-collapse text-left text-sm">
-                            <thead className="bg-gray-100 text-xs uppercase text-gray-600">
+                            <thead className="bg-gray-50 text-xs uppercase text-gray-500">
                                 <tr>
                                     <th scope="col" className="px-4 py-3">Name</th>
                                     <th scope="col" className="px-4 py-3">Email</th>
@@ -109,7 +109,7 @@ export default function AdminPage() {
                             </thead>
                             <tbody>
                                 {users.map((account) => (
-                                    <tr key={account.id} className="border-t border-gray-200 align-middle">
+                                    <tr key={account.id} className="border-t border-gray-100 align-middle transition-colors hover:bg-indigo-50/50">
                                         <td className="px-4 py-3 font-medium">{account.user_name}</td>
                                         <td className="px-4 py-3">{account.email}</td>
                                         <td className="px-4 py-3">{account.saved_listings?.length ?? 0}</td>
@@ -119,7 +119,7 @@ export default function AdminPage() {
                                                 <button
                                                     type="button"
                                                     onClick={() => { setError(null); setEditingUser(account); }}
-                                                    className="font-semibold underline decoration-gray-400 underline-offset-4 hover:text-indigo-700"
+                                                    className="font-semibold text-gray-700 underline decoration-gray-300 underline-offset-4 hover:text-indigo-700"
                                                 >
                                                     Edit
                                                 </button>
@@ -142,7 +142,7 @@ export default function AdminPage() {
                 )}
 
                 {editingUser && (
-                    <section aria-labelledby="edit-user-title" className="mt-8 max-w-2xl border-t border-gray-300 pt-6">
+                        <section aria-labelledby="edit-user-title" className="mt-8 max-w-2xl rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                         <div className="mb-4 flex items-center justify-between gap-4">
                             <h2 id="edit-user-title" className="text-lg font-bold">Edit user</h2>
                             <button type="button" onClick={() => setEditingUser(null)} className="px-2 py-1 text-sm underline underline-offset-4">Cancel</button>

@@ -1,8 +1,22 @@
 @import "tailwindcss";
 
+@layer base {
+  body {
+    @apply min-h-screen bg-[#f6f7f9] text-gray-900 antialiased;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.62) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 42, 0.025) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
 
-body {
-  @apply text-black ;
+  h1,
+  h2,
+  h3 {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  ::selection {
+    @apply bg-indigo-300 text-gray-950;
+  }
 }
 
 
