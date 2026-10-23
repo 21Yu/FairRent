@@ -15,6 +15,7 @@ export default function DetailPage() {
   const [insights, setInsights] = useState<InsightsType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isPredicting, setIsPredicting] = useState(false);
+  const [predictionError, setPredictionError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,7 +27,9 @@ export default function DetailPage() {
         const data = await fetchListing(id);
         setListing(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load listing details");
+        setError(err instanceof TypeError
+          ? "We couldn't load this listing. Check your connection and try again."
+          : err instanceof Error ? err.message : "Failed to load listing details");
       } finally {
         setIsLoading(false);
       }
@@ -40,6 +43,7 @@ export default function DetailPage() {
 
     try {
       setIsPredicting(true);
+      setPredictionError(null);
       const [priceData, insightsData] = await Promise.all([
         fetchPredictedPrice(id),
         fetchInsights(id)
@@ -48,7 +52,9 @@ export default function DetailPage() {
       setPredictedPrice(priceData);
       setInsights(insightsData);
     } catch (err) {
-      console.error("Failed to calculate predictions:", err);
+      setPredictionError(err instanceof TypeError
+        ? "We couldn't calculate market insights. Check your connection and try again."
+        : err instanceof Error ? err.message : "Unable to calculate market insights. Please try again.");
     } finally {
       setIsPredicting(false);
     }
@@ -174,6 +180,12 @@ export default function DetailPage() {
                   ? "Calculating..."
                   : "Predict Market Price"}
               </button>
+
+              {predictionError && (
+                <p role="alert" className="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+                  {predictionError}
+                </p>
+              )}
 
               {predictedPrice !== null && (
                 <div className="rounded-lg border border-gray-800 bg-gray-950 p-5 text-white shadow-sm">

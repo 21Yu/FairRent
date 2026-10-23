@@ -9,11 +9,11 @@ import type { Filters } from "../models/FormTypes";
 
 export default function ListViewPage() {
     const [filters, setFilters] = useState<Filters>({
-        price: "",
+        price: "2500",
         type: "",
         beds: "",
         baths: "",
-        squareFeet: "",
+        squareFeet: "1000",
         province: ""
     });
 
@@ -21,6 +21,7 @@ export default function ListViewPage() {
     const [listings, setListings] = useState<ListingType[]>([]);
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
 
     const normalizedSearchQuery = searchQuery.trim().toLowerCase();
@@ -31,14 +32,31 @@ export default function ListViewPage() {
 
     useEffect(() => {
 
-        const timeout = setTimeout(async () => {
-        setLoading(true);
-        const data = await fetchListings(filters);
-        setListings(data);
-        setLoading(false);
+        let isCancelled = false;
+        const timeout = window.setTimeout(() => {
+            const loadListings = async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    const data = await fetchListings(filters);
+                    if (!isCancelled) setListings(data);
+                } catch (err) {
+                    if (!isCancelled) {
+                        setError(err instanceof TypeError
+                            ? "We couldn't load listings. Check your connection and try again."
+                            : err instanceof Error ? err.message : "Unable to load listings. Please try again.");
+                    }
+                } finally {
+                    if (!isCancelled) setLoading(false);
+                }
+            };
+            void loadListings();
         }, 300);
 
-        return () => clearTimeout(timeout);
+        return () => {
+            isCancelled = true;
+            window.clearTimeout(timeout);
+        };
 
 
     }, [filters]);
@@ -70,6 +88,10 @@ export default function ListViewPage() {
                     Loading listings...
                     </p>
         
+                ) : error && filteredListings.length === 0 ? (
+                    <p role="alert" className="rounded-md border border-red-200 bg-red-50 p-6 text-sm text-red-800">
+                    {error}
+                    </p>
                 ) : filteredListings.length === 0 ? (
         
                     <p className="rounded-md border border-dashed border-gray-300 bg-white p-8 text-sm text-gray-500">

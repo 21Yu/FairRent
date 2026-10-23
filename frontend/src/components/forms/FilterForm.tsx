@@ -35,7 +35,7 @@ export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid grid-cols-1 gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-6 lg:items-end lg:gap-5 lg:p-5"
+      className={`grid grid-cols-1 gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:grid-cols-2 lg:items-end lg:gap-5 lg:p-5 ${isListView ? "lg:grid-cols-7" : "lg:grid-cols-6"}`}
     >
       <div className="min-w-0">
         <div>

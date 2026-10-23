@@ -73,7 +73,7 @@ export default function ListingCard({
 
         <Link
           to={`/details/${listing._id}`}
-          className="mt-auto flex items-center justify-between border-t border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-indigo-50 hover:text-indigo-300 focus-visible:outline-2 focus-visible:outline-indigo-300"
+          className="mt-auto flex items-center justify-between border-t border-gray-200 px-4 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-indigo-50 hover:text-indigo-800 focus-visible:outline-2 focus-visible:outline-indigo-300"
         >
           <span>View listing details</span>
           <span aria-hidden="true">&rarr;</span>

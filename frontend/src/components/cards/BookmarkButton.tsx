@@ -23,7 +23,7 @@ export const BookmarkButton: React.FC<BookmarkButtonProps> = ({ listingId }) => 
       onClick={handleClick}
       className={`p-2 rounded-full border  ${
         saved
-          ? 'bg-indigo-300 text-white'
+          ? 'border-indigo-300 bg-indigo-300 text-gray-950'
           : 'bg-white text-gray-600 hover:bg-gray-100 border-gray-300'
       }`}
       aria-label={saved ? 'Unsave listing' : 'Save listing'}

@@ -90,7 +90,7 @@ export default function Map({
       className: "custom-marker-wrapper",
       html: `
         <div class="group relative flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-indigo-300 shadow-md transition-transform duration-200 hover:scale-125">
-          <div class="h-2 w-2 rounded-full bg-gray-950"></div>
+          <div class="h-2 w-2 rounded-full bg-white"></div>
         </div>
       `,
       iconSize: [24, 24],

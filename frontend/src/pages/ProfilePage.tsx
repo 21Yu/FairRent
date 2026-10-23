@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export default function ProfilePage() {
     const { user, loading, handleLogout, handleUpdateProfile } = useAuth();
+    const [authMode, setAuthMode] = useState<"signin" | "register">("signin");
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,17 +26,59 @@ export default function ProfilePage() {
     if (!user) {
         return (
             <Layout>
-                <div className="p-8">
-                    {feedback && <p role="status" className="mb-6 text-green-700">{feedback}</p>}
-                    <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-4 py-10 md:grid-cols-2 md:px-8">
-                        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm md:p-8">
-                            <LoginForm onSuccess={() => setFeedback("Signed in successfully.")} />
+                <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
+                    <section className="w-full max-w-md">
+                        <div className="mb-6 text-center">
+                            <p className="text-xs font-semibold uppercase text-gray-500">Your FairRent account</p>
+                            <h1 className="mt-2 text-3xl font-semibold text-gray-950">
+                                {authMode === "signin" ? "Welcome back" : "Join FairRent"}
+                            </h1>
+                            <p className="mt-2 text-sm text-gray-600">
+                                {authMode === "signin"
+                                    ? "Sign in to save listings and compare rents."
+                                    : "Create an account to save homes and track rent insights."}
+                            </p>
                         </div>
-                        
-                        <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm md:p-8">
-                            <RegisterForm onSuccess={() => setFeedback("Account created. You can now sign in.")} />
+
+                        <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
+                            <div role="tablist" aria-label="Account access" className="mb-6 grid grid-cols-2 rounded-md bg-gray-100 p-1">
+                                <button
+                                    id="signin-tab"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={authMode === "signin"}
+                                    aria-controls="auth-panel"
+                                    onClick={() => { setAuthMode("signin"); setFeedback(null); }}
+                                    className={`rounded px-3 py-2 text-sm font-semibold transition ${authMode === "signin" ? "bg-white text-gray-950 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}
+                                >
+                                    Sign in
+                                </button>
+                                <button
+                                    id="register-tab"
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={authMode === "register"}
+                                    aria-controls="auth-panel"
+                                    onClick={() => { setAuthMode("register"); setFeedback(null); }}
+                                    className={`rounded px-3 py-2 text-sm font-semibold transition ${authMode === "register" ? "bg-white text-gray-950 shadow-sm" : "text-gray-500 hover:text-gray-800"}`}
+                                >
+                                    Create account
+                                </button>
+                            </div>
+
+                            {feedback && <p role="status" className="mb-5 rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800">{feedback}</p>}
+                            <div id="auth-panel" role="tabpanel" aria-labelledby={`${authMode}-tab`}>
+                                {authMode === "signin" ? (
+                                    <LoginForm onSuccess={() => setFeedback("Signed in successfully.")} />
+                                ) : (
+                                    <RegisterForm onSuccess={() => {
+                                        setAuthMode("signin");
+                                        setFeedback("Account created. You can now sign in.");
+                                    }} />
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </Layout>
         );
@@ -139,7 +182,8 @@ export default function ProfilePage() {
                     </button>
                     {error && <p role="alert" className="text-red-700">{error}</p>}
                     {success && <p role="status" className="text-green-700">{success}</p>}
-                    <button 
+                    <button
+                        type="button"
                         className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 font-semibold text-gray-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-700"
                         onClick={onLogoutClick}
                     >
