@@ -14,8 +14,7 @@ pip install -r requirements.txt
 Create a `.env` file in this folder:
 
 ```env
-MONGODB_URL=mongodb://localhost:27017
-DATABASE_NAME=fairrent
+POSTGRES_URL=postgresql+asyncpg://USER:PASSWORD@HOST/DATABASE?sslmode=require
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30

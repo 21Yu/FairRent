@@ -26,7 +26,7 @@ function MainPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [selectedListingId, setSelectedListingId] = useState<string>("");
-  const [mobileView, setMobileView] = useState<"list" | "map">("list");
+  const [mobileView, setMobileView] = useState<"list" | "map">("map");
 
   useEffect(() => {
     if (!bounds) return;

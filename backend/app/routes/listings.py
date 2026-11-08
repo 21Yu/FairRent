@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from app.db.mongodb import get_database
+from app.db.postgres import get_database
 
 router = APIRouter()
 
@@ -32,7 +32,7 @@ async def get_listings(
     if province is not None:
         query["province"] = province
 
-    # Dynamic Leaflet map bounds query using MongoDB 2dsphere indexing
+    # Dynamic Leaflet map bounds query translated to SQL latitude/longitude filters.
     if None not in (north, south, east, west):
         query["location"] = {
             "$geoWithin": {

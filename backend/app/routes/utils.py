@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.core.config import settings
-from app.db.mongodb import get_database
+from app.db.postgres import get_database
 
 router = APIRouter()
 

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from fastapi import APIRouter, Depends, HTTPException
-from app.db.mongodb import get_database
+from app.db.postgres import get_database
 from app.services.data_loader import data_store
 
 router = APIRouter()
@@ -13,7 +13,7 @@ async def get_predict(id: str, db = Depends(get_database)):
     if not rental:
         raise HTTPException(status_code=404, detail="Rental not found")
     
-    # Convert MongoDB document into a single-row DataFrame for model feature pipeline
+    # Convert the listing document into a single-row DataFrame for the model pipeline.
     rental["_id"] = str(rental["_id"])
     df_row = pd.DataFrame([rental])
 
@@ -44,25 +44,13 @@ async def get_insights(id: str, db = Depends(get_database)):
         lon = float(rental["longitude"])
         cluster_id = int(data_store.kmeans.predict([[lat, lon]])[0])
 
-    # Perform cluster aggregation natively inside MongoDB
-    pipeline = [
-        {"$match": {"geo_cluster": cluster_id}},
-        {
-            "$group": {
-                "_id": "$geo_cluster",
-                "avg_price": {"$avg": "$price"},
-                "count": {"$sum": 1}
-            }
-        }
-    ]
-    
-    aggregate_res = await db.listings.aggregate(pipeline).to_list(length=1)
-    
-    if not aggregate_res:
+    aggregate_res = await db.cluster_stats(cluster_id)
+
+    if not aggregate_res or aggregate_res["count"] == 0:
         raise HTTPException(status_code=404, detail="Cluster insights unavailable")
 
-    cluster_avg_price = float(aggregate_res[0]["avg_price"])
-    cluster_count = int(aggregate_res[0]["count"])
+    cluster_avg_price = float(aggregate_res["avg_price"])
+    cluster_count = int(aggregate_res["count"])
 
     diff_pct = round(((current_price - cluster_avg_price) / cluster_avg_price) * 100, 1)
 

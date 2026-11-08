@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 
 from app.core.config import settings
-from app.db.mongodb import get_database
+from app.db.postgres import get_database
 
 # OAuth2 scheme looking for 'Authorization: Bearer <token>'
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")

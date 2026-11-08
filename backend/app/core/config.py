@@ -1,8 +1,8 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    MONGODB_URL: str
-    DATABASE_NAME: str
+    POSTGRES_URL: str
+    DATABASE_NAME: str = "fairrent"
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ENVIRONMENT: str = "DEVELOPMENT"

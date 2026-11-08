@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
-from bson import ObjectId
-from app.db.mongodb import get_database
+from app.db.postgres import get_database
 
 from app.core.security import hash_password, verify_password, create_access_token
 from app.middleware.auth_middleware import get_admin_user, get_current_user, is_admin_email
@@ -115,10 +114,7 @@ async def update_user(
     db=Depends(get_database),
     admin: dict = Depends(get_admin_user)
 ):
-    if not ObjectId.is_valid(user_id):
-        raise HTTPException(status_code=404, detail="User not found")
-
-    user = await db.users.find_one({"_id": ObjectId(user_id)})
+    user = await db.users.find_one({"_id": user_id})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -127,8 +123,8 @@ async def update_user(
         raise HTTPException(status_code=400, detail="Provide a name, email, or password to update")
 
     if "email" in updates:
-        existing_user = await db.users.find_one({"email": updates["email"], "_id": {"$ne": user["_id"]}})
-        if existing_user:
+        existing_user = await db.users.find_one({"email": updates["email"]})
+        if existing_user and existing_user["_id"] != user["_id"]:
             raise HTTPException(status_code=400, detail="Email already registered")
 
     if "password" in updates:
@@ -151,12 +147,10 @@ async def delete_user(
     db=Depends(get_database),
     admin: dict = Depends(get_admin_user)
 ):
-    if not ObjectId.is_valid(user_id):
-        raise HTTPException(status_code=404, detail="User not found")
     if str(admin["_id"]) == user_id:
         raise HTTPException(status_code=400, detail="You cannot delete your own account")
 
-    result = await db.users.delete_one({"_id": ObjectId(user_id)})
+    result = await db.users.delete_one({"_id": user_id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted successfully"}

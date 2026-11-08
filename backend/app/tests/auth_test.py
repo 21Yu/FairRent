@@ -1,4 +1,5 @@
 import pytest
+from app.db.postgres import get_database
 
 
 async def register_user(client, *, email="test@example.com", password="securepassword123", user_name="Test User"):
@@ -95,7 +96,7 @@ async def test_saved_listings_round_trip(client):
         "location": {"type": "Point", "coordinates": [-79.38, 43.65]},
     }
 
-    db = await __import__("app.db.mongodb", fromlist=["get_database"]).get_database()
+    db = await get_database()
     await db["listings"].insert_one(listing)
 
     save = await client.post("/users/saved-listings", json={"listing_id": "listing-1"}, headers=headers)
@@ -117,7 +118,7 @@ async def test_saved_listings_round_trip(client):
 
 @pytest.mark.asyncio
 async def test_listings_endpoints_filter_and_fetch(client):
-    db = await __import__("app.db.mongodb", fromlist=["get_database"]).get_database()
+    db = await get_database()
     await db["listings"].insert_many([
         {
             "_id": "listing-10",
@@ -170,5 +171,5 @@ async def test_health_and_reset_db_endpoints(client):
     assert reset.status_code == 200
     assert reset.json()["status"] == "Database cleared"
 
-    db = await __import__("app.db.mongodb", fromlist=["get_database"]).get_database()
+    db = await get_database()
     assert await db["users"].count_documents({}) == 0
