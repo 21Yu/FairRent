@@ -189,7 +189,10 @@ class PostgresDatabase:
         query = dict(parse_qsl(parsed_url.query))
         sslmode = query.pop("sslmode", None)
         query.pop("channel_binding", None)
-        engine_url = urlunsplit(parsed_url._replace(query=urlencode(query)))
+        scheme = parsed_url.scheme
+        if scheme in {"postgres", "postgresql"}:
+            scheme = "postgresql+asyncpg"
+        engine_url = urlunsplit(parsed_url._replace(scheme=scheme, query=urlencode(query)))
         connect_args = {}
         if sslmode == "require":
             connect_args["ssl"] = True
