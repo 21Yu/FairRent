@@ -1,28 +1,32 @@
 # FairRent
 
-FairRent is a full-stack rental market platform for discovering listings, exploring neighborhood pricing, and evaluating whether a rent is reasonable relative to market conditions. The project combines a MongoDB-backed listing catalog, a FastAPI backend, and a React + Vite frontend with map-based browsing and pricing intelligence.
+FairRent is a full-stack rental market platform for discovering listings, exploring neighborhood pricing, and evaluating whether a rent is reasonable relative to market conditions. It combines a React + Vite frontend, a FastAPI backend, a Neon PostgreSQL database, and machine-learning models for rent prediction.
 
-## Live demo
+## Live deployment
 
-[FairRent](https://fair-rent-five.vercel.app)
-## What the app does
+- Frontend: [fair-rent-five.vercel.app](https://fair-rent-five.vercel.app/)
+- Backend API: [fairrent-api.onrender.com](https://fairrent-api.onrender.com)
+- API documentation: [fairrent-api.onrender.com/docs](https://fairrent-api.onrender.com/docs)
+- Database: Neon PostgreSQL
+
+## Features
 
 - Browse rental listings on an interactive map and sidebar view
-- Filter results by price, listing type, bedrooms, bathrooms, and square footage
-- View detailed property information and neighborhood context
-- Get AI-assisted predicted rent values for individual listings
-- Compare each listing against local cluster averages for pricing insight
+- Filter listings by price, type, bedrooms, bathrooms, and square footage
+- View property details and neighborhood context
+- Get predicted rent values and local cluster pricing insights
 - Register, log in, and manage saved listings with JWT authentication
-- Support admin-level user management in the backend
+- Manage users through admin-only backend routes
 
 ## Tech stack
 
-- Frontend: React, TypeScript, Vite, React Router, Leaflet, React-Leaflet
+- Frontend: React 19, TypeScript, Vite, React Router, Leaflet, React-Leaflet
 - Styling: Tailwind CSS
-- Backend: Python, FastAPI, Uvicorn, Pydantic
-- Database: MongoDB, Motor
+- Backend: Python, FastAPI, Uvicorn, Pydantic, SQLAlchemy, asyncpg
+- Database: PostgreSQL hosted on Neon
 - ML: pandas, NumPy, scikit-learn, XGBoost, joblib
-- Auth: JWT, password hashing, OAuth2 password flow
+- Authentication: JWT, Argon2 password hashing, OAuth2 password flow
+- Deployment: Vercel for the frontend and Render for the backend
 
 ## Repository structure
 
@@ -30,156 +34,176 @@ FairRent is a full-stack rental market platform for discovering listings, explor
 FairRent/
 ├── backend/
 │   ├── app/
-│   │   ├── core/
-│   │   ├── db/
+│   │   ├── core/          # Configuration and security
+│   │   ├── db/            # PostgreSQL connection and schema setup
 │   │   ├── middleware/
-│   │   ├── ml/
+│   │   ├── ml/            # Data, processing scripts, and trained models
 │   │   ├── models/
-│   │   ├── routes/
+│   │   ├── routes/        # Listing, user, ML, health, and utility APIs
 │   │   ├── services/
 │   │   └── tests/
-│   ├── .env
-│   ├── README.md
 │   ├── pytest.ini
 │   └── requirements.txt
 ├── frontend/
 │   ├── public/
 │   ├── src/
-│   ├── index.html
 │   ├── package.json
-│   ├── tsconfig.json
-│   ├── vite.config.ts
 │   └── vercel.json
-├── reports/
-│   ├── plots/
-│   └── *.txt
+├── reports/               # Model evaluation reports and plots
 ├── LICENSE
-├── README.md
-└── .github/
-    └── workflows/
+└── README.md
 ```
 
 ## Prerequisites
 
 - Python 3.11+
 - Node.js 18+
-- MongoDB running locally or using a MongoDB Atlas connection string
+- A PostgreSQL database, locally or through Neon
 
-## Backend setup
+## Local development
 
-1. Change into the backend folder:
+### Backend
 
 ```bash
 cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-2. Create a `.env` file in the `backend/` directory with values similar to:
+Create `backend/.env`:
 
 ```env
-MONGODB_URL=mongodb://localhost:27017
-DATABASE_NAME=fairrent
+POSTGRES_URL=postgresql+asyncpg://USER:PASSWORD@HOST/DATABASE?sslmode=require
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 ADMIN_EMAILS=admin@example.com
 ```
 
-`ADMIN_EMAILS` accepts a comma-separated list of user emails that should be promoted to admin access.
+`ADMIN_EMAILS` accepts a comma-separated list of email addresses. The backend creates the required PostgreSQL tables and indexes when it starts.
 
-3. Create and activate a virtual environment:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-
-4. Install Python dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-5. Run the API:
+Run the API:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The FastAPI app will be available at:
+The API is available at `http://127.0.0.1:8000` and its Swagger documentation at `http://127.0.0.1:8000/docs`.
 
-- http://127.0.0.1:8000
-- Docs: http://127.0.0.1:8000/docs
+### Frontend
 
-## Frontend setup
-
-1. Open a new terminal session and navigate to the frontend folder:
+In a second terminal:
 
 ```bash
 cd frontend
-```
-
-2. Install dependencies:
-
-```bash
 npm install
 ```
 
-3. Start the Vite app:
+Create `frontend/.env.local`:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+Start the Vite development server:
 
 ```bash
 npm run dev
 ```
 
-The frontend runs at:
+The frontend is available at `http://127.0.0.1:5173`.
 
-- http://127.0.0.1:5173
+## Deployment configuration
+
+### Vercel
+
+The frontend is deployed from `frontend/`. Set this Vercel environment variable:
+
+```env
+VITE_API_BASE_URL=https://fairrent-api.onrender.com
+```
+
+The `frontend/vercel.json` rewrite supports client-side routes by serving `index.html` for unmatched paths.
+
+### Render
+
+Deploy the `backend/` directory as a Python web service. Configure the service to install `requirements.txt` and use this start command:
+
+```bash
+gunicorn -k uvicorn.workers.UvicornWorker app.main:app
+```
+
+Set these Render environment variables:
+
+```env
+POSTGRES_URL=<Neon connection string>
+SECRET_KEY=<strong secret>
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+ADMIN_EMAILS=<comma-separated admin emails>
+```
+
+The API allows requests from the deployed Vercel frontend and from `http://localhost:5173` during local development.
+
+### Neon
+
+Create a Neon PostgreSQL database and use its connection string as `POSTGRES_URL`. The application uses the async PostgreSQL driver and initializes the `users` and `listings` tables during backend startup.
 
 ## API overview
 
-### Listing routes
+### Listings and ML
 
-- `GET /listings/` — fetch listings, with optional filters and map bounds
-- `GET /listings/{id}` — fetch a specific listing by ID
+- `GET /listings/` - Fetch listings with optional filters and map bounds
+- `GET /listings/{id}` - Fetch a listing by ID
+- `GET /ml/predict?id=<listing_id>` - Return a predicted rent
+- `GET /ml/insights?id=<listing_id>` - Return local cluster pricing insights
 
-### ML routes
+### Users
 
-- `GET /ml/predict?id=<listing_id>` — return the predicted rent for a listing
-- `GET /ml/insights?id=<listing_id>` — return cluster-level pricing insights
+- `POST /users/register` - Create an account
+- `POST /users/login` - Authenticate and receive a JWT
+- `POST /users/logout` - Log out the current session
+- `GET /users/me` - Fetch the current user
+- `PATCH /users/me` - Update the current user
+- `POST /users/saved-listings` - Save a listing
+- `GET /users/saved-listings` - Fetch saved listings
+- `DELETE /users/saved-listings/{listing_id}` - Remove a saved listing
 
-### User routes
+### Admin and utility routes
 
-- `POST /users/register` — create a new account
-- `POST /users/login` — authenticate and receive a JWT token
-- `GET /users/me` — fetch the current logged-in user
-- `PATCH /users/me` — update the signed-in user
-- `POST /users/saved-listings` — save a listing
-- `GET /users/saved-listings` — fetch saved listings for the current user
-- `DELETE /users/saved-listings/{listing_id}` — remove a saved listing
-
-### Admin routes
-
-- `GET /users/admin/users` — list users, restricted to admin accounts
-- `PATCH /users/admin/users/{user_id}` — edit user details as admin
-- `DELETE /users/admin/users/{user_id}` — delete a user as admin
-
-### Utility/testing routes
-
-- `POST /test/reset-db` — reset the local database for testing
+- `GET /users/admin/users` - List users for admins
+- `PATCH /users/admin/users/{user_id}` - Update a user for admins
+- `DELETE /users/admin/users/{user_id}` - Delete a user for admins
+- `HEAD /health/` - Health check
+- `POST /test/reset-db` - Reset database data for testing
 
 ## Model performance
 
-The project compares multiple learning models for rent prediction. The final model used in the app is the XGBoost implementation.
+The final model used by the application is the tuned XGBoost implementation.
 
-- Linear Regression: RMSE 725.26, MAE 401.00, R² 0.4008
-- Gradient Boosting: RMSE 548.57, MAE 276.87, R² 0.6572
-- Tuned Gradient Boosting: RMSE 506.04, MAE 235.51, R² 0.7083
-- XGBoost (Final): RMSE 448.61, MAE 223.39, R² 0.7568
+| Model | RMSE | MAE | R² |
+| --- | ---: | ---: | ---: |
+| Linear Regression | 725.26 | 401.00 | 0.4008 |
+| Gradient Boosting | 548.57 | 276.87 | 0.6572 |
+| Tuned Gradient Boosting | 506.04 | 235.51 | 0.7083 |
+| XGBoost (final) | 448.61 | 223.39 | 0.7568 |
 
-## Notes
+## Testing and quality checks
 
-- The frontend and backend are configured to work together through environment-based API settings.
-- MongoDB stores listing records, user documents, and saved-listing state.
-- The app is intended for rental-market research and evaluation, not a full production real-estate management platform.
+From `frontend/`:
+
+```bash
+npm run lint
+npm test
+npm run build
+```
+
+From `backend/`:
+
+```bash
+pytest
+```
 
 ## License
 
