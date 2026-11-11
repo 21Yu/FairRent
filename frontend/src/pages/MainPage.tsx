@@ -7,16 +7,10 @@ import Layout from "../components/layout/Layout";
 import { fetchListings } from "../services/api";
 
 import type { ListingType } from "../models/ListingTypes";
-import type { MapBounds, Filters } from "../models/FormTypes";
+import { createDefaultFilters, type MapBounds, type Filters } from "../models/FormTypes";
 
 function MainPage() {
-  const [filters, setFilters] = useState<Filters>({
-    price: "2500",
-    type: "",
-    beds: "",
-    baths: "",
-    squareFeet: "1000",
-  });
+  const [filters, setFilters] = useState<Filters>(createDefaultFilters);
 
   const [bounds, setBounds] = useState<MapBounds | null>(null);
 

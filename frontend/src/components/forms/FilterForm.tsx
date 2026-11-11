@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { Filters } from "../../models/FormTypes";
+import { createDefaultFilters, type Filters } from "../../models/FormTypes";
 
 type FilterFormProps = {
   onFormSubmit: (data: Filters) => void;
@@ -8,14 +8,7 @@ type FilterFormProps = {
 };
 
 export default function FilterForm({ onFormSubmit, isListView }: FilterFormProps) {
-  const [formData, setFormData] = useState<Filters>({
-    price: "2500",
-    type: "",
-    beds: "",
-    baths: "",
-    squareFeet: "1000",
-    province: ""
-  });
+  const [formData, setFormData] = useState<Filters>(createDefaultFilters);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

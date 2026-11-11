@@ -1,6 +1,5 @@
 import type { Filters, MapBounds } from "../models/FormTypes";
-import type { ListingType } from "../models/ListingTypes";
-import type { InsightsType } from "../models/ListingTypes";
+import type { ListingType, InsightsType } from "../models/ListingTypes";
 import type { UserResponse, LoginResponse } from "../models/UserTypes";
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;

@@ -5,17 +5,10 @@ import { fetchListings } from "../services/api";
 import Layout from "../components/layout/Layout";
 import type { ListingType } from "../models/ListingTypes";
 import ListingCard from "../components/cards/ListingCard";
-import type { Filters } from "../models/FormTypes";
+import { createDefaultFilters, type Filters } from "../models/FormTypes";
 
 export default function ListViewPage() {
-    const [filters, setFilters] = useState<Filters>({
-        price: "2500",
-        type: "",
-        beds: "",
-        baths: "",
-        squareFeet: "1000",
-        province: ""
-    });
+    const [filters, setFilters] = useState<Filters>(createDefaultFilters);
 
 
     const [listings, setListings] = useState<ListingType[]>([]);
@@ -108,4 +101,4 @@ export default function ListViewPage() {
             </div>
         </Layout>
     )
-} 
+}

@@ -13,3 +13,14 @@ export interface Filters {
     squareFeet: string; 
     province?: string;
 }
+
+export function createDefaultFilters(): Filters {
+    return {
+        price: "2500",
+        type: "",
+        beds: "",
+        baths: "",
+        squareFeet: "1000",
+        province: "",
+    };
+}
